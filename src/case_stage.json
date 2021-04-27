@@ -1,0 +1,79 @@
+{
+  "type": "object",
+  "title": "Case stage",
+  "description": "Describe the stage you want.",
+  "properties": {
+    "caseTitle": {
+      "title": "Stage name",
+      "type": "string",
+      "minLength": 1,
+      "description": "Example: Violation description form"
+    },
+    "caseDescription": {
+      "title": "Stage description",
+      "type": "string",
+      "minLength": 1,
+      "description": "Example: Form that describes an election violation"
+    },
+    "ranksRead": {
+      "items": {
+        "type": "string",
+        "title": "Rank"
+      },
+      "title": "Ranks that can open the form of this stage. Do not duplicate the ranks",
+      "type": "array",
+      "minItems": 1
+    },
+    "ranksWrite": {
+      "items": {
+        "type": "string",
+        "title": "Rank",
+        "description": "Example: election_observer"
+      },
+      "title": "Ranks that can type answers in the form of this stage. Do not duplicate the ranks",
+      "type": "array",
+      "minItems": 1
+    },
+    "questions": {
+      "items": {
+        "title": "Question",
+        "type": "object",
+        "properties": {
+          "questionTitle": {
+            "title": "Question title",
+            "type": "string"
+          },
+          "inputType": {
+            "enum": [
+              "number",
+              "string",
+              "checkbox"
+            ],
+            "title": "Input type",
+            "type": "string"
+          },
+          "questionDescription": {
+            "title": "Question description",
+            "type": "string"
+          }
+        },
+        "dependencies": {},
+        "required": [
+          "questionTitle",
+          "inputType",
+          "questionDescription"
+        ]
+      },
+      "title": "Form questions",
+      "description": "The ranks above will answer these questions",
+      "type": "array"
+    }
+  },
+  "dependencies": {},
+  "required": [
+    "caseTitle",
+    "caseDescription",
+    "ranksRead",
+    "ranksWrite"
+  ]
+}
