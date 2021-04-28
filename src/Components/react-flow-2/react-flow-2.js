@@ -2,12 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import ReactFlow, {
   ReactFlowProvider,
   addEdge,
-  removeElements,
   Controls,
 } from 'react-flow-renderer';
 import { useHistory } from "react-router-dom";
 import firebase from '../../util/Firebase'
-import { v4 as uuid} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 import Sidebar from './sidebar';
 
@@ -50,11 +49,34 @@ const DnDFlow = () => {
     firebase.firestore().collection('flow-edges').doc(relName).set(params)
   }
 
+  const removeElements = (elementsToRemove, elements) => {
+    let nodeIdsToRemove = elementsToRemove.map((n) => {
+      return n.id;
+    });
+    return elements.filter((element) => {
+      let edgeElement = element;
+      if (nodeIdsToRemove.includes(element.id) || nodeIdsToRemove.includes(edgeElement.target) || nodeIdsToRemove.includes(edgeElement.source)) {
+        if (element.hasOwnProperty('source') && element.hasOwnProperty('target')) {
+          let correctId = element.source + '-->' + element.target
+          firebase.firestore().collection('flow-edges').doc(correctId).delete()
+        }
+        else {
+          firebase.firestore().collection('flow').doc(element.id).delete()
+          firebase.firestore().collection('stage').doc(element.id).delete()
+        }
+        return false
+      }
+      else {
+        return true
+      }
+    });
+  };
+
   const onElementsRemove = (elementsToRemove) => {
     setElements((els) => removeElements(elementsToRemove, els));
-    const node = elementsToRemove.pop()
-    firebase.firestore().collection('flow').doc(node.id).delete()
-    firebase.firestore().collection('stage').doc(node.id).delete()
+    // const node = elementsToRemove.pop()
+    // firebase.firestore().collection('flow').doc(node.id).delete()
+    // firebase.firestore().collection('stage').doc(node.id).delete()
   }
 
   const onLoad = (_reactFlowInstance) =>
@@ -109,6 +131,7 @@ const DnDFlow = () => {
           <ReactFlow
             elements={elements}
             onConnect={onConnect}
+            onEdgeDoubleClick={(event, edge) => console.log(edge)}
             onElementsRemove={onElementsRemove}
             onNodeDoubleClick={onElementDoubleClick}
             onLoad={onLoad}
