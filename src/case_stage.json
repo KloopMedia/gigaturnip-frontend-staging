@@ -15,6 +15,46 @@
       "minLength": 1,
       "description": "Example: Form that describes an election violation"
     },
+    "allowMultipleFiles": {
+      "type": "boolean",
+      "title": "Allow multiple files"
+    },
+    "countComplete": {
+      "type": "boolean",
+      "title": "Count completed tasks"
+    },
+    "creatable": {
+      "type": "boolean",
+      "title": "Task is creatable"
+    },
+    "rank_limit_number": {
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "string",
+            "title": "Rank"
+          },
+          "limit": {
+            "type": "number",
+            "title": "Limit"
+          }
+        },
+        "required": ["rank", "limit"]
+      },
+      "title": "Task limit for ranks",
+      "type": "array",
+      "minItems": 0
+    },
+    "backgroundStages": {
+      "items": {
+        "type": "string",
+        "title": "Stage"
+      },
+      "title": "Background Stages",
+      "type": "array",
+      "minItems": 0
+    },
     "ranksRead": {
       "items": {
         "type": "string",
