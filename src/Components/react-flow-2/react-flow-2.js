@@ -7,7 +7,7 @@ import ReactFlow, {
 import { useHistory } from "react-router-dom";
 import firebase from '../../util/Firebase'
 import { v4 as uuid } from 'uuid';
-
+import CustomNodeComponent from './CustomNodeComponent'
 import Sidebar from './sidebar';
 
 import './dnd.css';
@@ -124,14 +124,18 @@ const DnDFlow = () => {
     }
   }
 
+  const nodeTypes = {
+    special: CustomNodeComponent,
+  };
+
   return (
     <div className="dndflow">
       <ReactFlowProvider>
         <div className="reactflow-wrapper" ref={reactFlowWrapper}>
           <ReactFlow
+            nodeTypes={nodeTypes}
             elements={elements}
             onConnect={onConnect}
-            onEdgeDoubleClick={(event, edge) => console.log(edge)}
             onElementsRemove={onElementsRemove}
             onNodeDoubleClick={onElementDoubleClick}
             onLoad={onLoad}
