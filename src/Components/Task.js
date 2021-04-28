@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { FormBuilder } from '@ginkgo-bioworks/react-json-schema-form-builder';
 import firebase from '../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
-import caseType from '../case_type.json'
-import caseStage from '../case_stage.json'
 import {
     useParams
   } from "react-router-dom";

@@ -26,7 +26,6 @@ const Home = () => {
   const [nodeId, setNodeId] = useState()
   const [nodeTitle, setNodeTitle] = useState()
   const [selectedNode, setSelectedNode] = useState()
-  const [selectedEdge, setSelectedEdge] = useState()
   const [graph, setGraph] = useState({
     nodes: [
       { id: 'start', label: "Start", color: "#e04141" }
@@ -52,7 +51,6 @@ const Home = () => {
       console.log('edge')
       console.log("Selected edges:");
       console.log(edges);
-      setSelectedEdge(edges[0])
     }
   })
 

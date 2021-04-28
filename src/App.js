@@ -1,9 +1,8 @@
-import Graph from "react-graph-vis";
-import React, { useEffect, useState } from "react";
-import firebase from './util/Firebase'
+import React from "react";
+import Home from './Components/react-flow-2/react-flow-2'
 import FormBuilder from './Components/FormBuilder'
 import RelationBuilder from './Components/RelationBuilder'
-import Home from './Components/Home'
+// import Home from './Components/Home'
 import Task from './Components/Task'
 import {
   HashRouter as Router,

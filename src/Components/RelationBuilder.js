@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import firebase from '../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
-import caseType from '../case_type.json'
-import caseStage from '../case_stage.json'
 import {
-    useHistory,
     useParams
 } from "react-router-dom";
 
@@ -13,7 +10,6 @@ const Builder = () => {
     const [uiSchema, setUiSchema] = useState({})
     const [formResponses, setFormResponses] = useState({})
     let { id } = useParams();
-    const history = useHistory();
 
     useEffect(() => {
         let from = id.split('-->')[0]
