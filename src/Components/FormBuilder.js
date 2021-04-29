@@ -49,8 +49,6 @@ const Builder = () => {
                 onChange={(newSchema, newUiSchema) => {
                     setSchema(newSchema)
                     setUiSchema(newUiSchema)
-                    console.log(newSchema)
-                    console.log(newUiSchema)
                     // firebase.firestore().collection('stage').doc('test').set({end: JSON.parse(newSchema), end_ui: JSON.parse(newUiSchema)})
                 }}
             />

@@ -7,7 +7,8 @@ import ReactFlow, {
 import { useHistory } from "react-router-dom";
 import firebase from '../../util/Firebase'
 import { v4 as uuid } from 'uuid';
-import CustomNodeComponent from './CustomNodeComponent'
+import CustomLogicNode from './CustomLogicNode'
+import CustomStageNode from './CustomStageNode'
 import Sidebar from './sidebar';
 
 import './dnd.css';
@@ -63,6 +64,9 @@ const DnDFlow = () => {
         else {
           firebase.firestore().collection('flow').doc(element.id).delete()
           firebase.firestore().collection('stage').doc(element.id).delete()
+          if (element.type === 'logic') {
+            firebase.firestore().collection('flow-logic').doc(element.id).delete()
+          }
         }
         return false
       }
@@ -91,17 +95,21 @@ const DnDFlow = () => {
     event.preventDefault();
 
     const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
-    const type = event.dataTransfer.getData('application/reactflow');
+    const transfer = event.dataTransfer.getData('application/reactflow');
     const position = reactFlowInstance.project({
       x: event.clientX - reactFlowBounds.left,
       y: event.clientY - reactFlowBounds.top,
     });
-    const id = uuid()
+
+    const parsedData = JSON.parse(transfer)
+    const id = parsedData.id
+    const label = parsedData.label
+    const type = parsedData.type
     const newNode = {
       id,
       type,
       position,
-      data: { label: `${type} node` },
+      data: { label },
     };
 
     setElements((es) => es.concat(newNode));
@@ -117,15 +125,20 @@ const DnDFlow = () => {
   }
 
   const onElementDoubleClick = (event, element) => {
-    console.log(event)
     console.log(element)
     if (element.id) {
-      history.push('/createStage/' + element.id)
+      if (element.type === 'logic') {
+        history.push('/createLogic/' + element.id)
+      }
+      else {
+        history.push('/createStage/' + element.id)
+      }
     }
   }
 
   const nodeTypes = {
-    special: CustomNodeComponent,
+    logic: CustomLogicNode,
+    stage: CustomStageNode
   };
 
   return (

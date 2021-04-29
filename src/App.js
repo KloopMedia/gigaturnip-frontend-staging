@@ -2,6 +2,7 @@ import React from "react";
 import Home from './Components/react-flow-2/react-flow-2'
 import FormBuilder from './Components/FormBuilder'
 import RelationBuilder from './Components/RelationBuilder'
+import LogicBuilder from './Components/react-flow-2/LogicBuilder'
 // import Home from './Components/Home'
 import Task from './Components/Task'
 import {
@@ -19,6 +20,9 @@ const App = () => {
         <Switch>
           <Route exact path="/createStage/:id">
             <FormBuilder />
+          </Route>
+          <Route exact path="/createLogic/:id">
+            <LogicBuilder />
           </Route>
           <Route exact path="/createRelation/:id">
             <RelationBuilder />

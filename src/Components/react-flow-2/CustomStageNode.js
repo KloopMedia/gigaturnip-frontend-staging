@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactFlow, { Handle } from 'react-flow-renderer';
+import { Handle } from 'react-flow-renderer';
 
 const customNodeStyles = {
   background: '#FFF',
-  borderColor: '#1a192b',
+  borderColor: '#32CD32',
   borderWidth: '1px',
   borderStyle: 'solid',
   borderRadius: '3px',
@@ -13,17 +13,17 @@ const customNodeStyles = {
   padding: 10
 };
 
-const CustomNodeComponent = ({ data }) => {
+const CustomLogicNode = ({ data }) => {
     return (
       <div style={customNodeStyles}>
-        <div>Conditional Node</div>
+        <div>{data.label}</div>
         <Handle
-          type="source"
+          type="target"
           position="top"
           style={{ borderRadius: '100%' }}
         />
         <Handle
-          type="target"
+          type="source"
           position="bottom"
           style={{ borderRadius: '100%' }}
         />
@@ -31,4 +31,4 @@ const CustomNodeComponent = ({ data }) => {
     );
   };
 
-  export default CustomNodeComponent
+  export default CustomLogicNode

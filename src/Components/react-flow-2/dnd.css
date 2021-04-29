@@ -34,6 +34,14 @@
   .dndflow .dndnode.output {
     border-color: #ff0072;
   }
+
+  .dndflow .dndnode.stage {
+    border-color: #32CD32;
+  }
+
+  .dndflow .dndnode.logic {
+    border-color: #0041d0;
+  }
   
   .dndflow .reactflow-wrapper {
     flex-grow: 1;
