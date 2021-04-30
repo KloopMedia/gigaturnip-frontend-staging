@@ -1,6 +1,6 @@
 import React from "react";
 import Home from './Components/react-flow-2/react-flow-2'
-import FormBuilder from './Components/FormBuilder'
+import FormBuilder from './Components/react-flow-2/FormBuilder'
 import RelationBuilder from './Components/RelationBuilder'
 import LogicBuilder from './Components/react-flow-2/LogicBuilder'
 // import Home from './Components/Home'

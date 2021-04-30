@@ -35,7 +35,7 @@ const Builder = () => {
     }
 
     return (
-        <div>
+        <div style={{ width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10 }}>
             <Form schema={schema} uiSchema={uiSchema} formData={formResponses} onChange={(e) => setFormResponses(e.formData)} onSubmit={handleSubmit} />
         </div>
     )

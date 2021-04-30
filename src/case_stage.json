@@ -1,6 +1,6 @@
 {
   "type": "object",
-  "title": "Case stage",
+  "title": "Stage options",
   "description": "Describe the stage you want.",
   "properties": {
     "caseTitle": {
@@ -26,25 +26,6 @@
     "creatable": {
       "type": "boolean",
       "title": "Task is creatable"
-    },
-    "rank_limit_number": {
-      "items": {
-        "type": "object",
-        "properties": {
-          "rank": {
-            "type": "string",
-            "title": "Rank"
-          },
-          "limit": {
-            "type": "number",
-            "title": "Limit"
-          }
-        },
-        "required": ["rank", "limit"]
-      },
-      "title": "Task limit for ranks",
-      "type": "array",
-      "minItems": 0
     },
     "backgroundStages": {
       "items": {
@@ -73,6 +54,28 @@
       "title": "Ranks that can type answers in the form of this stage. Do not duplicate the ranks",
       "type": "array",
       "minItems": 1
+    },
+    "rank_limit_number": {
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "string",
+            "title": "Rank"
+          },
+          "limit": {
+            "type": "number",
+            "title": "Limit"
+          }
+        },
+        "required": [
+          "rank",
+          "limit"
+        ]
+      },
+      "title": "Task limit for ranks",
+      "type": "array",
+      "minItems": 0
     },
     "questions": {
       "items": {

@@ -130,7 +130,7 @@ const DnDFlow = () => {
       if (element.type === 'logic') {
         history.push('/createLogic/' + element.id)
       }
-      else {
+      if (element.type === 'stage') {
         history.push('/createStage/' + element.id)
       }
     }
