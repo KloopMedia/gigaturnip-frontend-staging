@@ -5,6 +5,8 @@ import {
     useParams
 } from "react-router-dom";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const Builder = () => {
     const [ready, setReady] = useState(false)
     const [schema, setSchema] = useState({

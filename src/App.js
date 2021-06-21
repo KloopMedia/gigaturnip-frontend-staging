@@ -3,6 +3,7 @@ import Home from './Components/react-flow-2/react-flow-2'
 import FormBuilder from './Components/react-flow-2/FormBuilder'
 import RelationBuilder from './Components/RelationBuilder'
 import LogicBuilder from './Components/react-flow-2/LogicBuilder'
+import Actions from './Components/react-flow-2/Actions'
 // import Home from './Components/Home'
 import Task from './Components/Task'
 import {
@@ -11,11 +12,14 @@ import {
   Route
 } from "react-router-dom";
 
+import Loader from './util/TestLoader'
+
 
 const App = () => {
 
   return (
     <div>
+      {/* <button onClick={() => Loader()}>тест</button> */}
       <Router>
         <Switch>
           <Route exact path="/createStage/:id">
@@ -29,6 +33,9 @@ const App = () => {
           </Route>
           <Route exact path="/t/:id">
             <Task />
+          </Route>
+          <Route exact path="/actions/:id">
+            <Actions />
           </Route>
           <Route path="/">
             <Home />

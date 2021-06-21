@@ -1,0 +1,18 @@
+{
+  "title": "Реакция на жалобу со стороны участников",
+  "description": "",
+  "type": "object",
+  "required": [
+    "participantsReaction"
+  ],
+  "properties": {
+    "participantsReaction": {
+      "type": "string",
+      "title": "Реакция на жалобу со стороны участников",
+      "enum": [
+        "Тендер отменён",
+        "Без удовлетворения"
+      ]
+    }
+  }
+}

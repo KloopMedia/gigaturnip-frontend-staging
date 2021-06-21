@@ -23,6 +23,9 @@ const Builder = () => {
                 setUiSchema(JSON.parse(data.end_ui))
             }
         })
+        firebase.firestore().collection('tasks').doc(id).get().then(doc => {
+            setFormResponses(doc.data())
+        })
     }, [id])
 
     const handleSubmit = (e) => {

@@ -1,0 +1,10 @@
+{
+  "ui:order": [
+    "tenderParticipantsNames",
+    "reactionToViolationMessage"
+  ],
+  "reactionToViolationMessage": {
+    "ui:widget":"textarea"
+  }
+
+}

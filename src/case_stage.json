@@ -3,18 +3,6 @@
   "title": "Stage options",
   "description": "Describe the stage you want.",
   "properties": {
-    "caseTitle": {
-      "title": "Stage name",
-      "type": "string",
-      "minLength": 1,
-      "description": "Example: Violation description form"
-    },
-    "caseDescription": {
-      "title": "Stage description",
-      "type": "string",
-      "minLength": 1,
-      "description": "Example: Form that describes an election violation"
-    },
     "allowMultipleFiles": {
       "type": "boolean",
       "title": "Allow multiple files"
@@ -114,8 +102,6 @@
   },
   "dependencies": {},
   "required": [
-    "caseTitle",
-    "caseDescription",
     "ranksRead",
     "ranksWrite"
   ]

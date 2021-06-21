@@ -1,0 +1,15 @@
+{
+  "title": "Верификация",
+  "description": "",
+  "type": "object",
+  "required": [
+    "verified"
+  ],
+  "properties": {
+    "verified": {
+      "type": "string",
+      "title": "Верифицировано",
+      "enum": ["Да", "Нет"]
+    }
+  }
+}

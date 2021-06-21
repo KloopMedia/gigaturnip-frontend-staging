@@ -1,0 +1,44 @@
+{
+  "title": "Форма красного флага",
+  "description": "",
+  "type": "object",
+  "required": [
+    "isLawViolation"
+  ],
+  "properties": {
+    "isLawViolation": {
+      "type": "string",
+      "title": "Действительно ли данный тендер нарушил нормы закона?",
+      "enum": ["Да", "Нет"]
+    }
+  },
+  "dependencies": {
+    "isLawViolation": {
+      "oneOf": [
+        {
+          "properties": {
+            "isLawViolation": {
+              "enum": ["Да"]
+            },
+            "lawViolationDetails": {
+              "type": "string",
+              "title": "Как именно?"
+            }
+          },
+          "required": ["details"]
+        },
+        {
+          "properties": {
+            "isLawViolation": {
+              "enum": ["Нет"]
+            },
+            "systemFailExplanation": {
+              "type": "string",
+              "title": "Как вы считаете, почему система выдала красный флаг неверно?"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

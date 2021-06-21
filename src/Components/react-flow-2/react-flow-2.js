@@ -45,9 +45,10 @@ const DnDFlow = () => {
   }, [])
 
   const onConnect = (params) => {
-    setElements((els) => addEdge(params, els))
-    const relName = params.source + '-->' + params.target
-    firebase.firestore().collection('flow-edges').doc(relName).set(params)
+    const newParams = {...params, arrowHeadType: 'arrow'}
+    setElements((els) => addEdge(newParams, els))
+    const relName = newParams.source + '-->' + newParams.target
+    firebase.firestore().collection('flow-edges').doc(relName).set(newParams)
   }
 
   const removeElements = (elementsToRemove, elements) => {
@@ -131,7 +132,11 @@ const DnDFlow = () => {
         history.push('/createLogic/' + element.id)
       }
       if (element.type === 'stage') {
-        history.push('/createStage/' + element.id)
+        // history.push('/createStage/' + element.id)
+        history.push('/actions/' + element.id)
+      }
+      if (element.type === 'default' && (element.target || element.source)) {
+        console.log('edge')
       }
     }
   }
@@ -151,6 +156,7 @@ const DnDFlow = () => {
             onConnect={onConnect}
             onElementsRemove={onElementsRemove}
             onNodeDoubleClick={onElementDoubleClick}
+            onEdgeDoubleClick={onElementDoubleClick}
             onLoad={onLoad}
             onDrop={onDrop}
             onDragOver={onDragOver}

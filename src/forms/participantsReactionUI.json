@@ -1,0 +1,9 @@
+{
+  "ui:order": [
+    "participantsReaction"
+  ],
+  "participantsReaction": {
+    "ui:widget":"radio"
+  }
+
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Подача жалобы на нарушение",
+  "description": "Форма для юристов",
+  "type": "object",
+  "required": [
+    "attachedFiles"
+  ],
+  "properties": {
+    "attachedFiles": {
+      "type": "string",
+      "format": "data-url",
+      "title": "Приложите фото жалобы"
+    }
+  }
+}

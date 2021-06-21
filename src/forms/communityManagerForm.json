@@ -1,0 +1,20 @@
+{
+  "title": "Форма для комьюнити-менеджера",
+  "description": "",
+  "type": "object",
+  "required": [
+  ],
+  "properties": {
+    "tenderParticipantsNames": {
+      "type": "array",
+      "title": "Имена участников тендера",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reactionToViolationMessage": {
+      "type": "string",
+      "title": "Реакция на сообщение о нарушении"
+    }
+  }
+}
