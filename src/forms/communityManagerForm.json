@@ -1,3 +1,4 @@
+
 {
   "title": "Форма для комьюнити-менеджера",
   "description": "",
@@ -5,16 +6,27 @@
   "required": [
   ],
   "properties": {
-    "tenderParticipantsNames": {
+    "tenderParticipantsReactions": {
       "type": "array",
-      "title": "Имена участников тендера",
+      "title": "Реакции участников тендера",
       "items": {
-        "type": "string"
+        "type": "object",
+        "properties": {
+          "participantName": {
+            "type": "string",
+            "title": "Имя участника тендера"
+          },
+          "reactionToViolationMessage": {
+            "type": "string",
+            "title": "Реакция участника",
+            "enum": [
+              "Хотят подать жалобу",
+              "Хотят консультацию юриста",
+              "Ничего"
+            ]
+          }
+        }
       }
-    },
-    "reactionToViolationMessage": {
-      "type": "string",
-      "title": "Реакция на сообщение о нарушении"
     }
   }
 }

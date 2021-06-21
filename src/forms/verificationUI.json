@@ -1,8 +1,0 @@
-{
-  "ui:order": [
-    "verified"
-  ],
-  "verified": {
-    "ui:widget":"radio"
-  }
-}

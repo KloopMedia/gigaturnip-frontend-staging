@@ -1,10 +1,13 @@
 {
   "ui:order": [
-    "tenderParticipantsNames",
-    "reactionToViolationMessage"
+    "tenderParticipantsReactions"
   ],
-  "reactionToViolationMessage": {
-    "ui:widget":"textarea"
+  "tenderParticipantsReactions":{
+    "items": {
+      "reactionToViolationMessage": {
+        "ui:widget":"radio"
+      }
+    }
   }
 
 }
