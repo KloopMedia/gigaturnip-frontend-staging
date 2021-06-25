@@ -49,7 +49,9 @@
     },
     "chain": {
       "title": "Chain",
-      "type": "number"
+      "type": "number",
+      "enum": [],
+      "enumNames": []
     },
     "in_stages": {
       "items": {
