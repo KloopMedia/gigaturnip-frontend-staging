@@ -1,0 +1,131 @@
+{
+  "type": "object",
+  "title": "Stage options",
+  "description": "Describe the stage you want.",
+  "properties": {
+    "name": {
+      "title": "Stage name",
+      "type": "string",
+      "minLength": 1,
+      "description": "Example: Violation description form"
+    },
+    "description": {
+      "title": "Stage description",
+      "type": "string",
+      "minLength": 1,
+      "description": "Example: Form that describes an election violation"
+    },
+    "allow_multiple_files": {
+      "type": "boolean",
+      "title": "Allow multiple files"
+    },
+    "count_complete": {
+      "type": "boolean",
+      "title": "Count completed tasks"
+    },
+    "is_creatable": {
+      "type": "boolean",
+      "title": "Task is creatable"
+    },
+    "copy_input": {
+      "type": "boolean",
+      "title": "Copy input"
+    },
+    "displayed_prev_stages": {
+      "items": {
+        "type": "string",
+        "title": "Stage"
+      },
+      "title": "Background Stages",
+      "type": "array",
+      "minItems": 0
+    },
+
+    "in_stages": {
+      "items": {
+        "type": "string",
+        "title": "Stage"
+      },
+      "title": "In stages",
+      "type": "array",
+      "minItems": 0
+    },
+    "ranks_read": {
+      "items": {
+        "type": "string",
+        "title": "Rank"
+      },
+      "title": "Ranks that can open the form of this stage. Do not duplicate the ranks",
+      "type": "array",
+      "minItems": 1
+    },
+    "ranks_write": {
+      "items": {
+        "type": "string",
+        "title": "Rank",
+        "description": "Example: election_observer"
+      },
+      "title": "Ranks that can type answers in the form of this stage. Do not duplicate the ranks",
+      "type": "array",
+      "minItems": 1
+    },
+    "rank_limit_number": {
+      "items": {
+        "type": "object",
+        "properties": {
+          "rank": {
+            "type": "string",
+            "title": "Rank"
+          },
+          "limit": {
+            "type": "number",
+            "title": "Limit"
+          }
+        },
+        "required": [
+          "rank",
+          "limit"
+        ]
+      },
+      "title": "Task limit for ranks",
+      "type": "array",
+      "minItems": 0
+    },
+    "questions": {
+      "items": {
+        "title": "Question",
+        "type": "object",
+        "properties": {
+          "questionTitle": {
+            "title": "Question title",
+            "type": "string"
+          },
+          "inputType": {
+            "enum": [
+              "number",
+              "string",
+              "checkbox"
+            ],
+            "title": "Input type",
+            "type": "string"
+          },
+          "questionDescription": {
+            "title": "Question description",
+            "type": "string"
+          }
+        },
+        "dependencies": {},
+        "required": [
+          "questionTitle",
+          "inputType",
+          "questionDescription"
+        ]
+      },
+      "title": "Form questions",
+      "description": "The ranks above will answer these questions",
+      "type": "array"
+    }
+  },
+  "dependencies": {},
+  "required": []
+}

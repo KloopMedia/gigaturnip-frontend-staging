@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "title": "Stage options",
+  "description": "Describe the stage you want.",
+  "properties": {
+    "name": {
+      "title": "Stage name",
+      "type": "string",
+      "description": "Example: Violation description form"
+    },
+    "description": {
+      "title": "Stage description",
+      "type": "string",
+      "description": "Example: Form that describes an election violation",
+      "default": ""
+    },
+    "allow_multiple_files": {
+      "type": "boolean",
+      "title": "Allow multiple files",
+      "default": false
+    },
+    "count_complete": {
+      "type": "boolean",
+      "title": "Count completed tasks",
+      "default": false
+    },
+    "is_creatable": {
+      "type": "boolean",
+      "title": "Task is creatable",
+      "default": false
+    },
+    "copy_input": {
+      "type": "boolean",
+      "title": "Copy input",
+      "default": false
+    },
+    "library": {
+      "title": "Library",
+      "type": "string",
+      "default": ""
+    },
+    "displayed_prev_stages": {
+      "items": {
+        "type": "string",
+        "title": "Stage"
+      },
+      "title": "Background Stages",
+      "type": "array"
+    },
+    "chain": {
+      "title": "Chain",
+      "type": "number"
+    },
+    "in_stages": {
+      "items": {
+        "type": "string",
+        "title": "Stage"
+      },
+      "title": "In stages",
+      "type": "array"
+    }
+  },
+  "dependencies": {},
+  "required": ["name", "chain"]
+}
