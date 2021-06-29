@@ -4,18 +4,21 @@ import ReactFlow, {
   addEdge,
   Controls, FlowElement,
 } from 'react-flow-renderer';
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import firebase from '../../util/Firebase'
 import CustomLogicNode from '../nodes/LogicNode'
 import CustomStageNode from '../nodes/StageNode'
 import Sidebar from '../sidebar/Sidebar';
 
 import '../../dnd.css';
+import axios from 'axios';
 
+type RouterParams = { id: string }
 
 const DnDFlow = () => {
   const reactFlowWrapper = useRef(null);
   const history = useHistory();
+  const {id} = useParams<RouterParams>();
 
   const [reactFlowInstance, setReactFlowInstance] = useState(null);
   const [elements, setElements] = useState<FlowElement[]>([]);
@@ -125,6 +128,10 @@ const DnDFlow = () => {
 
   const updateNodeInFirebase = (node: any) => {
     firebase.firestore().collection('flow').doc(node.id).set(node, { merge: true })
+  }
+
+  const updateNode = (node: any) => {
+    // axios.post(/)
   }
 
   const onElementDoubleClick = (event: any, element: any) => {

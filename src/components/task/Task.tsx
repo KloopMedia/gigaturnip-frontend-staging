@@ -4,6 +4,7 @@ import Form from "@rjsf/bootstrap-4";
 import {
     useParams
 } from "react-router-dom";
+import axios from "axios";
 
 type RouterParams = { id: string }
 
@@ -12,38 +13,30 @@ const Builder = () => {
     const [uiSchema, setUiSchema] = useState({})
     const [formResponses, setFormResponses] = useState({})
     let {id} = useParams<RouterParams>();
+    let taskUrl = '/api/v1/task/' + id
 
     useEffect(() => {
-        firebase.firestore().collection('stage').doc(id).get().then(doc => {
-            let data = doc.data()
-            if (data) {
-                if (data.end) {
-                    console.log(data.end)
-                    setSchema(JSON.parse(data.end))
-                }
-                if (data.end_ui) {
-                    console.log(data.end_ui)
-                    setUiSchema(JSON.parse(data.end_ui))
-                }
-            }
-        })
-        firebase.firestore().collection('tasks').doc(id).get().then(doc => {
-            if (doc && doc.exists) {
-                let data = doc.data()
-                if (data) {
-                    setFormResponses(data)
-                }
-            }
-        })
+        axios.get(taskUrl)
+            .then(res => res.data)
+            .then(res => {
+                console.log(res)
+                setFormResponses(res.responses)
+                setSchema(res.stage.json_schema)
+                setUiSchema(res.stage.ui_schema)
+            })
     }, [id])
 
     const handleSubmit = () => {
-        // let data = {...formResponses, end: schema, end_ui: uiSchema}
-        // firebase.firestore().collection('stage').doc(id).set(data)
         console.log(formResponses)
-        // console.log(schema)
-        // console.log(uiSchema)
-        firebase.firestore().collection('tasks').doc(id).set(formResponses)
+        let data = {responses: formResponses}
+        axios.post(taskUrl + '/change', data)
+            .then(res => res.data)
+            .then(res => {
+                console.log(res)
+                setFormResponses(res.responses)
+                setSchema(res.stage.json_schema)
+                setUiSchema(res.stage.ui_schema)
+            })
     }
 
     return (

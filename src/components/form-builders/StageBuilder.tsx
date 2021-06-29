@@ -20,29 +20,31 @@ const Builder = () => {
     const [schema, setSchema] = useState('')
     const [uiSchema, setUiSchema] = useState('')
     const [optionsSchema, setOptionsSchema] = useState({})
-
     const [formResponses, setFormResponses] = useState({})
-    // const [chains, setChains] = useState([])
 
     let {id} = useParams<RouterParams>();
-    const history = useHistory();
 
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/api/v1/allchains/')
-            .then(res => res.data)
-            .then(res => {
-                let chains = res
-                let options: any = StageOptions
-                let enumValues: number[] = []
-                let enumNames: string[] = []
-                chains.forEach((chain: ChainProps) => {
-                    enumValues.push(chain.id)
-                    enumNames.push(`${chain.name}: ${chain.description}`)
+        const setChains = () => {
+            axios.get('/api/v1/allchains/')
+                .then(res => res.data)
+                .then(res => {
+                    let chains = res
+                    let options: any = StageOptions
+                    let enumValues: number[] = []
+                    let enumNames: string[] = []
+                    chains.forEach((chain: ChainProps) => {
+                        enumValues.push(chain.id)
+                        enumNames.push(`${chain.name}: ${chain.description}`)
+                    })
+                    options.properties.chain.enum = enumValues
+                    options.properties.chain.enumNames = enumNames
+                    setOptionsSchema(options)
                 })
-                options.properties.chain.enum = enumValues
-                options.properties.chain.enumNames = enumNames
-                setOptionsSchema(options)
-            })
+        }
+        if (id) {
+            setChains()
+        }
     }, [id])
 
     const handleSubmit = () => {
@@ -57,7 +59,7 @@ const Builder = () => {
         console.log(data)
 
         axios
-            .post("http://127.0.0.1:8000/api/v1/alltaskstages/", data)
+            .post("/api/v1/alltaskstages/", data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
     }

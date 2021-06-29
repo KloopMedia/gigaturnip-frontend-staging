@@ -106,9 +106,9 @@ const Builder = () => {
 
     const handleSubmit = () => {
         firebase.firestore().collection('flow-logic').doc(id).set(formResponses, {merge: true})
-        console.log(formResponses)
-        console.log(schema)
-        console.log(uiSchema)
+        console.log(JSON.stringify(formResponses))
+        // console.log(schema)
+        // console.log(uiSchema)
     }
 
     return (

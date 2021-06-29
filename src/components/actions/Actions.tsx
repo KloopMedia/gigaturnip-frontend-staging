@@ -16,6 +16,7 @@ import {
     makeStyles,
     Theme
 } from '@material-ui/core'
+import axios from "axios";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -56,59 +57,35 @@ const Builder = () => {
         console.log("PRESET", preset)
     };
 
-    useEffect(() => {
-        firebase.firestore().collection('stage').doc(id).get().then(doc => {
-            if (doc && doc.exists) {
-                setTaskExist(true)
-            }
-        })
-    }, [id])
-
-    useEffect(() => {
-        if (showPresets) {
-            firebase.firestore().collection('presets').get().then(snap => {
-                let preset: string[] = []
-                snap.forEach(doc => {
-                    preset.push(doc.id)
-                })
-                return preset
-            }).then(preset => setPresets(preset))
-        }
-    }, [showPresets])
+    // useEffect(() => {
+    //     firebase.firestore().collection('stage').doc(id).get().then(doc => {
+    //         if (doc && doc.exists) {
+    //             setTaskExist(true)
+    //         }
+    //     })
+    // }, [id])
 
     const handleCreate = () => {
         history.push('/createStage/' + id)
     }
 
     const handleOpen = () => {
-        history.push('/t/' + id)
-    }
-
-    const handleRedirect = () => {
-        setShowPresets(!showPresets)
+        let data = {stage: id}
+        axios.post('/', data)
+            .then(res => res.data)
+            .then(res => {
+                console.log(res)
+                history.push('/t/' + id)
+            })
     }
 
     return (
         <Grid>
             <Grid container justify="center" style={{background: '#7FB3D5'}} component={"div"}>
                 <Grid item style={{margin: 20}}><Button onClick={handleCreate}>Create Form</Button></Grid>
-                <Grid item style={{margin: 20}}><Button disabled={!taskExist} onClick={handleOpen}>Open
+                <Grid item style={{margin: 20}}><Button onClick={handleOpen}>Open
                     Form</Button></Grid>
-                <Grid item style={{margin: 20}}><Button onClick={handleRedirect}>Presets</Button></Grid>
             </Grid>
-            {showPresets && <Grid container justify="center" component={"div"}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">Presets</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        value={presetId}
-                        onChange={handleChange}
-                    >
-                        {presets.map(preset => <MenuItem key={preset} value={preset}>{preset}</MenuItem>)}
-                    </Select>
-                </FormControl>
-            </Grid>}
         </Grid>
     )
 }
