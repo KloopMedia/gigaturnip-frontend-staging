@@ -1,0 +1,9 @@
+{
+  "properties": {
+    "label": {
+      "type": "string",
+      "title": "Label"
+    }
+  },
+  "type": "object"
+}

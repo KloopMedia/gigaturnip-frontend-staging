@@ -45,33 +45,35 @@ const App = () => {
             {/* <button onClick={() => Loader()}>тест</button> */}
 
             <Router>
-                    <Switch>
-                        <Route path={"/campaign/:campaignId"}>
-                            <Appbar>
-                                <Route exact path="/campaign/:campaignId/chain/:chainId/createStage/:id">
-                                    <StageBuilder/>
-                                </Route>
-                                <Route exact path="/campaign/:campaignId/chain/:chainId/createLogic/:id">
-                                    <LogicBuilder/>
-                                </Route>
-                                <Route exact path="/campaign/:campaignId/t/:id">
-                                    <Task/>
-                                </Route>
-                                <Route exact path="/campaign/:campaignId/chain/:chainId/actions/:id">
-                                    <Actions/>
-                                </Route>
-                                <Route exact path="/campaign/:campaignId/chain">
-                                    <Chains/>
-                                </Route>
-                                <Route exact path="/campaign/:campaignId/chain/:chainId">
-                                    <Graph/>
-                                </Route>
-                            </Appbar>
-                        </Route>
-                        <Route path="/">
-                            <SimpleAppbar><Campaigns/></SimpleAppbar>
-                        </Route>
-                    </Switch>
+                <Switch>
+                    <Route path={"/campaign/:campaignId"}>
+                        <Appbar>
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/createStage/:id">
+                                <StageBuilder/>
+                            </Route>
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/createLogic/:id">
+                                <LogicBuilder/>
+                            </Route>
+                            <Route exact path="/campaign/:campaignId/t/:id">
+                                <Task/>
+                            </Route>
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/actions/:id">
+                                <Actions/>
+                            </Route>
+                            <Route exact path="/campaign/:campaignId/chain">
+                                <Chains/>
+                            </Route>
+                            <Route exact path="/campaign/:campaignId/chain/:chainId">
+                                <Graph/>
+                            </Route>
+                        </Appbar>
+                    </Route>
+                    <Route path="/">
+                        <SimpleAppbar>
+                            <Campaigns/>
+                        </SimpleAppbar>
+                    </Route>
+                </Switch>
             </Router>
 
         </div>
