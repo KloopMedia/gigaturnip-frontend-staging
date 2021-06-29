@@ -1,27 +1,33 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import clsx from 'clsx';
-import {createStyles, makeStyles, useTheme, Theme} from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MenuIcon from '@material-ui/icons/Menu'
+
 import {
-    Button,
-    ListItem,
-    Typography,
-    IconButton,
-    CssBaseline,
-    List,
+    MenuItem,
+    Select,
+    FormControl,
+    InputLabel,
     AppBar,
+    Button,
+    CssBaseline,
     Drawer,
-    Toolbar,
+    IconButton,
+    List,
+    ListItem,
     ListItemIcon,
-    ListItemText
+    ListItemText,
+    Toolbar,
+    Typography
 } from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
 import {useHistory, useParams} from "react-router-dom";
+import axios from 'axios';
 
 const drawerWidth = 240;
 
@@ -88,22 +94,48 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         title: {
             flexGrow: 1
-        }
+        },
+        formControl: {
+            margin: theme.spacing(1),
+            alignItems: 'center'
+            // minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+        select: {},
+        selectIcon: {
+            fill: 'white',
+            top: 'calc(50% - 14px)'
+        },
     }),
 );
 
 type AppbarProps = { children: React.ReactNode }
+type CampaingParams = { id: number, name: string, description?: string };
 
 const Appbar = (props: AppbarProps) => {
     const classes = useStyles();
     const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-    const {children} = props;
-    const {currentUser} = useContext(AuthContext)
     const history = useHistory();
-    const {campaignId} = useParams<{campaignId: string}>();
+    const {campaignId} = useParams<{ campaignId: string }>();
+    const {currentUser} = useContext(AuthContext)
+    const {children} = props;
 
-    console.log(campaignId)
+    const [open, setOpen] = useState(false);
+    const [campaign, setCampaign] = useState<number | string | unknown>(campaignId);
+    const [allCampaigns, setAllCampaigns] = useState<CampaingParams[]>([])
+
+    console.log("CURRENT CAMPAIGN", campaignId)
+
+    useEffect(() => {
+        axios.get('/api/v1/allcampaigns/')
+            .then(res => res.data)
+            .then(res => {
+                console.log(res)
+                setAllCampaigns(res)
+            })
+    }, [])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -116,6 +148,13 @@ const Appbar = (props: AppbarProps) => {
     const handleOptionClick = (page: string) => {
         history.push(`/campaign/${campaignId}/${page}`)
     };
+
+    const handleCampaignChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        let value = event.target.value;
+        console.log(value)
+        setCampaign(value)
+        history.push(`/campaign/${value}`)
+    }
 
     return (
         <div className={classes.root}>
@@ -141,6 +180,26 @@ const Appbar = (props: AppbarProps) => {
                     <Typography className={classes.title} variant="h6" noWrap>
                         GigaTurnip Admin
                     </Typography>
+                    <FormControl className={classes.formControl} size="small">
+                        <Select
+                            className={classes.select}
+                            autoWidth
+                            labelId="campaign-select-label"
+                            id="campaign-select-label"
+                            value={campaign}
+                            onChange={handleCampaignChange}
+                            label="Campaign"
+                            disableUnderline
+                            style={{color: 'white'}}
+                            inputProps={{
+                                classes: {
+                                    icon: classes.selectIcon,
+                                },
+                            }}
+                        >
+                            {allCampaigns.map(camp => <MenuItem key={camp.id} value={camp.id}>{camp.name}</MenuItem>)}
+                        </Select>
+                    </FormControl>
                     {currentUser ?
                         <Button onClick={signOut} color={"inherit"}>
                             Log out

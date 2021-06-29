@@ -9,11 +9,11 @@ import Card from "./CampaignCard";
 import AddIcon from '@material-ui/icons/Add';
 import AddChainDialog from "./Dialog";
 
-type ChainParams = { id: number, campaign: number, name: string, description?: string };
+type CampaingParams = { id: number, name: string, description?: string };
 export type NewCampaignParams = { name: string, description?: string }
 
 const Builder = () => {
-    const [campaigns, setCampaigns] = useState<ChainParams[]>([])
+    const [campaigns, setCampaigns] = useState<CampaingParams[]>([])
     const [open, setOpen] = useState(false);
 
     useEffect(() => {

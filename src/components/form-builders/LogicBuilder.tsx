@@ -5,8 +5,6 @@ import {
     useParams
 } from "react-router-dom";
 import { JSONSchema7 } from "json-schema";
-
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 type RouterParams = {id: string}

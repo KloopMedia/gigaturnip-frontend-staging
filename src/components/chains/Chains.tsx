@@ -9,19 +9,22 @@ import Card from "./ChainCard";
 import AddIcon from '@material-ui/icons/Add';
 import AddChainDialog from "./Dialog";
 
+type RouterParams = {campaignId: string}
 type ChainParams = { id: number, campaign: number, name: string, description?: string };
 export type NewChainParams = { campaign: number, name: string, description?: string }
 
 const Builder = () => {
     const [chains, setChains] = useState<ChainParams[]>([])
     const [open, setOpen] = useState(false);
+    const {campaignId} = useParams<RouterParams>()
 
     useEffect(() => {
         axios.get('/api/v1/allchains/')
             .then(res => res.data)
             .then(res => {
                 console.log(res)
-                setChains(res)
+                const filtered = res.filter((chain: {campaign: number, name: string, description: string, id: number}) => chain.campaign.toString() == campaignId)
+                setChains(filtered)
             })
     }, [])
 
