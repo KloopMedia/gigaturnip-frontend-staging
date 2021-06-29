@@ -63,7 +63,7 @@ const App = () => {
                                 <Route exact path="/campaign/:campaignId/chain">
                                     <Chains/>
                                 </Route>
-                                <Route exact path="/campaign/:campaignId/chain:chainId">
+                                <Route exact path="/campaign/:campaignId/chain/:chainId">
                                     <Graph/>
                                 </Route>
                             </Appbar>
