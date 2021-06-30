@@ -1,4 +1,4 @@
-import React, {useContext, useEffect} from "react";
+import React, {useContext} from "react";
 import Graph from './components/graph/Graph'
 import StageBuilder from './components/form-builders/StageBuilder'
 import LogicBuilder from './components/form-builders/LogicBuilder'
@@ -6,12 +6,7 @@ import Actions from './components/actions/Actions'
 import Task from './components/task/Task'
 import Appbar from "./components/appbar/Appbar";
 
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route
-} from "react-router-dom";
-import axios from "axios";
+import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import {AuthContext} from "./util/Auth";
 import Chains from "./components/chains/Chains";
@@ -19,31 +14,11 @@ import Campaigns from "./components/campaigns/Campaigns";
 import SimpleAppbar from "./components/appbar/SimpleAppbar";
 
 
-// import Loader from './util/TestLoader'
-
-
 const App = () => {
     const {currentUser} = useContext(AuthContext)
 
-    useEffect(() => {
-        if (currentUser) {
-            currentUser.getIdToken(/* forceRefresh */ true).then((idToken: any) => {
-                axios.interceptors.request.use((config) => {
-                    const token = `JWT ${idToken}`;
-                    config.headers.Authorization = token;
-
-                    return config;
-                });
-            })
-        }
-
-    }, [currentUser])
-
-
     return (
         <div>
-            {/* <button onClick={() => Loader()}>тест</button> */}
-
             <Router>
                 <Switch>
                     <Route path={"/campaign/:campaignId"}>

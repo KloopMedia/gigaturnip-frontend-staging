@@ -1,24 +1,7 @@
 import React, {useContext} from 'react';
 import clsx from 'clsx';
-import {createStyles, makeStyles, useTheme, Theme} from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MenuIcon from '@material-ui/icons/Menu'
-import {
-    Button,
-    ListItem,
-    Typography,
-    IconButton,
-    CssBaseline,
-    List,
-    AppBar,
-    Drawer,
-    Toolbar,
-    ListItemIcon,
-    ListItemText
-} from "@material-ui/core";
+import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
+import {AppBar, Button, CssBaseline, Toolbar, Typography} from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
 import {useHistory, useParams} from "react-router-dom";

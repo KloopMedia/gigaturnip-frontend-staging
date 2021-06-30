@@ -3,11 +3,12 @@ import {
     useHistory,
     useParams
 } from "react-router-dom";
-import axios from "axios";
+import axios from "../../util/Axios";
 import {Button, Grid, Typography} from "@material-ui/core";
 import Card from "./ChainCard";
 import AddIcon from '@material-ui/icons/Add';
 import AddChainDialog from "./Dialog";
+import {chainsUrl} from '../../util/Urls'
 
 type RouterParams = {campaignId: string}
 type ChainParams = { id: number, campaign: number, name: string, description?: string };
@@ -19,7 +20,7 @@ const Builder = () => {
     const {campaignId} = useParams<RouterParams>()
 
     useEffect(() => {
-        axios.get('/api/v1/allchains/')
+        axios.get(chainsUrl)
             .then(res => res.data)
             .then(res => {
                 console.log(res)
@@ -42,7 +43,7 @@ const Builder = () => {
     }
 
     const handleAddChain = (data: NewChainParams) => {
-        axios.post('/api/v1/allchains/', data)
+        axios.post(chainsUrl, data)
             .then(res => {
                 console.log(res)
                 window.location.reload(false);

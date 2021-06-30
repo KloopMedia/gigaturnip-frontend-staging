@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import firebase from '../../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
-import {
-    useParams
-} from "react-router-dom";
-import { JSONSchema7 } from "json-schema";
+import {useParams} from "react-router-dom";
+import {JSONSchema7} from "json-schema";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 type RouterParams = {id: string}

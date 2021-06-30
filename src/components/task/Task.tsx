@@ -1,10 +1,7 @@
 import React, {useEffect, useState} from "react";
-import firebase from '../../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
-import {
-    useParams
-} from "react-router-dom";
-import axios from "axios";
+import {useParams} from "react-router-dom";
+import axios from "../../util/Axios";
 
 type RouterParams = { id: string }
 

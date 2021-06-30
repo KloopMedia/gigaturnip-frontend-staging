@@ -27,7 +27,9 @@ import {
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
 import {useHistory, useParams} from "react-router-dom";
-import axios from 'axios';
+import axios from '../../util/Axios';
+
+import {campaignsUrl} from '../../util/Urls';
 
 const drawerWidth = 240;
 
@@ -129,7 +131,7 @@ const Appbar = (props: AppbarProps) => {
     console.log("CURRENT CAMPAIGN", campaignId)
 
     useEffect(() => {
-        axios.get('/api/v1/allcampaigns/')
+        axios.get(campaignsUrl)
             .then(res => res.data)
             .then(res => {
                 console.log(res)

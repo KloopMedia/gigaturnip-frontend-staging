@@ -1,17 +1,14 @@
 import React, {useEffect, useState} from "react";
 // @ts-ignore
 import {FormBuilder} from '@ginkgo-bioworks/react-json-schema-form-builder';
-import firebase from '../../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
 import StageOptions from '../../json-schema/StageOptions_v2.json'
-import {
-    useHistory,
-    useParams
-} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from "axios";
+import axios from "../../util/Axios";
+import {chainsUrl, taskstagesUrl} from "../../util/Urls";
 
 type RouterParams = { id: string }
 type ChainProps = { id: number, name: string, description: string, campaign: number }
@@ -26,7 +23,7 @@ const Builder = () => {
 
     useEffect(() => {
         const setChains = () => {
-            axios.get('/api/v1/allchains/')
+            axios.get(chainsUrl)
                 .then(res => res.data)
                 .then(res => {
                     let chains = res
@@ -59,7 +56,7 @@ const Builder = () => {
         console.log(data)
 
         axios
-            .post("/api/v1/alltaskstages/", data)
+            .post(taskstagesUrl, data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
     }

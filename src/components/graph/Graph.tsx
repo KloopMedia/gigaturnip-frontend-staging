@@ -7,7 +7,8 @@ import CustomStageNode from '../nodes/StageNode'
 import Sidebar from '../sidebar/Sidebar';
 
 import '../../dnd.css';
-import axios from 'axios';
+import axios from '../../util/Axios';
+import {conditionalstagesUrl, taskstagesUrl} from '../../util/Urls'
 
 type RouterParams = { chainId: string, campaignId: string }
 
@@ -30,11 +31,11 @@ const DnDFlow = () => {
         // })
 
         const getStageNodes = () => {
-            return axios.get('/api/v1/alltaskstages/')
+            return axios.get(taskstagesUrl)
         };
 
         const getLogicNodes = () => {
-            return axios.get('/api/v1/allconditionalstages/')
+            return axios.get(conditionalstagesUrl)
         };
 
         Promise.all([getStageNodes(), getLogicNodes()])
@@ -77,10 +78,10 @@ const DnDFlow = () => {
                     // firebase.firestore().collection('flow').doc(element.id).delete()
                     // firebase.firestore().collection('stage').doc(element.id).delete()
                     if (element.type === 'STAGE') {
-                        axios.delete(`/api/v1/taskstage/${element.id}`)
+                        axios.delete(taskstagesUrl + element.id)
                     }
                     if (element.type === 'LOGIC') {
-                        axios.delete(`/api/v1/conditionalstage/${element.id}`)
+                        axios.delete(conditionalstagesUrl + element.id)
                     }
                 }
                 return false
@@ -154,11 +155,11 @@ const DnDFlow = () => {
             chain: chainId
         }
         if (node.type === "STAGE") {
-            let res = await axios.post('/api/v1/alltaskstages/', data)
+            let res = await axios.post(taskstagesUrl, data)
             return res.data.id.toString()
         }
         if (node.type === "LOGIC") {
-            let res = await axios.post('/api/v1/allconditionalstages/', data)
+            let res = await axios.post(conditionalstagesUrl, data)
             return res.data.id.toString()
         }
         return undefined;

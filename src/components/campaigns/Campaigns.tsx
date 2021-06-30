@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from "react";
-import {
-    useHistory,
-    useParams
-} from "react-router-dom";
-import axios from "axios";
-import {Button, Grid, Typography} from "@material-ui/core";
+import axios from "../../util/Axios";
+import {Button, Grid} from "@material-ui/core";
 import Card from "./CampaignCard";
 import AddIcon from '@material-ui/icons/Add';
 import AddChainDialog from "./Dialog";
+import {campaignsUrl} from "../../util/Urls"
 
 type CampaingParams = { id: number, name: string, description?: string };
 export type NewCampaignParams = { name: string, description?: string }
@@ -17,7 +14,7 @@ const Builder = () => {
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
-        axios.get('/api/v1/allcampaigns/')
+        axios.get(campaignsUrl)
             .then(res => res.data)
             .then(res => {
                 console.log(res)
@@ -39,7 +36,7 @@ const Builder = () => {
     }
 
     const handleCampaignAdd = (data: NewCampaignParams) => {
-        axios.post('/api/v1/allcampaigns/', data)
+        axios.post(campaignsUrl, data)
             .then(res => {
                 console.log(res)
                 window.location.reload(false);
