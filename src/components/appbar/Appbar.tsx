@@ -199,7 +199,7 @@ const Appbar = (props: AppbarProps) => {
                                 },
                             }}
                         >
-                            {allCampaigns.map(camp => <MenuItem key={camp.id} value={camp.id}>{camp.name}</MenuItem>)}
+                            {allCampaigns.map(camp => <MenuItem key={`${camp.name}_${camp.id}`} value={camp.id}>{camp.name}</MenuItem>)}
                         </Select>
                     </FormControl>
                     {currentUser ?

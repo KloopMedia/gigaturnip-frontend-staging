@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import ReactFlow, {addEdge, Controls, FlowElement, ReactFlowProvider,} from 'react-flow-renderer';
+import ReactFlow, {addEdge, Controls, FlowElement, ReactFlowProvider, Edge} from 'react-flow-renderer';
 import {useHistory, useParams} from "react-router-dom";
 import firebase from '../../util/Firebase'
 import CustomLogicNode from '../nodes/LogicNode'
@@ -40,28 +40,85 @@ const DnDFlow = () => {
 
         Promise.all([getStageNodes(), getLogicNodes()])
             .then((results) => {
-                const logicNodes = results[0].data;
-                const stageNodes = results[1].data;
-                const allNodes = [...stageNodes, ...logicNodes]
-                const nodes: FlowElement[] = allNodes.filter(node => node.chain == chainId).map((node: any) => (
+                const stageNodes = results[0].data;
+                const logicNodes = results[1].data;
+                stageNodes.forEach((node: any) => node.type = "STAGE")
+                logicNodes.forEach((node: any) => node.type = "LOGIC")
+                const allNodes = [...stageNodes, ...logicNodes].filter((node: any) => node.chain == chainId)
+                const nodes: FlowElement[] = allNodes.map((node: any) => (
                         {
                             id: node.id.toString(),
                             position: {x: parseFloat(node.x_pos), y: parseFloat(node.y_pos)},
-                            data: {label: node.name}
+                            data: {label: node.name},
+                            type: node.type
                         }
                     )
                 )
                 setElements(nodes)
-                console.log(allNodes)
-            });
+                return allNodes
+            }).then(allNodes => {
+            allNodes.forEach(stage => {
+                if (stage.in_stages.length > 0) {
+                    stage.in_stages.forEach((sourceId: string | number) => {
+                        const edge = {
+                            source: sourceId.toString(),
+                            target: stage.id.toString(),
+                            id: `${sourceId}-${stage.id}`,
+                            arrowHeadType: "arrow"
+                        } as Edge
+                        setElements((els) => addEdge(edge, els))
+                    })
+                }
+            })
+        })
     }, [])
 
-    const onConnect = (params: object) => {
+    const getNode = (id: string | number) => {
+        return elements.filter(node => node.id == id).pop()
+    }
+
+    const onConnect = async (params: object) => {
         const newParams: any = {...params, arrowHeadType: 'arrow'}
-        console.log(newParams)
+        const targetNode = getNode(newParams.target)
+
         setElements((els: FlowElement[]) => addEdge(newParams, els))
-        // const relName = newParams.source + '-->' + newParams.target
-        // firebase.firestore().collection('flow-edges').doc(relName).set(newParams)
+
+        if (targetNode) {
+            let data = {in_stages: [newParams.source]}
+            if (targetNode.type == "STAGE") {
+                const connections = await axios.get(taskstagesUrl + targetNode.id).then(res => res.data.in_stages)
+                let parsed = connections.map((connection: string | number) => connection.toString())
+                data.in_stages = data.in_stages.concat(parsed)
+                axios.patch(taskstagesUrl + targetNode.id, data)
+            }
+            if (targetNode.type == "LOGIC") {
+                const connections = await axios.get(conditionalstagesUrl + targetNode.id).then(res => res.data.in_stages)
+                let parsed = connections.map((connection: string | number) => connection.toString())
+                data.in_stages = data.in_stages.concat(parsed)
+                axios.patch(conditionalstagesUrl + targetNode.id, data)
+            }
+        }
+    }
+
+    const removeConnections = async (node: FlowElement, source: string) => {
+        let connections = []
+        if (node.type === 'STAGE') {
+            connections = await axios.get(taskstagesUrl + node.id).then(res => res.data.in_stages)
+        }
+        if (node.type === 'LOGIC') {
+            connections = await axios.get(conditionalstagesUrl + node.id).then(res => res.data.in_stages)
+        }
+
+        let oldConnections = connections.map((connection: string | number) => connection.toString())
+        let newConnections = oldConnections.filter((connection: string) => connection !== source)
+        let data = {in_stages: newConnections}
+
+        if (node.type === 'STAGE') {
+            axios.patch(taskstagesUrl + node.id, data)
+        }
+        if (node.type === 'LOGIC') {
+            axios.patch(conditionalstagesUrl + node.id, data)
+        }
     }
 
     const removeElements = (elementsToRemove: FlowElement[], elements: FlowElement[]) => {
@@ -72,11 +129,21 @@ const DnDFlow = () => {
             let edgeElement = element;
             if (nodeIdsToRemove.includes(element.id) || nodeIdsToRemove.includes(edgeElement.target) || nodeIdsToRemove.includes(edgeElement.source)) {
                 if (element.hasOwnProperty('source') && element.hasOwnProperty('target')) {
-                    let correctId = element.source + '-->' + element.target
-                    firebase.firestore().collection('flow-edges').doc(correctId).delete()
+                    let target = element.target
+                    let source = element.source
+                    let node = getNode(target)
+
+                    if (node) {
+                        if (node.type === 'STAGE') {
+                            removeConnections(node, source)
+                        }
+                        if (node.type === 'LOGIC') {
+                            removeConnections(node, source)
+                            // axios.delete(conditionalstagesUrl + element.id)
+                        }
+                    }
+
                 } else {
-                    // firebase.firestore().collection('flow').doc(element.id).delete()
-                    // firebase.firestore().collection('stage').doc(element.id).delete()
                     if (element.type === 'STAGE') {
                         axios.delete(taskstagesUrl + element.id)
                     }
@@ -118,24 +185,21 @@ const DnDFlow = () => {
         const parsedData = JSON.parse(transfer)
         const label = parsedData.label
         const type = parsedData.type
+
+        const id = await createNode({type, position, label})
+
         let newNode = {
-            id: '',
+            id,
             type,
             position,
             data: {label},
         };
 
-        const id = await createNode({type, position, label})
-        if (id) {
-            newNode['id'] = id
-        }
-
         setElements((es) => es.concat(newNode));
-        // updateNodeInFirebase(newNode)
     };
 
     const onNodeDragStop = (event: any, node: any) => {
-        // updateNodeInFirebase(node)
+        updateNode(node)
     }
 
     const updateNodeInFirebase = (node: any) => {
@@ -143,7 +207,16 @@ const DnDFlow = () => {
     }
 
     const updateNode = (node: any) => {
-        // axios.post(/)
+        console.log(node)
+        let x_pos = node.position.x
+        let y_pos = node.position.y
+        let data = {x_pos, y_pos}
+        if (node.type == "STAGE") {
+            axios.patch(taskstagesUrl + node.id, data)
+        }
+        if (node.type == "LOGIC") {
+            axios.patch(conditionalstagesUrl + node.id, data)
+        }
     }
 
     const createNode = async (node: any) => {
@@ -170,7 +243,7 @@ const DnDFlow = () => {
         let location = history.location.pathname
         if (element.id) {
             if (element.type === 'LOGIC') {
-                history.push(`${location}/createLogic/${element.id}`)
+                history.push(`${location}/createlogic/${element.id}`)
             }
             if (element.type === 'STAGE') {
                 // history.push('/createStage/' + element.id)
@@ -187,7 +260,6 @@ const DnDFlow = () => {
         STAGE: CustomStageNode
     };
 
-    console.log(elements)
 
     return (
         <div className="dndflow">

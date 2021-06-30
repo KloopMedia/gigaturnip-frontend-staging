@@ -10,33 +10,25 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
 import {chainsUrl, taskstagesUrl} from "../../util/Urls";
 
-type RouterParams = { id: string }
+type RouterParams = { id: string, chainId: string }
 type ChainProps = { id: number, name: string, description: string, campaign: number }
 
 const Builder = () => {
     const [schema, setSchema] = useState('')
     const [uiSchema, setUiSchema] = useState('')
-    const [optionsSchema, setOptionsSchema] = useState({})
+    const [optionsSchema, setOptionsSchema] = useState(StageOptions)
     const [formResponses, setFormResponses] = useState({})
 
-    let {id} = useParams<RouterParams>();
+    let {id, chainId} = useParams<RouterParams>();
 
     useEffect(() => {
         const setChains = () => {
-            axios.get(chainsUrl)
+            axios.get(taskstagesUrl + id)
                 .then(res => res.data)
                 .then(res => {
-                    let chains = res
-                    let options: any = StageOptions
-                    let enumValues: number[] = []
-                    let enumNames: string[] = []
-                    chains.forEach((chain: ChainProps) => {
-                        enumValues.push(chain.id)
-                        enumNames.push(`${chain.name}: ${chain.description}`)
-                    })
-                    options.properties.chain.enum = enumValues
-                    options.properties.chain.enumNames = enumNames
-                    setOptionsSchema(options)
+                    console.log(res)
+                    const {id, ...options} = res
+                    setFormResponses(options)
                 })
         }
         if (id) {
@@ -56,7 +48,7 @@ const Builder = () => {
         console.log(data)
 
         axios
-            .post(taskstagesUrl, data)
+            .patch(taskstagesUrl + id, data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
     }

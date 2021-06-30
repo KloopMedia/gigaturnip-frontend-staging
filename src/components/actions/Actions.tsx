@@ -16,7 +16,7 @@ import {
     makeStyles,
     Theme
 } from '@material-ui/core'
-import axios from "axios";
+import axios from "../../util/Axios";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -66,17 +66,19 @@ const Builder = () => {
     // }, [id])
 
     const handleCreate = () => {
-        history.push('/createStage/' + id)
+        let location = history.location.pathname.split('/actions')[0]
+        console.log(location)
+        history.push(`${location}/createstage/${id}`)
     }
 
     const handleOpen = () => {
-        let data = {stage: id}
-        axios.post('/', data)
-            .then(res => res.data)
-            .then(res => {
-                console.log(res)
-                history.push('/t/' + id)
-            })
+        // let data = {stage: id}
+        // axios.post('/', data)
+        //     .then(res => res.data)
+        //     .then(res => {
+        //         console.log(res)
+        //         history.push('/t/' + id)
+        //     })
     }
 
     return (

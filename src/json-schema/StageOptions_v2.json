@@ -46,22 +46,8 @@
       },
       "title": "Background Stages",
       "type": "array"
-    },
-    "chain": {
-      "title": "Chain",
-      "type": "number",
-      "enum": [],
-      "enumNames": []
-    },
-    "in_stages": {
-      "items": {
-        "type": "string",
-        "title": "Stage"
-      },
-      "title": "In stages",
-      "type": "array"
     }
   },
   "dependencies": {},
-  "required": ["name", "chain"]
+  "required": ["name"]
 }

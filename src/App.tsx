@@ -23,10 +23,10 @@ const App = () => {
                 <Switch>
                     <Route path={"/campaign/:campaignId"}>
                         <Appbar>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/createStage/:id">
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/createstage/:id">
                                 <StageBuilder/>
                             </Route>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/createLogic/:id">
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/createlogic/:id">
                                 <LogicBuilder/>
                             </Route>
                             <Route exact path="/campaign/:campaignId/t/:id">
