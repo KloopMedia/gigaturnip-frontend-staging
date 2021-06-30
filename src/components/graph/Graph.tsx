@@ -21,15 +21,6 @@ const DnDFlow = () => {
     const [elements, setElements] = useState<FlowElement[]>([]);
 
     useEffect(() => {
-        // firebase.firestore().collection('flow-edges').get().then(snap => {
-        //   if (snap.size > 0) {
-        //     snap.forEach(edge => {
-        //       // @ts-ignore
-        //       setElements((els) => addEdge(edge.data(), els))
-        //     })
-        //   }
-        // })
-
         const getStageNodes = () => {
             return axios.get(taskstagesUrl)
         };
@@ -77,47 +68,49 @@ const DnDFlow = () => {
         return elements.filter(node => node.id == id).pop()
     }
 
+    const getTypeUrl = (node: FlowElement) => {
+        if (node.type == "STAGE") {
+            return taskstagesUrl
+        }
+        if (node.type == "LOGIC") {
+            return conditionalstagesUrl
+        }
+        return undefined
+    }
+
     const onConnect = async (params: object) => {
         const newParams: any = {...params, arrowHeadType: 'arrow'}
         const targetNode = getNode(newParams.target)
+        const source = newParams.source
 
         setElements((els: FlowElement[]) => addEdge(newParams, els))
 
         if (targetNode) {
-            let data = {in_stages: [newParams.source]}
-            if (targetNode.type == "STAGE") {
-                const connections = await axios.get(taskstagesUrl + targetNode.id).then(res => res.data.in_stages)
-                let parsed = connections.map((connection: string | number) => connection.toString())
-                data.in_stages = data.in_stages.concat(parsed)
-                axios.patch(taskstagesUrl + targetNode.id, data)
-            }
-            if (targetNode.type == "LOGIC") {
-                const connections = await axios.get(conditionalstagesUrl + targetNode.id).then(res => res.data.in_stages)
-                let parsed = connections.map((connection: string | number) => connection.toString())
-                data.in_stages = data.in_stages.concat(parsed)
-                axios.patch(conditionalstagesUrl + targetNode.id, data)
+            const url = getTypeUrl(targetNode)
+            if (url) {
+                const connections = await axios.get(url + targetNode.id).then(res => res.data.in_stages).catch(err => undefined)
+                if (connections) {
+                    const parsed = connections.map((connection: string | number) => connection.toString())
+                    const data = {in_stages: [source, ...parsed]}
+                    axios.patch(url + targetNode.id, data)
+                }
             }
         }
     }
 
-    const removeConnections = async (node: FlowElement, source: string) => {
-        let connections = []
-        if (node.type === 'STAGE') {
-            connections = await axios.get(taskstagesUrl + node.id).then(res => res.data.in_stages)
-        }
-        if (node.type === 'LOGIC') {
-            connections = await axios.get(conditionalstagesUrl + node.id).then(res => res.data.in_stages)
-        }
-
-        let oldConnections = connections.map((connection: string | number) => connection.toString())
-        let newConnections = oldConnections.filter((connection: string) => connection !== source)
-        let data = {in_stages: newConnections}
-
-        if (node.type === 'STAGE') {
-            axios.patch(taskstagesUrl + node.id, data)
-        }
-        if (node.type === 'LOGIC') {
-            axios.patch(conditionalstagesUrl + node.id, data)
+    const removeConnections = async (target: string, source: string) => {
+        const node = getNode(target)
+        if (node) {
+            const url = getTypeUrl(node)
+            if (url) {
+                let connections = await axios.get(url + node.id).then(res => res.data.in_stages).catch(err => undefined)
+                if (connections) {
+                    let oldConnections = connections.map((connection: string | number) => connection.toString())
+                    let newConnections = oldConnections.filter((connection: string) => connection !== source)
+                    let data = {in_stages: newConnections}
+                    axios.patch(url + node.id, data)
+                }
+            }
         }
     }
 
@@ -125,30 +118,20 @@ const DnDFlow = () => {
         let nodeIdsToRemove = elementsToRemove.map((n: any) => {
             return n.id;
         });
+
         return elements.filter((element: any) => {
             let edgeElement = element;
             if (nodeIdsToRemove.includes(element.id) || nodeIdsToRemove.includes(edgeElement.target) || nodeIdsToRemove.includes(edgeElement.source)) {
                 if (element.hasOwnProperty('source') && element.hasOwnProperty('target')) {
                     let target = element.target
                     let source = element.source
-                    let node = getNode(target)
 
-                    if (node) {
-                        if (node.type === 'STAGE') {
-                            removeConnections(node, source)
-                        }
-                        if (node.type === 'LOGIC') {
-                            removeConnections(node, source)
-                            // axios.delete(conditionalstagesUrl + element.id)
-                        }
-                    }
+                    removeConnections(target, source)
 
                 } else {
-                    if (element.type === 'STAGE') {
-                        axios.delete(taskstagesUrl + element.id)
-                    }
-                    if (element.type === 'LOGIC') {
-                        axios.delete(conditionalstagesUrl + element.id)
+                    const url = getTypeUrl(element)
+                    if (url) {
+                        axios.delete(url + element.id)
                     }
                 }
                 return false
@@ -207,15 +190,12 @@ const DnDFlow = () => {
     }
 
     const updateNode = (node: any) => {
-        console.log(node)
         let x_pos = node.position.x
         let y_pos = node.position.y
         let data = {x_pos, y_pos}
-        if (node.type == "STAGE") {
-            axios.patch(taskstagesUrl + node.id, data)
-        }
-        if (node.type == "LOGIC") {
-            axios.patch(conditionalstagesUrl + node.id, data)
+        const url = getTypeUrl(node)
+        if (url) {
+            axios.patch(url + node.id, data)
         }
     }
 
@@ -227,12 +207,10 @@ const DnDFlow = () => {
             y_pos: node.position.y,
             chain: chainId
         }
-        if (node.type === "STAGE") {
-            let res = await axios.post(taskstagesUrl, data)
-            return res.data.id.toString()
-        }
-        if (node.type === "LOGIC") {
-            let res = await axios.post(conditionalstagesUrl, data)
+
+        const url = getTypeUrl(node)
+        if (url) {
+            let res = await axios.post(url, data)
             return res.data.id.toString()
         }
         return undefined;
