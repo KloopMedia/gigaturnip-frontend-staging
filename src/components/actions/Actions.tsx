@@ -57,22 +57,14 @@ const Builder = () => {
         console.log("PRESET", preset)
     };
 
-    // useEffect(() => {
-    //     firebase.firestore().collection('stage').doc(id).get().then(doc => {
-    //         if (doc && doc.exists) {
-    //             setTaskExist(true)
-    //         }
-    //     })
-    // }, [id])
-
-    const handleCreate = () => {
+    const handleCreateStage = () => {
         let location = history.location.pathname.split('/actions')[0]
         console.log(location)
         history.push(`${location}/createstage/${id}`)
     }
 
-    const handleOpen = () => {
-        // let data = {stage: id}
+    const handleCreateTask = () => {
+        let data = {stage: id}
         // axios.post('/', data)
         //     .then(res => res.data)
         //     .then(res => {
@@ -84,9 +76,8 @@ const Builder = () => {
     return (
         <Grid>
             <Grid container justify="center" style={{background: '#7FB3D5'}} component={"div"}>
-                <Grid item style={{margin: 20}}><Button onClick={handleCreate}>Create Form</Button></Grid>
-                <Grid item style={{margin: 20}}><Button onClick={handleOpen}>Open
-                    Form</Button></Grid>
+                <Grid item style={{margin: 20}}><Button onClick={handleCreateStage}>Create Form</Button></Grid>
+                <Grid item style={{margin: 20}}><Button onClick={handleCreateTask}>Create Task (for test)</Button></Grid>
             </Grid>
         </Grid>
     )

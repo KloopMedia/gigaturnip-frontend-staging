@@ -22,17 +22,20 @@ const Builder = () => {
     let {id, chainId} = useParams<RouterParams>();
 
     useEffect(() => {
-        const setChains = () => {
+        const getStage = () => {
             axios.get(taskstagesUrl + id)
                 .then(res => res.data)
                 .then(res => {
-                    console.log(res)
-                    const {id, ...options} = res
+                    const {id, json_schema, ui_schema, ...options} = res
+                    let parse_json_schema = JSON.stringify(json_schema)
+                    let parse_ui_schema = JSON.stringify(ui_schema)
+                    setSchema(parse_json_schema)
+                    setUiSchema(parse_ui_schema)
                     setFormResponses(options)
                 })
         }
         if (id) {
-            setChains()
+            getStage()
         }
     }, [id])
 

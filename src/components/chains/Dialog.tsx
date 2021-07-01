@@ -6,6 +6,7 @@ import Dialog from '@material-ui/core/Dialog';
 import {blue} from '@material-ui/core/colors';
 import {DialogActions, DialogContent, Grid, TextField} from "@material-ui/core";
 import {NewChainParams} from "./Chains";
+import { useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -21,12 +22,17 @@ type ChainDialogProps = {
     onSave: (data: NewChainParams) => void;
 }
 
+type RouterParams = {campaignId: string}
+
 const AddChainDialog = (props: ChainDialogProps) => {
     const classes = useStyles();
+    const {campaignId} = useParams<RouterParams>();
+
     const {onClose, onSave, open} = props;
+
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [campaign, setCampaign] = useState<number>();
+    const [campaign, setCampaign] = useState(campaignId)
 
     const handleClose = () => {
         onClose();
@@ -34,7 +40,8 @@ const AddChainDialog = (props: ChainDialogProps) => {
 
     const handleSave = () => {
         if (name && campaign) {
-            let data = {name, description, campaign}
+            let parsedCampaign = parseInt(campaign)
+            let data = {name, description, campaign: parsedCampaign}
             onSave(data)
         }
     }
@@ -59,25 +66,12 @@ const AddChainDialog = (props: ChainDialogProps) => {
         }
     };
 
-    const handleCampaignChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        let value = parseInt(event.target.value)
-        if (value) {
-            setCampaign(value)
-        }
-        else {
-            setCampaign(undefined)
-        }
-    };
-
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle>Add Chain</DialogTitle>
             <DialogContent>
                 <Grid container justify={"center"}>
                     <Grid container item><TextField fullWidth label={"Name"} onChange={handleNameChange}/></Grid>
-                    <Grid container item>
-                        <TextField fullWidth label={"Campaign"} type="number" onChange={handleCampaignChange}/>
-                    </Grid>
                     <Grid container item>
                         <TextField fullWidth label={"Description"} multiline rows={4} onChange={handleDescriptionChange}/>
                     </Grid>
