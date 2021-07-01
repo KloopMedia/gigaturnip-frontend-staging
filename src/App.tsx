@@ -29,7 +29,7 @@ const App = () => {
                             <Route exact path="/campaign/:campaignId/chain/:chainId/createlogic/:id">
                                 <LogicBuilder/>
                             </Route>
-                            <Route exact path="/campaign/:campaignId/t/:id">
+                            <Route exact path="/campaign/:campaignId/chain/:chainId/task/:id">
                                 <Task/>
                             </Route>
                             <Route exact path="/campaign/:campaignId/chain/:chainId/actions/:id">
