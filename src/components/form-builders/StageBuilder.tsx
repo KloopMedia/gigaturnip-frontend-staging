@@ -5,21 +5,26 @@ import Form from "@rjsf/bootstrap-4";
 import StageOptions from '../../json-schema/StageOptions_v2.json'
 import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
+import PreviewStage from './PreviewStage'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
 import {chainsUrl, taskstagesUrl} from "../../util/Urls";
+import {IconButton} from "@material-ui/core";
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
 type RouterParams = { id: string, chainId: string }
 type ChainProps = { id: number, name: string, description: string, campaign: number }
 
 const Builder = () => {
+    let {id, chainId} = useParams<RouterParams>();
+
     const [schema, setSchema] = useState('')
     const [uiSchema, setUiSchema] = useState('')
     const [optionsSchema, setOptionsSchema] = useState(StageOptions)
     const [formResponses, setFormResponses] = useState({})
-
-    let {id, chainId} = useParams<RouterParams>();
+    const [preview, setPreview] = useState(false)
 
     useEffect(() => {
         const getStage = () => {
@@ -56,24 +61,42 @@ const Builder = () => {
             .catch((err: any) => alert(err));
     }
 
+    const changePreviewMode = () => {
+        setPreview(p => !p)
+    }
+
     return (
         <div>
-            <FormBuilder
-                schema={schema}
-                uischema={uiSchema}
-                onChange={(newSchema: string, newUiSchema: string) => {
-                    setSchema(newSchema)
-                    setUiSchema(newUiSchema)
-                }}
-            />
-            <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
-                <Form
-                    schema={optionsSchema as JSONSchema7}
-                    formData={formResponses}
-                    onChange={(e: { formData: object }) => setFormResponses(e.formData)}
-                    onSubmit={handleSubmit}
-                />
-            </div>
+            <IconButton style={{float: 'right'}} onClick={changePreviewMode}>
+                {preview ?
+                    <VisibilityIcon fontSize={"large"} />
+                    :
+                    <VisibilityOffIcon fontSize={"large"} />
+                }
+
+            </IconButton>
+            {!preview ?
+                <div>
+                    <FormBuilder
+                        schema={schema}
+                        uischema={uiSchema}
+                        onChange={(newSchema: string, newUiSchema: string) => {
+                            setSchema(newSchema)
+                            setUiSchema(newUiSchema)
+                        }}
+                    />
+                    <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
+                        <Form
+                            schema={optionsSchema as JSONSchema7}
+                            formData={formResponses}
+                            onChange={(e: { formData: object }) => setFormResponses(e.formData)}
+                            onSubmit={handleSubmit}
+                        />
+                    </div>
+                </div>
+                :
+                <PreviewStage jsonSchema={schema} uiSchema={uiSchema}/>
+            }
         </div>
     )
 }

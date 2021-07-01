@@ -90,22 +90,19 @@ const Builder = () => {
         //         })
         //     })
         // })
-        setReady(true)
-        firebase.firestore().collection('flow-logic').doc(id).get().then(doc => {
-            if (doc && doc.exists) {
-                let data = doc.data()
-                if (data) {
-                    setFormResponses(data)
-                }
-            }
-        })
+        // setReady(true)
+        // firebase.firestore().collection('flow-logic').doc(id).get().then(doc => {
+        //     if (doc && doc.exists) {
+        //         let data = doc.data()
+        //         if (data) {
+        //             setFormResponses(data)
+        //         }
+        //     }
+        // })
     }, [id])
 
     const handleSubmit = () => {
-        // firebase.firestore().collection('flow-logic').doc(id).set(formResponses, {merge: true})
         console.log(JSON.stringify(formResponses))
-        // console.log(schema)
-        // console.log(uiSchema)
     }
 
     return (
