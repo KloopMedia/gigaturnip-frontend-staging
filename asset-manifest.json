@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/gigaturnip-fronted/static/css/main.4480bb8b.chunk.css",
+    "main.js": "/gigaturnip-fronted/static/js/main.431c0349.chunk.js",
+    "main.js.map": "/gigaturnip-fronted/static/js/main.431c0349.chunk.js.map",
+    "runtime-main.js": "/gigaturnip-fronted/static/js/runtime-main.46d2501b.js",
+    "runtime-main.js.map": "/gigaturnip-fronted/static/js/runtime-main.46d2501b.js.map",
+    "static/css/2.4c97ca4f.chunk.css": "/gigaturnip-fronted/static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.cd0906e1.chunk.js": "/gigaturnip-fronted/static/js/2.cd0906e1.chunk.js",
+    "static/js/2.cd0906e1.chunk.js.map": "/gigaturnip-fronted/static/js/2.cd0906e1.chunk.js.map",
+    "static/js/3.95e1a2e8.chunk.js": "/gigaturnip-fronted/static/js/3.95e1a2e8.chunk.js",
+    "static/js/3.95e1a2e8.chunk.js.map": "/gigaturnip-fronted/static/js/3.95e1a2e8.chunk.js.map",
+    "index.html": "/gigaturnip-fronted/index.html",
+    "static/css/2.4c97ca4f.chunk.css.map": "/gigaturnip-fronted/static/css/2.4c97ca4f.chunk.css.map",
+    "static/css/main.4480bb8b.chunk.css.map": "/gigaturnip-fronted/static/css/main.4480bb8b.chunk.css.map",
+    "static/js/2.cd0906e1.chunk.js.LICENSE.txt": "/gigaturnip-fronted/static/js/2.cd0906e1.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.46d2501b.js",
+    "static/css/2.4c97ca4f.chunk.css",
+    "static/js/2.cd0906e1.chunk.js",
+    "static/css/main.4480bb8b.chunk.css",
+    "static/js/main.431c0349.chunk.js"
+  ]
+}
