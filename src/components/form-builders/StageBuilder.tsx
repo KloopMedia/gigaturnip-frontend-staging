@@ -68,7 +68,7 @@ const Builder = () => {
     return (
         <div>
             <IconButton style={{float: 'right'}} onClick={changePreviewMode}>
-                {preview ?
+                {!preview ?
                     <VisibilityIcon fontSize={"large"} />
                     :
                     <VisibilityOffIcon fontSize={"large"} />

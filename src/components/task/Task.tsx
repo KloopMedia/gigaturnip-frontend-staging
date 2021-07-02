@@ -14,8 +14,7 @@ const Builder = () => {
 
     useEffect(() => {
         const getTask = () => {
-            return axios.get(tasksUrl + id)
-                .then(res => res.data)
+            return axios.get(tasksUrl + id).then(res => res.data)
         }
         const getStage = (stageId: string | number) => {
             return axios.get(taskstagesUrl + stageId).then(res => res.data)

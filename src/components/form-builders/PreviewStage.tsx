@@ -11,6 +11,7 @@ const Preview = ({jsonSchema, uiSchema}: FormProps) => {
             <Form
                 schema={json_schema}
                 uiSchema={ui_schema}
+                onSubmit={(formData) => console.log(formData.formData)}
             />
         </div>
     )

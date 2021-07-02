@@ -5,10 +5,14 @@ import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Grid} from "@material-ui/core";
+import axios from '../../util/Axios'
+import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
 
 type RouterParams = { id: string }
 
 const Builder = () => {
+    const {id} = useParams<RouterParams>();
+
     const [ready, setReady] = useState(false)
     const [schema, setSchema] = useState({
         type: 'object',
@@ -64,7 +68,8 @@ const Builder = () => {
         ]
     })
     const [formResponses, setFormResponses] = useState({})
-    let {id} = useParams<RouterParams>();
+    const [connectedStages, setConnectedStages] = useState<any[]>()
+
 
     useEffect(() => {
         // firebase.firestore().collection('flow-edges').where('target', '==', id).get().then(edges => {
@@ -99,7 +104,49 @@ const Builder = () => {
         //         }
         //     }
         // })
+        const getStage = (stageId?: number | string) => {
+            if (stageId) {
+                let taskStage = axios.get(taskstagesUrl + stageId).then(res => res.data)
+                if (taskStage) {
+                    return taskStage
+                } else {
+                    return axios.get(conditionalstagesUrl + stageId).then(res => res.data)
+                }
+            }
+            return axios.get(conditionalstagesUrl + id).then(res => res.data)
+        }
+
+        const getConnectedStages = async (ids: number[]) => {
+            return ids.map(async connId => {
+                let stage = await getStage(connId)
+                return {[connId]: stage}
+            })
+        }
+
+        const getData = async () => {
+            let currentStage = await getStage()
+            let connectedIds = currentStage.in_stages
+            let connStages = await getConnectedStages(connectedIds)
+            Promise.all(connStages).then(res => {
+                setConnectedStages(res)
+            })
+        }
+
+        if (id) {
+            getData()
+        }
+
     }, [id])
+
+    useEffect(() => {
+        if (connectedStages && connectedStages.length > 0) {
+            console.log(connectedStages)
+            connectedStages.forEach(stage => {
+                let json_schema = stage.json_schema
+                let ui_schema = stage.ui_schema
+            })
+        }
+    }, [connectedStages])
 
     const handleSubmit = () => {
         console.log(JSON.stringify(formResponses))
