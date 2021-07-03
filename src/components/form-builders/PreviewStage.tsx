@@ -21,10 +21,37 @@ const Preview = ({jsonSchema, uiSchema, formResponses}: FormProps) => {
                 onSubmit={(formData) => console.log(formData.formData)}
             />
             <br/>
-            <Button onClick={copyToClipboard} variant={"contained"} color={"primary"} style={{marginBottom: 15}}>Copy to Clipboard</Button>
             <TextField
                 id="outlined-multiline-static"
-                label="Multiline"
+                label="JSON"
+                multiline
+                fullWidth
+                defaultValue="Default Value"
+                variant="outlined"
+                InputProps={{
+                    readOnly: true,
+                }}
+                value={jsonSchema}
+                style={{marginTop: 15, marginBottom: 15}}
+            />
+            <TextField
+                id="outlined-multiline-static"
+                label="UI"
+                multiline
+                fullWidth
+                defaultValue="Default Value"
+                variant="outlined"
+                InputProps={{
+                    readOnly: true,
+                }}
+                value={uiSchema}
+                style={{marginTop: 15, marginBottom: 30}}
+            />
+            <br/>
+            <Button onClick={copyToClipboard} variant={"contained"} color={"primary"} style={{marginBottom: 15}}>Copy FUL STAGE to Clipboard</Button>
+            <TextField
+                id="outlined-multiline-static"
+                label="FULL STAGE"
                 multiline
                 fullWidth
                 defaultValue="Default Value"
