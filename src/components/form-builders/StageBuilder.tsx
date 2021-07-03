@@ -95,7 +95,7 @@ const Builder = () => {
                     </div>
                 </div>
                 :
-                <PreviewStage jsonSchema={schema} uiSchema={uiSchema}/>
+                <PreviewStage jsonSchema={schema} uiSchema={uiSchema} formResponses={formResponses}/>
             }
         </div>
     )

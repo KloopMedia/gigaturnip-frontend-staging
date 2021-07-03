@@ -141,9 +141,24 @@ const Builder = () => {
     useEffect(() => {
         if (connectedStages && connectedStages.length > 0) {
             console.log(connectedStages)
-            connectedStages.forEach(stage => {
-                let json_schema = stage.json_schema
-                let ui_schema = stage.ui_schema
+            const fields: string[] = []
+            connectedStages.forEach(stageObject => {
+                let stage = Object.values(stageObject)[0] as any
+                let ui = stage.ui_schema
+                console.log(ui)
+                let ui_order = ui['ui:order']
+                console.log(ui_order)
+                ui_order.forEach((field: string) => {
+                    if (ui.hasOwnProperty(field) && ui[field].hasOwnProperty('ui:order')) {
+                        ui[field]['ui:order'].forEach((subfield: string) => {
+                            fields.push(`${field}.${subfield}`)
+                        })
+                    }
+                    else  {
+                        fields.push(field)
+                    }
+                })
+                console.log(fields)
             })
         }
     }, [connectedStages])
