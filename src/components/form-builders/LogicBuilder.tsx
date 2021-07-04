@@ -14,46 +14,9 @@ type RouterParams = { id: string }
 const Builder = () => {
     const {id} = useParams<RouterParams>();
 
-    const [ready, setReady] = useState(false)
-    const [schema, setSchema] = useState({
-        type: 'object',
-        properties: {
-            logic_array: {
-                items: {
-                    type: 'object',
-                    title: 'Logic',
-                    properties: {
-                        field: {
-                            title: 'Field',
-                            type: 'string'
-                        },
-                        condition: {
-                            enum: [
-                                '==',
-                                '!=',
-                                '>',
-                                '<',
-                                '>=',
-                                '<='
-                            ],
-                            title: 'Condition',
-                            type: 'string'
-                        },
-                        value: {
-                            title: 'Value',
-                            type: 'string'
-                        }
-                    },
-                    dependencies: {},
-                    required: []
-                },
-                title: 'Logic Array',
-                type: 'array'
-            }
-        },
-        dependencies: {},
-        required: []
-    })
+    const [ready, setReady] = useState(true)
+    const [fields, setFields] = useState<string[]>([]);
+    const [schema, setSchema] = useState<{}>({})
     const [uiSchema, setUiSchema] = useState({
         logic_array: {
             items: {
@@ -149,11 +112,64 @@ const Builder = () => {
                 console.log(sc)
                 let fields = GetFormFields(sc, {})
                 console.log(fields)
+                setFields(fields)
             })
         }
     }, [connectedStages])
 
+    useEffect(() => {
+        setSchema({
+            type: 'object',
+            properties: {
+                logic_array: {
+                    items: {
+                        type: 'object',
+                        title: 'Logic',
+                        properties: {
+                            field: {
+                                enum: fields,
+                                title: 'Field',
+                                type: 'string'
+                            },
+                            condition: {
+                                enum: [
+                                    '==',
+                                    '!=',
+                                    '>',
+                                    '<',
+                                    '>=',
+                                    '<='
+                                ],
+                                title: 'Condition',
+                                type: 'string'
+                            },
+                            value: {
+                                title: 'Value',
+                                type: 'string'
+                            }
+                        },
+                        dependencies: {},
+                        required: []
+                    },
+                    title: 'Logic Array',
+                    type: 'array'
+                }
+            },
+            dependencies: {},
+            required: []
+        })
+    }, [fields])
+
     const handleSubmit = () => {
+        const formResp:{[index:string]: string} = formResponses;
+        let data = {conditions: formResp['logic_array']}
+        console.log(data)
+
+        axios
+            .patch(conditionalstagesUrl + id, data)
+            .then((res: any) => console.log(res.data))
+            .catch((err: any) => alert(err));
+
         console.log(JSON.stringify(formResponses))
     }
 
