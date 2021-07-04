@@ -6,7 +6,7 @@ import Actions from './components/actions/Actions'
 import Task from './components/task/Task'
 import Appbar from "./components/appbar/Appbar";
 
-import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {HashRouter as Router, Route, Switch} from "react-router-dom";
 
 import {AuthContext} from "./util/Auth";
 import Chains from "./components/chains/Chains";

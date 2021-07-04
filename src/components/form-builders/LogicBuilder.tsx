@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {Grid} from "@material-ui/core";
 import axios from '../../util/Axios'
 import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
+import GetFormFields from './GetFormFields'
 
 type RouterParams = { id: string }
 
@@ -141,9 +142,13 @@ const Builder = () => {
     useEffect(() => {
         if (connectedStages && connectedStages.length > 0) {
             console.log(connectedStages)
-            connectedStages.forEach(stage => {
-                let json_schema = stage.json_schema
-                let ui_schema = stage.ui_schema
+            connectedStages.forEach(stageObject => {
+                let stage = Object.values(stageObject)[0] as any
+                let ui = stage.ui_schema
+                let sc = stage.json_schema
+                console.log(sc)
+                let fields = GetFormFields(sc, {})
+                console.log(fields)
             })
         }
     }, [connectedStages])
