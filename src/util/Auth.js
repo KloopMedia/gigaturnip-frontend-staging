@@ -15,6 +15,13 @@ export const AuthProvider = ({children}) => {
                 })
             }
         });
+        firebase.auth().onIdTokenChanged(user => {
+            if (user) {
+                user.getIdToken(false).then((idToken) => {
+                    localStorage.setItem("token", idToken);
+                })
+            }
+        })
     }, []);
 
 

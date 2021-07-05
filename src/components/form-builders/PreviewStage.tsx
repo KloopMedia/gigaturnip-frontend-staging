@@ -2,12 +2,15 @@ import React from 'react'
 import Form from "@rjsf/bootstrap-4";
 import {Button, TextField} from "@material-ui/core";
 
+import CustomFileWidget from '../custom-widgets/file-widget/CustomFileWidget'
+
 type FormProps = { jsonSchema: string, uiSchema: string, formResponses:any }
 
 const Preview = ({jsonSchema, uiSchema, formResponses}: FormProps) => {
     const json_schema = JSON.parse(jsonSchema)
     const ui_schema = JSON.parse(uiSchema)
     const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})
+    const widgets = {file: CustomFileWidget};
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(stage_data).then(() => console.log("success")).catch(err => alert(err))
@@ -18,6 +21,7 @@ const Preview = ({jsonSchema, uiSchema, formResponses}: FormProps) => {
             <Form
                 schema={json_schema}
                 uiSchema={ui_schema}
+                widgets={widgets}
                 onSubmit={(formData) => console.log(formData.formData)}
             />
             <br/>

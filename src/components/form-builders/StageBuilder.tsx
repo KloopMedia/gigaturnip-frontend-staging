@@ -6,6 +6,7 @@ import StageOptions from '../../json-schema/StageOptions_v2.json'
 import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
 import PreviewStage from './PreviewStage'
+import CustomFileType from '../custom-widgets/file-widget/CustomFileType'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
@@ -69,9 +70,9 @@ const Builder = () => {
         <div>
             <IconButton style={{float: 'right'}} onClick={changePreviewMode}>
                 {!preview ?
-                    <VisibilityIcon fontSize={"large"} />
+                    <VisibilityIcon fontSize={"large"}/>
                     :
-                    <VisibilityOffIcon fontSize={"large"} />
+                    <VisibilityOffIcon fontSize={"large"}/>
                 }
 
             </IconButton>
@@ -84,6 +85,11 @@ const Builder = () => {
                             setSchema(newSchema)
                             setUiSchema(newUiSchema)
                         }}
+                        mods={
+                            {
+                                customFormInputs: {...CustomFileType}
+                            }
+                        }
                     />
                     <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
                         <Form
