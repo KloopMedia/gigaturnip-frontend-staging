@@ -14,7 +14,7 @@ type RouterParams = { id: string }
 const Builder = () => {
     const {id} = useParams<RouterParams>();
 
-    const [ready, setReady] = useState(true)
+    const [ready, setReady] = useState(false)
     const [fields, setFields] = useState<string[]>([]);
     const [schema, setSchema] = useState<{}>({})
     const [uiSchema, setUiSchema] = useState({
@@ -36,38 +36,6 @@ const Builder = () => {
 
 
     useEffect(() => {
-        // firebase.firestore().collection('flow-edges').where('target', '==', id).get().then(edges => {
-        //     edges.forEach(edge => {
-        //         let source = edge.data().source
-        //         firebase.firestore().collection('stage').doc(source).get().then(doc => {
-        //             if (doc && doc.exists) {
-        //                 let data = doc.data()
-        //                 if (data && data.hasOwnProperty('end_ui')) {
-        //                     let end_ui = JSON.parse(data.end_ui)
-        //                     if (end_ui.hasOwnProperty('ui:order')) {
-        //                         console.log(end_ui['ui:order'])
-        //                         setSchema(ps => {
-        //                             let ns = {...ps}
-        //                             ns.properties.field.enum = end_ui['ui:order']
-        //                             console.log(ns)
-        //                             return ns
-        //                         })
-        //                         setReady(true)
-        //                     }
-        //                 }
-        //             }
-        //         })
-        //     })
-        // })
-        // setReady(true)
-        // firebase.firestore().collection('flow-logic').doc(id).get().then(doc => {
-        //     if (doc && doc.exists) {
-        //         let data = doc.data()
-        //         if (data) {
-        //             setFormResponses(data)
-        //         }
-        //     }
-        // })
         const getStage = (stageId?: number | string) => {
             if (stageId) {
                 let taskStage = axios.get(taskstagesUrl + stageId).then(res => res.data)
@@ -89,8 +57,14 @@ const Builder = () => {
 
         const getData = async () => {
             let currentStage = await getStage()
+            setFormResponses(currentStage.conditions)
+
             let connectedIds = currentStage.in_stages
             let connStages = await getConnectedStages(connectedIds)
+            if (Object.keys(connStages).length > 0) {
+                setReady(true)
+            }
+
             Promise.all(connStages).then(res => {
                 setConnectedStages(res)
             })
@@ -109,9 +83,7 @@ const Builder = () => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = stage.ui_schema
                 let sc = stage.json_schema
-                console.log(sc)
                 let fields = GetFormFields(sc, {})
-                console.log(fields)
                 setFields(fields)
             })
         }
@@ -119,58 +91,50 @@ const Builder = () => {
 
     useEffect(() => {
         setSchema({
-            type: 'object',
-            properties: {
-                logic_array: {
-                    items: {
-                        type: 'object',
-                        title: 'Logic',
-                        properties: {
-                            field: {
-                                enum: fields,
-                                title: 'Field',
-                                type: 'string'
-                            },
-                            condition: {
-                                enum: [
-                                    '==',
-                                    '!=',
-                                    '>',
-                                    '<',
-                                    '>=',
-                                    '<='
-                                ],
-                                title: 'Condition',
-                                type: 'string'
-                            },
-                            value: {
-                                title: 'Value',
-                                type: 'string'
-                            }
-                        },
-                        dependencies: {},
-                        required: []
+            items: {
+                type: 'object',
+                title: 'Logic',
+                properties: {
+                    field: {
+                        enum: fields,
+                        title: 'Field',
+                        type: 'string'
                     },
-                    title: 'Logic Array',
-                    type: 'array'
-                }
+                    condition: {
+                        enum: [
+                            '==',
+                            '!=',
+                            '>',
+                            '<',
+                            '>=',
+                            '<='
+                        ],
+                        title: 'Condition',
+                        type: 'string'
+                    },
+                    value: {
+                        title: 'Value',
+                        type: 'string'
+                    }
+                },
+                dependencies: {},
+                required: []
             },
+            title: 'Logic Array',
+            type: 'array',
             dependencies: {},
             required: []
         })
     }, [fields])
 
     const handleSubmit = () => {
-        const formResp:{[index:string]: string} = formResponses;
-        let data = {conditions: formResp['logic_array']}
-        console.log(data)
+        let data = {conditions: formResponses}
+        console.log(formResponses)
 
         axios
             .patch(conditionalstagesUrl + id, data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
-
-        console.log(JSON.stringify(formResponses))
     }
 
     return (
