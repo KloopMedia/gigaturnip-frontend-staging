@@ -107,7 +107,9 @@ const Builder = () => {
                             '>',
                             '<',
                             '>=',
-                            '<='
+                            '<=',
+                            'ARRAY-CONTAINS',
+                            'ARRAY-CONTAINS-NOT'
                         ],
                         title: 'Condition',
                         type: 'string'
