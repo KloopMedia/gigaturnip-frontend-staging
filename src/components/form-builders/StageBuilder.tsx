@@ -58,7 +58,7 @@ const Builder = () => {
 
         axios
             .patch(taskstagesUrl + id + '/', data)
-            .then((res: any) => console.log(res.data))
+            .then((res: any) => alert("Saved"))
             .catch((err: any) => alert(err));
     }
 

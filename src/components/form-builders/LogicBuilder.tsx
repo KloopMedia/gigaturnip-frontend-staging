@@ -135,7 +135,7 @@ const Builder = () => {
 
         axios
             .patch(conditionalstagesUrl + id + '/', data)
-            .then((res: any) => console.log(res.data))
+            .then((res: any) => alert("Saved"))
             .catch((err: any) => alert(err));
     }
 
