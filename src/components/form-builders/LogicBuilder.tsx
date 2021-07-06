@@ -62,27 +62,20 @@ const Builder = () => {
             let currentStage = await getStage()
             setFormResponses(currentStage.conditions)
 
+            let connectedIds = undefined
             if (isPingPong) {
-                let connectedOutIds = currentStage.out_stages
-                let connOutStages = await getConnectedStages(connectedOutIds)
-                if (Object.keys(connOutStages).length > 0) {
-                    setReady(true)
-                }
-
-                Promise.all(connOutStages).then(res => {
-                    console.log("Out", isPingPong, res)
-                    setConnectedStages(res)
-                })
+                connectedIds = currentStage.out_stages
             } else {
-                let connectedIds = currentStage.in_stages
+                connectedIds = currentStage.in_stages
+            }
+            if (connectedIds) {
                 let connStages = await getConnectedStages(connectedIds)
-                if (Object.keys(connStages).length > 0) {
-                    setReady(true)
-                }
-
                 Promise.all(connStages).then(res => {
-                    console.log("In",isPingPong, res)
-                    setConnectedStages(res)
+                    if (Object.keys(res).length > 0) {
+                        console.log(`PingPong: ${isPingPong}, Connected Stage: ${res}`)
+                        setConnectedStages(res)
+                        setReady(true)
+                    }
                 })
             }
         }
@@ -100,7 +93,7 @@ const Builder = () => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = stage.ui_schema
                 let sc = stage.json_schema
-                let fields = GetFormFields(sc, {})
+                let fields = GetFormFields(sc)
                 setFields(fields)
             })
         }
@@ -162,18 +155,20 @@ const Builder = () => {
 
     return (
         <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
-            <FormControlLabel
-                value={isPingPong}
-                label="Ping Pong"
-                control={<Checkbox onChange={handleChangePingPong}
-                                   color="primary"/>}
-            />
             {ready ?
-                <Form
-                    schema={schema as JSONSchema7}
-                    formData={formResponses}
-                    onChange={(e: { formData: object }) => setFormResponses(e.formData)}
-                    onSubmit={handleSubmit}/>
+                <div>
+                    <FormControlLabel
+                        value={isPingPong}
+                        label="Ping Pong"
+                        control={<Checkbox onChange={handleChangePingPong}
+                                           color="primary"/>}
+                    />
+                    <Form
+                        schema={schema as JSONSchema7}
+                        formData={formResponses}
+                        onChange={(e: { formData: object }) => setFormResponses(e.formData)}
+                        onSubmit={handleSubmit}/>
+                </div>
                 :
                 <p>No node connection or end_ui detected. Connect to one or check if form has fields.</p>}
         </div>
