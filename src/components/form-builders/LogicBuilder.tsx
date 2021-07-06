@@ -70,6 +70,7 @@ const Builder = () => {
                 }
 
                 Promise.all(connOutStages).then(res => {
+                    console.log("Out", isPingPong, res)
                     setConnectedStages(res)
                 })
             } else {
@@ -80,6 +81,7 @@ const Builder = () => {
                 }
 
                 Promise.all(connStages).then(res => {
+                    console.log("In",isPingPong, res)
                     setConnectedStages(res)
                 })
             }
@@ -89,7 +91,7 @@ const Builder = () => {
             getData()
         }
 
-    }, [id])
+    }, [id, isPingPong])
 
     useEffect(() => {
         if (connectedStages && connectedStages.length > 0) {
