@@ -167,7 +167,7 @@ const DnDFlow = () => {
                 } else {
                     const url = getTypeUrl(element)
                     if (url) {
-                        axios.delete(url + element.id)
+                        axios.delete(url + element.id + '/')
                     }
                 }
                 return false
