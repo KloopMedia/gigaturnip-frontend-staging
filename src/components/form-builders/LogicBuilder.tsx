@@ -147,7 +147,7 @@ const Builder = () => {
     }, [fields])
 
     const handleSubmit = () => {
-        let data = {conditions: formResponses}
+        let data = {conditions: formResponses, is_ping_pong: isPingPong}
         console.log(formResponses)
 
         axios
