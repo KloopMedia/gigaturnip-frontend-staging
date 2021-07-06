@@ -66,6 +66,16 @@ const Builder = () => {
         setPreview(p => !p)
     }
 
+    const handleJsonSchemaChange = (schema: string) => {
+        // let parsed = JSON.parse(schema)
+        setSchema(schema)
+    }
+
+    const handleUiSchemaChange = (schema: string) => {
+        // let parsed = JSON.parse(schema)
+        setUiSchema(schema)
+    }
+
     return (
         <div>
             <IconButton style={{float: 'right'}} onClick={changePreviewMode}>
@@ -101,7 +111,13 @@ const Builder = () => {
                     </div>
                 </div>
                 :
-                <PreviewStage jsonSchema={schema} uiSchema={uiSchema} formResponses={formResponses}/>
+                <PreviewStage
+                    jsonSchema={schema}
+                    uiSchema={uiSchema}
+                    formResponses={formResponses}
+                    onJsonChange={handleJsonSchemaChange}
+                    onUiChange={handleUiSchemaChange}
+                />
             }
         </div>
     )
