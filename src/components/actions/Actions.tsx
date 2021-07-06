@@ -34,30 +34,8 @@ const useStyles = makeStyles((theme: Theme) =>
 type RouterParams = { id: string, chainId: string }
 
 const Builder = () => {
-    const [taskExist, setTaskExist] = useState(false)
-    const [presets, setPresets] = useState<string[]>([])
-    const [showPresets, setShowPresets] = useState(false)
-
     let {id, chainId} = useParams<RouterParams>();
     const history = useHistory();
-
-    const classes = useStyles();
-    const [presetId, setPresetId] = React.useState('');
-
-    const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        const preset = event.target.value as string
-        firebase.firestore().collection('presets').doc(preset).get().then(doc => {
-            if (doc && doc.exists) {
-                let data = doc.data()
-                if (data) {
-                    firebase.firestore().collection('stage').doc(id).set(data, {merge: true})
-                        .then(() => history.push('/createStage/' + id))
-                }
-            }
-        })
-        setPresetId(preset);
-        console.log("PRESET", preset)
-    };
 
     const handleCreateStage = () => {
         let location = history.location.pathname.split('/actions')[0]
@@ -79,9 +57,12 @@ const Builder = () => {
     return (
         <Grid>
             <Grid container justify="center" style={{background: '#7FB3D5'}} component={"div"}>
-                <Grid item style={{margin: 20}}><Button onClick={handleCreateStage}>Create Form</Button></Grid>
-                <Grid item style={{margin: 20}}><Button onClick={handleCreateTask}>Create Task (for
-                    test)</Button></Grid>
+                <Grid item style={{margin: 20}}>
+                    <Button onClick={handleCreateStage}>Create Form</Button>
+                </Grid>
+                <Grid item style={{margin: 20}}>
+                    <Button onClick={handleCreateTask}>Create Task (for test)</Button>
+                </Grid>
             </Grid>
         </Grid>
     )

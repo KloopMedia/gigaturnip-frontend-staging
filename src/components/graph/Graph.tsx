@@ -88,11 +88,11 @@ const DnDFlow = () => {
         if (targetNode) {
             const url = getTypeUrl(targetNode)
             if (url) {
-                const connections = await axios.get(url + targetNode.id).then(res => res.data.in_stages).catch(err => undefined)
+                const connections = await axios.get(url + targetNode.id + '/').then(res => res.data.in_stages).catch(err => undefined)
                 if (connections) {
                     const parsed = connections.map((connection: string | number) => connection.toString())
                     const data = {in_stages: [source, ...parsed]}
-                    axios.patch(url + targetNode.id, data)
+                    axios.patch(url + targetNode.id + '/', data)
                 }
             }
         }
@@ -103,12 +103,12 @@ const DnDFlow = () => {
         if (node) {
             const url = getTypeUrl(node)
             if (url) {
-                let connections = await axios.get(url + node.id).then(res => res.data.in_stages).catch(err => undefined)
+                let connections = await axios.get(url + node.id + '/').then(res => res.data.in_stages).catch(err => undefined)
                 if (connections) {
                     let oldConnections = connections.map((connection: string | number) => connection.toString())
                     let newConnections = oldConnections.filter((connection: string) => connection !== source)
                     let data = {in_stages: newConnections}
-                    axios.patch(url + node.id, data)
+                    axios.patch(url + node.id +'/', data)
                 }
             }
         }
@@ -131,7 +131,7 @@ const DnDFlow = () => {
                 } else {
                     const url = getTypeUrl(element)
                     if (url) {
-                        axios.delete(url + element.id)
+                        axios.delete(url + element.id + '/')
                     }
                 }
                 return false
@@ -195,19 +195,19 @@ const DnDFlow = () => {
         let data = {x_pos, y_pos}
         const url = getTypeUrl(node)
         if (url) {
-            axios.patch(url + node.id, data)
+            axios.patch(url + node.id + '/', data)
         }
     }
 
     const createNode = async (node: any) => {
         let data = {
-            node_type: node.type,
             name: node.label,
             x_pos: node.position.x,
             y_pos: node.position.y,
-            chain: chainId
+            chain: parseInt(chainId),
+            out_stages: []
         }
-
+        console.log(JSON.stringify(data))
         const url = getTypeUrl(node)
         if (url) {
             let res = await axios.post(url, data)

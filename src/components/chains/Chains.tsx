@@ -24,7 +24,7 @@ const Builder = () => {
             .then(res => res.data)
             .then(res => {
                 console.log(res)
-                const filtered = res.filter((chain: {campaign: number, name: string, description: string, id: number}) => chain.campaign.toString() == campaignId)
+                const filtered = res.filter((chain: {campaign: number, name: string, description: string, id: number}) => chain.campaign?.toString() == campaignId)
                 setChains(filtered)
             })
     }, [])
@@ -43,6 +43,7 @@ const Builder = () => {
     }
 
     const handleAddChain = (data: NewChainParams) => {
+        console.log(data)
         axios.post(chainsUrl, data)
             .then(res => {
                 console.log(res)

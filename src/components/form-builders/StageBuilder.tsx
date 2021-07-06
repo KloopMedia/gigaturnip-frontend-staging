@@ -29,7 +29,7 @@ const Builder = () => {
 
     useEffect(() => {
         const getStage = () => {
-            axios.get(taskstagesUrl + id)
+            axios.get(taskstagesUrl + id + '/')
                 .then(res => res.data)
                 .then(res => {
                     const {id, json_schema, ui_schema, ...options} = res
@@ -57,7 +57,7 @@ const Builder = () => {
         console.log(data)
 
         axios
-            .patch(taskstagesUrl + id, data)
+            .patch(taskstagesUrl + id + '/', data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
     }

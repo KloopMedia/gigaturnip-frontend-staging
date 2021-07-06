@@ -38,14 +38,14 @@ const Builder = () => {
     useEffect(() => {
         const getStage = (stageId?: number | string) => {
             if (stageId) {
-                let taskStage = axios.get(taskstagesUrl + stageId).then(res => res.data)
+                let taskStage = axios.get(taskstagesUrl + stageId + '/').then(res => res.data)
                 if (taskStage) {
                     return taskStage
                 } else {
-                    return axios.get(conditionalstagesUrl + stageId).then(res => res.data)
+                    return axios.get(conditionalstagesUrl + stageId + '/').then(res => res.data)
                 }
             }
-            return axios.get(conditionalstagesUrl + id).then(res => res.data)
+            return axios.get(conditionalstagesUrl + id + '/').then(res => res.data)
         }
 
         const getConnectedStages = async (ids: number[]) => {
@@ -83,7 +83,7 @@ const Builder = () => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = stage.ui_schema
                 let sc = stage.json_schema
-                let fields = GetFormFields(sc, {})
+                let fields = GetFormFields(sc, {}, ui)
                 setFields(fields)
             })
         }
@@ -134,7 +134,7 @@ const Builder = () => {
         console.log(formResponses)
 
         axios
-            .patch(conditionalstagesUrl + id, data)
+            .patch(conditionalstagesUrl + id + '/', data)
             .then((res: any) => console.log(res.data))
             .catch((err: any) => alert(err));
     }
