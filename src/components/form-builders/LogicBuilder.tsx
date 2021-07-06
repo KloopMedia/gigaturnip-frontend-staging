@@ -5,6 +5,8 @@ import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Grid} from "@material-ui/core";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import axios from '../../util/Axios'
 import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
 import GetFormFields from './GetFormFields'
@@ -33,6 +35,7 @@ const Builder = () => {
     })
     const [formResponses, setFormResponses] = useState({})
     const [connectedStages, setConnectedStages] = useState<any[]>()
+    const [isPingPong, setIsPingPong] = useState<boolean>(false)
 
 
     useEffect(() => {
@@ -59,15 +62,27 @@ const Builder = () => {
             let currentStage = await getStage()
             setFormResponses(currentStage.conditions)
 
-            let connectedIds = currentStage.in_stages
-            let connStages = await getConnectedStages(connectedIds)
-            if (Object.keys(connStages).length > 0) {
-                setReady(true)
-            }
+            if (isPingPong) {
+                let connectedOutIds = currentStage.out_stages
+                let connOutStages = await getConnectedStages(connectedOutIds)
+                if (Object.keys(connOutStages).length > 0) {
+                    setReady(true)
+                }
 
-            Promise.all(connStages).then(res => {
-                setConnectedStages(res)
-            })
+                Promise.all(connOutStages).then(res => {
+                    setConnectedStages(res)
+                })
+            } else {
+                let connectedIds = currentStage.in_stages
+                let connStages = await getConnectedStages(connectedIds)
+                if (Object.keys(connStages).length > 0) {
+                    setReady(true)
+                }
+
+                Promise.all(connStages).then(res => {
+                    setConnectedStages(res)
+                })
+            }
         }
 
         if (id) {
@@ -87,7 +102,7 @@ const Builder = () => {
                 setFields(fields)
             })
         }
-    }, [connectedStages])
+    }, [isPingPong, connectedStages])
 
     useEffect(() => {
         setSchema({
@@ -139,8 +154,18 @@ const Builder = () => {
             .catch((err: any) => alert(err));
     }
 
+    const handleChangePingPong = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setIsPingPong(event.target.checked);
+    }
+
     return (
         <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
+            <FormControlLabel
+                value={isPingPong}
+                label="Ping Pong"
+                control={<Checkbox onChange={handleChangePingPong}
+                                   color="primary"/>}
+            />
             {ready ?
                 <Form
                     schema={schema as JSONSchema7}
