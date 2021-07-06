@@ -47,21 +47,22 @@ const DnDFlow = () => {
                 )
                 setElements(nodes)
                 return allNodes
-            }).then(allNodes => {
-            allNodes.forEach(stage => {
-                if (stage.in_stages.length > 0) {
-                    stage.in_stages.forEach((sourceId: string | number) => {
-                        const edge = {
-                            source: sourceId.toString(),
-                            target: stage.id.toString(),
-                            id: `${sourceId}-${stage.id}`,
-                            arrowHeadType: "arrow"
-                        } as Edge
-                        setElements((els) => addEdge(edge, els))
-                    })
-                }
             })
-        })
+            .then(allNodes => {
+                allNodes.forEach(stage => {
+                    if (stage.in_stages.length > 0) {
+                        stage.in_stages.forEach((sourceId: string | number) => {
+                            const edge = {
+                                source: sourceId.toString(),
+                                target: stage.id.toString(),
+                                id: `${sourceId}-${stage.id}`,
+                                arrowHeadType: "arrow"
+                            } as Edge
+                            setElements((els) => addEdge(edge, els))
+                        })
+                    }
+                })
+            })
     }, [])
 
     const getNode = (id: string | number) => {
@@ -78,6 +79,46 @@ const DnDFlow = () => {
         return undefined
     }
 
+    const updateConnections = async (node: FlowElement, currentNodeId: string | number, type: "in" | "out", method: "create" | "delete") => {
+        const url = getTypeUrl(node)
+        if (url) {
+            const connections = await axios.get(url + node.id + '/').then(res => {
+                if (type === 'in') {
+                    return res.data.in_stages
+                }
+                if (type === 'out') {
+                    return res.data.out_stages
+                }
+                return undefined;
+            }).catch(err => undefined);
+
+            if (connections) {
+                let parsed = connections.map((connection: string | number) => connection.toString())
+
+                let ids = []
+                if (method === 'create') {
+                    ids = [currentNodeId, ...parsed]
+                }
+                if (method === 'delete') {
+                    ids = parsed.filter((connection: string) => connection !== currentNodeId)
+                }
+
+                let data = undefined
+                if (type === 'in') {
+                    data = {in_stages: ids}
+                }
+                if (type === 'out') {
+                    data = {out_stages: ids}
+                }
+
+                if (data) {
+                    console.log(data)
+                    axios.patch(url + node.id + '/', data)
+                }
+            }
+        }
+    }
+
     const onConnect = async (params: object) => {
         const newParams: any = {...params, arrowHeadType: 'arrow'}
         const targetNode = getNode(newParams.target)
@@ -88,27 +129,11 @@ const DnDFlow = () => {
         setElements((els: FlowElement[]) => addEdge(newParams, els))
 
         if (targetNode) {
-            const url = getTypeUrl(targetNode)
-            if (url) {
-                const connections = await axios.get(url + targetNode.id).then(res => res.data.in_stages).catch(err => undefined)
-                if (connections) {
-                    const parsed = connections.map((connection: string | number) => connection.toString())
-                    const data = {in_stages: [source, ...parsed]}
-                    axios.patch(url + targetNode.id, data)
-                }
-            }
+            updateConnections(targetNode, source, 'in', 'create')
         }
 
         if (sourceNode) {
-            const url = getTypeUrl(sourceNode)
-            if (url) {
-                const connections = await axios.get(url + sourceNode.id).then(res => res.data.out_stages).catch(err => undefined)
-                if (connections) {
-                    const parsed = connections.map((connection: string | number) => connection.toString())
-                    const data = {out_stages: [target, ...parsed]}
-                    axios.patch(url + sourceNode.id, data)
-                }
-            }
+            updateConnections(sourceNode, target, 'out', 'create')
         }
     }
 
@@ -117,28 +142,11 @@ const DnDFlow = () => {
         const sourceNode = getNode(source)
 
         if (targetNode) {
-            const url = getTypeUrl(targetNode)
-            if (url) {
-                let connections = await axios.get(url + targetNode.id).then(res => res.data.in_stages).catch(err => undefined)
-                if (connections) {
-                    let oldConnections = connections.map((connection: string | number) => connection.toString())
-                    let newConnections = oldConnections.filter((connection: string) => connection !== source)
-                    let data = {in_stages: newConnections}
-                    axios.patch(url + targetNode.id, data)
-                }
-            }
+            updateConnections(targetNode, source, 'in', 'delete')
         }
+
         if (sourceNode) {
-            const url = getTypeUrl(sourceNode)
-            if (url) {
-                let connectionsOut = await axios.get(url + sourceNode.id).then(res => res.data.out_stages).catch(err => undefined)
-                if (connectionsOut) {
-                    let oldConnections = connectionsOut.map((connection: string | number) => connection.toString())
-                    let newConnections = oldConnections.filter((connection: string) => connection !== target)
-                    let data = {out_stages: newConnections}
-                    axios.patch(url + sourceNode.id, data)
-                }
-            }
+            updateConnections(sourceNode, target, 'out', 'delete')
         }
     }
 
@@ -223,7 +231,7 @@ const DnDFlow = () => {
         let data = {x_pos, y_pos}
         const url = getTypeUrl(node)
         if (url) {
-            axios.patch(url + node.id, data)
+            axios.patch(url + node.id + '/', data)
         }
     }
 
