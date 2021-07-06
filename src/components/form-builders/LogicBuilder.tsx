@@ -98,7 +98,7 @@ const Builder = () => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = stage.ui_schema
                 let sc = stage.json_schema
-                let fields = GetFormFields(sc, {}, ui)
+                let fields = GetFormFields(sc, {})
                 setFields(fields)
             })
         }

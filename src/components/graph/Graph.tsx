@@ -81,6 +81,8 @@ const DnDFlow = () => {
     const onConnect = async (params: object) => {
         const newParams: any = {...params, arrowHeadType: 'arrow'}
         const targetNode = getNode(newParams.target)
+        const sourceNode = getNode(newParams.source)
+        const target = newParams.target
         const source = newParams.source
 
         setElements((els: FlowElement[]) => addEdge(newParams, els))
@@ -96,19 +98,45 @@ const DnDFlow = () => {
                 }
             }
         }
+
+        if (sourceNode) {
+            const url = getTypeUrl(sourceNode)
+            if (url) {
+                const connections = await axios.get(url + sourceNode.id).then(res => res.data.out_stages).catch(err => undefined)
+                if (connections) {
+                    const parsed = connections.map((connection: string | number) => connection.toString())
+                    const data = {out_stages: [target, ...parsed]}
+                    axios.patch(url + sourceNode.id, data)
+                }
+            }
+        }
     }
 
     const removeConnections = async (target: string, source: string) => {
-        const node = getNode(target)
-        if (node) {
-            const url = getTypeUrl(node)
+        const targetNode = getNode(target)
+        const sourceNode = getNode(source)
+
+        if (targetNode) {
+            const url = getTypeUrl(targetNode)
             if (url) {
-                let connections = await axios.get(url + node.id).then(res => res.data.in_stages).catch(err => undefined)
+                let connections = await axios.get(url + targetNode.id).then(res => res.data.in_stages).catch(err => undefined)
                 if (connections) {
                     let oldConnections = connections.map((connection: string | number) => connection.toString())
                     let newConnections = oldConnections.filter((connection: string) => connection !== source)
                     let data = {in_stages: newConnections}
-                    axios.patch(url + node.id, data)
+                    axios.patch(url + targetNode.id, data)
+                }
+            }
+        }
+        if (sourceNode) {
+            const url = getTypeUrl(sourceNode)
+            if (url) {
+                let connectionsOut = await axios.get(url + sourceNode.id).then(res => res.data.out_stages).catch(err => undefined)
+                if (connectionsOut) {
+                    let oldConnections = connectionsOut.map((connection: string | number) => connection.toString())
+                    let newConnections = oldConnections.filter((connection: string) => connection !== target)
+                    let data = {out_stages: newConnections}
+                    axios.patch(url + sourceNode.id, data)
                 }
             }
         }
@@ -201,11 +229,11 @@ const DnDFlow = () => {
 
     const createNode = async (node: any) => {
         let data = {
-            node_type: node.type,
             name: node.label,
             x_pos: node.position.x,
             y_pos: node.position.y,
-            chain: chainId
+            chain: parseInt(chainId),
+            out_stages: []
         }
 
         const url = getTypeUrl(node)
