@@ -35,8 +35,15 @@ const Builder = () => {
     })
     const [formResponses, setFormResponses] = useState({})
     const [connectedStages, setConnectedStages] = useState<any[]>()
-    const [isPingPong, setIsPingPong] = useState<boolean>(false)
+    const [pingPong, setPingPong] = useState<boolean>(false)
 
+    useEffect(() => {
+        axios.get(conditionalstagesUrl + id + '/').then(res => res.data).then(currentStage => {
+            setFormResponses(currentStage.conditions)
+            setPingPong(currentStage.pingpong)
+            console.log("PING PONG", currentStage.pingpong)
+        })
+    }, [id])
 
     useEffect(() => {
         const getStage = (stageId?: number | string) => {
@@ -60,10 +67,9 @@ const Builder = () => {
 
         const getData = async () => {
             let currentStage = await getStage()
-            setFormResponses(currentStage.conditions)
 
             let connectedIds = undefined
-            if (isPingPong) {
+            if (pingPong) {
                 connectedIds = currentStage.out_stages
             } else {
                 connectedIds = currentStage.in_stages
@@ -72,7 +78,6 @@ const Builder = () => {
                 let connStages = await getConnectedStages(connectedIds)
                 Promise.all(connStages).then(res => {
                     if (Object.keys(res).length > 0) {
-                        console.log(`PingPong: ${isPingPong}, Connected Stage: ${res}`)
                         setConnectedStages(res)
                         setReady(true)
                     }
@@ -84,7 +89,7 @@ const Builder = () => {
             getData()
         }
 
-    }, [id, isPingPong])
+    }, [id, pingPong])
 
     useEffect(() => {
         if (connectedStages && connectedStages.length > 0) {
@@ -97,7 +102,7 @@ const Builder = () => {
                 setFields(fields)
             })
         }
-    }, [isPingPong, connectedStages])
+    }, [pingPong, connectedStages])
 
     useEffect(() => {
         setSchema({
@@ -140,7 +145,7 @@ const Builder = () => {
     }, [fields])
 
     const handleSubmit = () => {
-        let data = {conditions: formResponses, is_ping_pong: isPingPong}
+        let data = {conditions: formResponses, pingpong: pingPong}
         console.log(formResponses)
 
         axios
@@ -150,7 +155,7 @@ const Builder = () => {
     }
 
     const handleChangePingPong = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsPingPong(event.target.checked);
+        setPingPong(event.target.checked);
     }
 
     return (
@@ -158,10 +163,8 @@ const Builder = () => {
             {ready ?
                 <div>
                     <FormControlLabel
-                        value={isPingPong}
+                        control={<Checkbox checked={pingPong} onChange={handleChangePingPong} name="PingPong" color="primary"/>}
                         label="Ping Pong"
-                        control={<Checkbox onChange={handleChangePingPong}
-                                           color="primary"/>}
                     />
                     <Form
                         schema={schema as JSONSchema7}
