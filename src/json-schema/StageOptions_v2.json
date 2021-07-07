@@ -48,15 +48,15 @@
       "type": "array"
     },
     "transition": {
-      "title": "Transition",
+      "title": "Which transition",
       "type": "object",
       "properties": {
         "sent_by": {
           "enum": [
             "Ranks",
-            "by prev stage"
+            "By previous stage"
           ],
-          "title": "sent by",
+          "title": "Sent by",
           "type": "string"
         }
       },
@@ -71,7 +71,7 @@
                   ]
                 },
                 "ranks": {
-                  "title": "Existing ranks",
+                  "title": "Which ranks",
                   "type": "object",
                   "properties": {},
                   "dependencies": {},
@@ -84,11 +84,11 @@
               "properties": {
                 "sent_by": {
                   "enum": [
-                    "By prev stage"
+                    "By previous stage"
                   ]
                 },
-                "in_stages": {
-                  "title": "Previous stages",
+                "by_previous_stages": {
+                  "title": "By previous stages",
                   "type": "object",
                   "properties": {},
                   "dependencies": {},

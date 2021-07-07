@@ -10,7 +10,7 @@ import CustomFileType from '../custom-widgets/file-widget/CustomFileType'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
-import {chainsUrl, taskstagesUrl} from "../../util/Urls";
+import {chainsUrl, ranksUrl, taskstagesUrl} from "../../util/Urls";
 import {IconButton} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -29,7 +29,7 @@ const Builder = () => {
     const [optionsSchema, setOptionsSchema] = useState<{ [index: string]: any }>(StageOptions)
     const [formResponses, setFormResponses] = useState({})
     const [preview, setPreview] = useState(false)
-    const [existingRanks, setExistingRanks] = useState<string[]>(["rank A", "rank B", "rank C"])
+    const [existingRanks, setExistingRanks] = useState<any[]>()
     const [isByRanks, setIsByRanks] = useState<boolean>(true)
     const [recipients, setRecipients] = useState<string[]>([])
     const [allInStages, setAllInStages] = useState<string[]>([])
@@ -66,16 +66,17 @@ const Builder = () => {
                 })
         }
 
-        /*const getAllRanks = () => {
-            axios.get(taskstagesUrl + id + '/')
+        const getAllRanks = () => {
+            axios.get(ranksUrl)
                 .then(res => res.data).then(res => {
-                console.log(res)
-                setExistingRanks(['']);
+
+                setExistingRanks(res)
             })
-        }*/
+        }
 
         if (id) {
             getStage()
+            getAllRanks()
         }
     }, [id])
 
@@ -88,13 +89,20 @@ const Builder = () => {
     }
 
     useEffect(() => {
-        let propExistingRanks = formPropsForSchema(existingRanks);
+        if (existingRanks) {
+            let propExistingRanks = formPropsForSchema(existingRanks.map(item => item.name));
+            let newOptionSchema = optionsSchema;
+            newOptionSchema.properties.transition.dependencies.sent_by.oneOf[0].properties.ranks.properties = propExistingRanks;
+            setOptionsSchema(newOptionSchema)
+        }
+    }, [existingRanks])
+
+    useEffect(() => {
         let propPrevInStages = formPropsForSchema(allInStages);
         let newOptionSchema = optionsSchema;
-        newOptionSchema.properties.transition.dependencies.sent_by.oneOf[0].properties.ranks.properties = propExistingRanks;
-        newOptionSchema.properties.transition.dependencies.sent_by.oneOf[1].properties.in_stages.properties = propPrevInStages;
+        newOptionSchema.properties.transition.dependencies.sent_by.oneOf[1].properties.by_previous_stages.properties = propPrevInStages;
         setOptionsSchema(newOptionSchema)
-    }, [existingRanks, allInStages])
+    }, [allInStages])
 
     const handleSubmit = () => {
         let json_schema = null
