@@ -46,6 +46,61 @@
       },
       "title": "Background Stages",
       "type": "array"
+    },
+    "transition": {
+      "title": "Transition",
+      "type": "object",
+      "properties": {
+        "sent_by": {
+          "enum": [
+            "Ranks",
+            "by prev stage"
+          ],
+          "title": "sent by",
+          "type": "string"
+        }
+      },
+      "dependencies": {
+        "sent_by": {
+          "oneOf": [
+            {
+              "properties": {
+                "sent_by": {
+                  "enum": [
+                    "Ranks"
+                  ]
+                },
+                "ranks": {
+                  "title": "Existing ranks",
+                  "type": "object",
+                  "properties": {},
+                  "dependencies": {},
+                  "required": []
+                }
+              },
+              "required": []
+            },
+            {
+              "properties": {
+                "sent_by": {
+                  "enum": [
+                    "By prev stage"
+                  ]
+                },
+                "in_stages": {
+                  "title": "Previous stages",
+                  "type": "object",
+                  "properties": {},
+                  "dependencies": {},
+                  "required": []
+                }
+              },
+              "required": []
+            }
+          ]
+        }
+      },
+      "required": []
     }
   },
   "dependencies": {},
