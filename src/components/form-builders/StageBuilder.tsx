@@ -152,49 +152,6 @@ const Builder = () => {
                         }
                     />
                     <div style={{width: "70%", margin: "0 auto"}}>
-                        <h3>Recipients</h3>
-                        <div>
-                            <p>By previous tasks</p>
-                            <FormGroup>
-                                <div>
-                                    <FormControlLabel
-                                        style={{transform: "rotate(90deg)"}}
-                                        control={<Switch checked={isByRanks}
-                                                         onChange={() => setIsByRanks(!isByRanks)}/>}
-                                        label=""
-                                    />
-                                </div>
-                                <p>By ranks</p>
-                            </FormGroup>
-                        </div>
-
-                        {existingRanks && allInStages && isByRanks ? <Autocomplete
-                                multiple={true}
-                                id="size-small-standard-multi"
-                                size="small"
-                                onChange={getRecipients}
-                                options={existingRanks}
-                                getOptionLabel={(option) => option}
-                                renderInput={(params) => (
-                                    <TextField {...params} variant="standard" label="Size small" placeholder="Favorites"/>
-                                )
-                                }
-                            /> :
-                            <div><Autocomplete
-                                multiple={true}
-                                id="size-small-standard-multi"
-                                size="small"
-                                onChange={getRecipients}
-                                options={allInStages}
-                                getOptionLabel={(option) => option}
-                                renderInput={(params) => (
-                                    <TextField {...params} variant="standard" label="Size small"
-                                               placeholder="Favorites"/>
-                                )
-                                }
-                            /></div>
-                        }
-
                     </div>
                     <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
                         <Form
