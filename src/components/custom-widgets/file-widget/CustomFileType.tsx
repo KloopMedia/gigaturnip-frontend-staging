@@ -21,12 +21,12 @@ const CustomFileType = {
         matchIf: [
             {
                 types: ["string"],
-                widget: "file"
+                widget: "customfile"
             },
         ],
         defaultDataSchema: {},
         defaultUiSchema: {
-            "ui:widget": "file"
+            "ui:widget": "customfile"
         },
         type: "string",
         // cardBody: CardBody,

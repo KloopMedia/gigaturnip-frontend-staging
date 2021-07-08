@@ -13,7 +13,6 @@ type FormProps = {
 }
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: FormProps) => {
-    const widgets = {file: CustomFileWidget};
     const json_schema = JSON.parse(jsonSchema)
     const ui_schema = JSON.parse(uiSchema)
     const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})
@@ -21,6 +20,10 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
     const [localJson, setLocalJson] = useState('')
     const [localUi, setLocalUi] = useState('')
     const [stageData, setStageData] = useState('')
+
+    const widgets = {
+        customfile: CustomFileWidget
+    };
 
     useEffect(() => {
         // const json_schema = JSON.parse(jsonSchema)
