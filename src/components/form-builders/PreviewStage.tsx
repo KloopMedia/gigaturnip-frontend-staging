@@ -13,30 +13,24 @@ type FormProps = {
 }
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: FormProps) => {
-    const json_schema = JSON.parse(jsonSchema)
-    const ui_schema = JSON.parse(uiSchema)
+    const json_schema = JSON.parse(jsonSchema) ?? {}
+    const ui_schema = JSON.parse(uiSchema) ?? {}
     const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})
     const [edit, setEdit] = useState(false)
     const [localJson, setLocalJson] = useState('')
     const [localUi, setLocalUi] = useState('')
-    const [stageData, setStageData] = useState('')
 
     const widgets = {
         customfile: CustomFileWidget
     };
 
     useEffect(() => {
-        // const json_schema = JSON.parse(jsonSchema)
-        // const ui_schema = JSON.parse(uiSchema)
-        // const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})
-
         setLocalJson(jsonSchema)
         setLocalUi(uiSchema)
-        // setStageData(stage_data)
     }, [])
 
     const copyToClipboard = () => {
-        navigator.clipboard.writeText(stageData).then(() => console.log("success")).catch(err => alert(err))
+        navigator.clipboard.writeText(stage_data).then(() => console.log("success")).catch(err => alert(err))
     }
 
     const handleJsonSchemaChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -118,7 +112,7 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
                 InputProps={{
                     readOnly: true,
                 }}
-                value={stageData}
+                value={stage_data}
             />
         </div>
     )
