@@ -125,9 +125,7 @@ const Builder = () => {
         setPreview(p => !p)
     }
 
-    useEffect(() => {
-        setRecipients([])
-    }, [isByRanks])
+
     const getRecipients = (event: ChangeEvent<{}>, newValue: string[] | null) => {
         if (newValue != null) {
             setRecipients(newValue)
