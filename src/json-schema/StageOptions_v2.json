@@ -48,26 +48,30 @@
       "type": "array"
     },
     "transition": {
-      "title": "Which transition",
+      "title": "How you want assign? ",
       "type": "object",
       "properties": {
-        "sent_by": {
+        "assign_user_by": {
           "enum": [
+            "ranks",
+            "prevStage"
+          ],
+          "title": "Assign user by",
+          "type": "string",
+          "enumNames": [
             "Ranks",
             "By previous stage"
-          ],
-          "title": "Sent by",
-          "type": "string"
+          ]
         }
       },
       "dependencies": {
-        "sent_by": {
+        "assign_user_by": {
           "oneOf": [
             {
               "properties": {
-                "sent_by": {
+                "assign_user_by": {
                   "enum": [
-                    "Ranks"
+                    "ranks"
                   ]
                 },
                 "ranks": {
@@ -82,9 +86,9 @@
             },
             {
               "properties": {
-                "sent_by": {
+                "assign_user_by": {
                   "enum": [
-                    "By previous stage"
+                    "prevStage"
                   ]
                 },
                 "by_previous_stages": {

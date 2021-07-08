@@ -3,6 +3,7 @@ const campaignsUrl = "api/v1/campaigns/"
 const chainsUrl = "api/v1/chains/"
 const taskstagesUrl = "api/v1/taskstages/"
 const ranksUrl = "api/v1/ranks/"
+const rankslimitsUrl = "api/v1/ranklimits/"
 const webhookstagesUrl = "api/v1/webhookstages/"
 const conditionalstagesUrl = "api/v1/conditionalstages/"
 const casesUrl = "api/v1/cases/"
@@ -14,6 +15,7 @@ export {
     chainsUrl,
     taskstagesUrl,
     ranksUrl,
+    rankslimitsUrl,
     webhookstagesUrl,
     conditionalstagesUrl,
     casesUrl,
