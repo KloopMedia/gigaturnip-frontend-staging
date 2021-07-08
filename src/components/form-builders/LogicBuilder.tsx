@@ -10,6 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import axios from '../../util/Axios'
 import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
 import GetFormFields from './GetFormFields'
+import getFormFields from "./GetFormFields";
 
 type RouterParams = { id: string }
 
@@ -92,15 +93,42 @@ const Builder = () => {
     }, [id, pingPong])
 
     useEffect(() => {
+        const getDependentFields = (dep: any) => {
+            let data = null
+            if (dep.hasOwnProperty("oneOf")) {
+                data = dep.oneOf
+            }
+            if (dep.hasOwnProperty("allOf")) {
+                data = dep.allOf
+            }
+            if (data) {
+                let nestedFields = data.map((nested: any) => {
+                    let fiction = {type: "object", ...nested}
+                    let localFields = getFormFields(fiction)
+                    return localFields
+                }).flat()
+                return nestedFields
+            }
+            return []
+        }
+
         if (connectedStages && connectedStages.length > 0) {
-            console.log(connectedStages)
-            connectedStages.forEach(stageObject => {
+            const allFields = connectedStages.map(stageObject => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = stage.ui_schema
                 let sc = stage.json_schema
-                let fields = GetFormFields(sc)
-                setFields(fields)
-            })
+                let deps = sc.dependencies ?? {}
+                let depValues = Object.values(deps)
+                let stageFields = GetFormFields(sc)
+                if (depValues.length > 0) {
+                    let depFields = depValues.map((dep: any) => getDependentFields(dep)).flat()
+                    stageFields = Array.from(new Set([...fields, ...depFields]))
+                }
+                console.log(stage)
+                console.log("Fields", fields)
+                return stageFields
+            }).flat()
+            setFields(allFields)
         }
     }, [pingPong, connectedStages])
 
@@ -163,7 +191,8 @@ const Builder = () => {
             {ready ?
                 <div>
                     <FormControlLabel
-                        control={<Checkbox checked={pingPong} onChange={handleChangePingPong} name="PingPong" color="primary"/>}
+                        control={<Checkbox checked={pingPong} onChange={handleChangePingPong} name="PingPong"
+                                           color="primary"/>}
                         label="Ping Pong"
                     />
                     <Form

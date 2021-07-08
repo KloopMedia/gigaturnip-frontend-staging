@@ -1,4 +1,4 @@
-import {retrieveSchema, toPathSchema, toIdSchema} from "@rjsf/core/lib/utils";
+import {retrieveSchema, toPathSchema, toIdSchema, resolveSchema} from "@rjsf/core/lib/utils";
 import _get from "lodash/get";
 import _isEmpty from "lodash/isEmpty";
 
@@ -13,7 +13,8 @@ const getFormFields = (schema, formData = {}, uiSchema) => {
         schema,
         formData
     );
-
+    // let resolvedSchema = resolveSchema(schema);
+    // console.log("resolvedSchema: ", resolvedSchema)
     // const idSchema = toIdSchema(
     //   retrievedSchema,
     //   uiSchema["ui:rootFieldId"],
@@ -49,11 +50,13 @@ const getFormFields = (schema, formData = {}, uiSchema) => {
             });
             return acc;
         };
-
         return getAllPaths(pathSchema);
     };
 
     const fieldNames = getFieldNames(pathSchema, formData);
+    // console.log("retrievedSchema", retrievedSchema)
+    // console.log("pathSchema", pathSchema)
+    // console.log("fieldNames", fieldNames)
 
     return fieldNames
 }
