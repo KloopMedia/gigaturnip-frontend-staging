@@ -115,8 +115,8 @@ const Builder = () => {
         if (connectedStages && connectedStages.length > 0) {
             const allFields = connectedStages.map(stageObject => {
                 let stage = Object.values(stageObject)[0] as any
-                let ui = stage.ui_schema
-                let sc = stage.json_schema
+                let ui = JSON.parse(stage.ui_schema)
+                let sc = JSON.parse(stage.json_schema)
                 let deps = sc.dependencies ?? {}
                 let depValues = Object.values(deps)
                 let stageFields = GetFormFields(sc)

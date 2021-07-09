@@ -59,15 +59,17 @@ const Builder = () => {
                 .then(res => res.data)
                 .then(res => {
                     const {id, json_schema, ui_schema, ...options} = res
-                    let parse_json_schema = JSON.stringify(json_schema)
-                    let parse_ui_schema = JSON.stringify(ui_schema)
-                    // getAllInStages(res.in_stages, res.in_stages)
-                    setSchema(parse_json_schema)
-                    setUiSchema(parse_ui_schema)
+
+                    // let parse_json_schema = JSON.parse(json_schema)
+                    // let parse_ui_schema = JSON.parse(ui_schema)
+                    // console.log(parse_json_schema)
+                    // console.log(parse_ui_schema)
+                    // // getAllInStages(res.in_stages, res.in_stages)
+                    setSchema(json_schema)
+                    setUiSchema(ui_schema)
                     setFormResponses(options)
                 })
         }
-
 
 
         if (id) {
