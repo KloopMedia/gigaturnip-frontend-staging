@@ -133,8 +133,10 @@ const Builder = () => {
         let json_schema = null
         let ui_schema = null
         if (schema && uiSchema) {
-            json_schema = JSON.parse(schema)
-            ui_schema = JSON.parse(uiSchema)
+            // json_schema = JSON.parse(schema)
+            // ui_schema = JSON.parse(uiSchema)
+            json_schema = schema
+            ui_schema = uiSchema
         }
         /*let transition: { [key: string]: string | any } = formResponses['transition'];
 
