@@ -19,11 +19,6 @@
       "title": "Allow multiple files",
       "default": false
     },
-    "count_complete": {
-      "type": "boolean",
-      "title": "Count completed tasks",
-      "default": false
-    },
     "is_creatable": {
       "type": "boolean",
       "title": "Task is creatable",

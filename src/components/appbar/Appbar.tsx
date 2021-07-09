@@ -22,7 +22,7 @@ import {
     ListItemIcon,
     ListItemText,
     Toolbar,
-    Typography
+    Typography, Grid
 } from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
@@ -158,6 +158,10 @@ const Appbar = (props: AppbarProps) => {
         history.push(`/campaign/${value}`)
     }
 
+    const redirectToMain = () => {
+        history.push('/')
+    }
+
     return (
         <div className={classes.root}>
             <CssBaseline/>
@@ -179,9 +183,10 @@ const Appbar = (props: AppbarProps) => {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
+                    <Typography variant="h6" noWrap style={{cursor: "pointer"}} onClick={redirectToMain}>
                         GigaTurnip Admin
                     </Typography>
+                    <Grid className={classes.title} />
                     <FormControl className={classes.formControl} size="small">
                         <Select
                             className={classes.select}
@@ -199,7 +204,8 @@ const Appbar = (props: AppbarProps) => {
                                 },
                             }}
                         >
-                            {allCampaigns.map(camp => <MenuItem key={`${camp.name}_${camp.id}`} value={camp.id}>{camp.name}</MenuItem>)}
+                            {allCampaigns.map(camp => <MenuItem key={`${camp.name}_${camp.id}`}
+                                                                value={camp.id}>{camp.name}</MenuItem>)}
                         </Select>
                     </FormControl>
                     {currentUser ?

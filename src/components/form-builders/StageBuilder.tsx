@@ -15,10 +15,6 @@ import {IconButton} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 
-import {Autocomplete} from '@material-ui/lab';
-import {TextField, FormControlLabel, FormGroup, Switch} from '@material-ui/core';
-import {log} from "util";
-
 type RouterParams = { id: string, chainId: string }
 type ChainProps = { id: number, name: string, description: string, campaign: number }
 
@@ -234,8 +230,6 @@ const Builder = () => {
                             }
                         }
                     />
-                    <div style={{width: "70%", margin: "0 auto"}}>
-                    </div>
                     <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
                         <Form
                             schema={optionsSchema as JSONSchema7}

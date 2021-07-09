@@ -29,7 +29,7 @@ export const signInWithGoogle = () => {
 };
 
 export const signOut = () => {
-    firebase.auth().signOut()
+    firebase.auth().signOut().then(() => window.location.reload(false))
 }
 
 export default firebase;
