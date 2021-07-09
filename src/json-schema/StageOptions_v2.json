@@ -46,65 +46,6 @@
       },
       "title": "Background Stages",
       "type": "array"
-    },
-    "transition": {
-      "title": "How you want assign? ",
-      "type": "object",
-      "properties": {
-        "assign_user_by": {
-          "enum": [
-            "ranks",
-            "prevStage"
-          ],
-          "title": "Assign user by",
-          "type": "string",
-          "enumNames": [
-            "Ranks",
-            "By previous stage"
-          ]
-        }
-      },
-      "dependencies": {
-        "assign_user_by": {
-          "oneOf": [
-            {
-              "properties": {
-                "assign_user_by": {
-                  "enum": [
-                    "ranks"
-                  ]
-                },
-                "ranks": {
-                  "title": "Which ranks",
-                  "type": "object",
-                  "properties": {},
-                  "dependencies": {},
-                  "required": []
-                }
-              },
-              "required": []
-            },
-            {
-              "properties": {
-                "assign_user_by": {
-                  "enum": [
-                    "prevStage"
-                  ]
-                },
-                "by_previous_stages": {
-                  "title": "By previous stages",
-                  "type": "object",
-                  "properties": {},
-                  "dependencies": {},
-                  "required": []
-                }
-              },
-              "required": []
-            }
-          ]
-        }
-      },
-      "required": []
     }
   },
   "dependencies": {},
