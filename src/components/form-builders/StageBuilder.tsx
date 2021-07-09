@@ -37,7 +37,7 @@ const Builder = () => {
     const [ranksLimits, setRanksLimits] = useState([])
 
     useEffect(() => {
-        const getAllInStages = (prevTask: number[], previousStages: number[]) => {
+        /*const getAllInStages = (prevTask: number[], previousStages: number[]) => {
             if (prevTask[0]) {
                 axios.get(taskstagesUrl + prevTask[0] + '/')
                     .then(res => res.data)
@@ -51,8 +51,13 @@ const Builder = () => {
                         }
                     })
             }
-        }
-
+        }*/
+        /* const getAllRanks = () => {
+            axios.get(ranksUrl)
+                .then(res => res.data).then(res => {
+                setExistingRanks(res)
+            })
+        }*/
         const getStage = () => {
             axios.get(taskstagesUrl + id + '/')
                 .then(res => res.data)
@@ -60,27 +65,22 @@ const Builder = () => {
                     const {id, json_schema, ui_schema, ...options} = res
                     let parse_json_schema = JSON.stringify(json_schema)
                     let parse_ui_schema = JSON.stringify(ui_schema)
-                    getAllInStages(res.in_stages, res.in_stages)
+                    // getAllInStages(res.in_stages, res.in_stages)
                     setSchema(parse_json_schema)
                     setUiSchema(parse_ui_schema)
                     setFormResponses(options)
                 })
         }
 
-        const getAllRanks = () => {
-            axios.get(ranksUrl)
-                .then(res => res.data).then(res => {
-                setExistingRanks(res)
-            })
-        }
+
 
         if (id) {
             getStage()
-            getAllRanks()
+            // getAllRanks()
         }
     }, [id])
 
-    function formPropsForSchema(arrayOfNames: string[]) {
+    /*function formPropsForSchema(arrayOfNames: string[]) {
         let propsForSchema: { [index: string]: { [index: string]: string } } = {};
         arrayOfNames.forEach((rank, index, array) => {
             propsForSchema[index.toString()] = {title: rank, type: "boolean"}
@@ -116,11 +116,6 @@ const Builder = () => {
     }, [formResponses])
 
     useEffect(() => {
-        let ranksL = ranksLimits;
-        // debugger
-    }, [ranksLimits])
-
-    useEffect(() => {
         if (existingRanks) {
             let propExistingRanks = formPropsForSchema(existingRanks.map(item => item.name));
             let newOptionSchema = optionsSchema;
@@ -134,7 +129,7 @@ const Builder = () => {
         let newOptionSchema = optionsSchema;
         newOptionSchema.properties.transition.dependencies.assign_user_by.oneOf[1].properties.by_previous_stages.properties = propPrevInStages;
         setOptionsSchema(newOptionSchema)
-    }, [allInStages])
+    }, [allInStages])*/
 
     const handleSubmit = () => {
         let json_schema = null
@@ -143,7 +138,7 @@ const Builder = () => {
             json_schema = JSON.parse(schema)
             ui_schema = JSON.parse(uiSchema)
         }
-        let transition: { [key: string]: string | any } = formResponses['transition'];
+        /*let transition: { [key: string]: string | any } = formResponses['transition'];
 
         if (transition['assign_user_by'] === 'ranks') {
             // debugger
@@ -191,8 +186,8 @@ const Builder = () => {
                 }
             })
         } else if (transition['assign_user_by'] === 'prevStage') {
+        }*/
 
-        }
         let data = {...formResponses, json_schema: json_schema, ui_schema: ui_schema}
         axios
             .patch(taskstagesUrl + id + '/', data)
@@ -249,9 +244,9 @@ const Builder = () => {
                             onSubmit={handleSubmit}
                         />
                     </div>
-                    <div>
+                    {/*<div>
                         {JSON.stringify(ranksLimits)}
-                    </div>
+                    </div>*/}
 
 
                 </div>
