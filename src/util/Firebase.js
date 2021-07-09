@@ -25,11 +25,13 @@ export const signInWithGoogle = () => {
     provider.setCustomParameters({
         prompt: 'select_account'
     });
-    firebase.auth().signInWithPopup(provider);
+    return firebase.auth().signInWithPopup(provider);
 };
 
 export const signOut = () => {
-    firebase.auth().signOut().then(() => window.location.reload(false))
+    return firebase.auth().signOut()
+        .then(() => localStorage.removeItem("token"))
+        .then(() => window.location.reload(false))
 }
 
 export default firebase;
