@@ -187,8 +187,9 @@ const Builder = () => {
             })
         } else if (transition['assign_user_by'] === 'prevStage') {
         }*/
-
-        let data = {...formResponses, json_schema: json_schema, ui_schema: ui_schema}
+        let {chain, ...responses} = formResponses
+        let data = {...responses, json_schema: json_schema, ui_schema: ui_schema}
+        console.log(JSON.stringify(data))
         axios
             .patch(taskstagesUrl + id + '/', data)
             .then((res: any) => alert("Saved"))

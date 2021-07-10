@@ -22,11 +22,11 @@ const DnDFlow = () => {
 
     useEffect(() => {
         const getStageNodes = () => {
-            return axios.get(taskstagesUrl)
+            return axios.get(`${taskstagesUrl}?chain=${chainId}`)
         };
 
         const getLogicNodes = () => {
-            return axios.get(conditionalstagesUrl)
+            return axios.get(`${conditionalstagesUrl}?chain=${chainId}`)
         };
 
         Promise.all([getStageNodes(), getLogicNodes()])
@@ -35,7 +35,7 @@ const DnDFlow = () => {
                 const logicNodes = results[1].data;
                 stageNodes.forEach((node: any) => node.type = "STAGE")
                 logicNodes.forEach((node: any) => node.type = "LOGIC")
-                const allNodes = [...stageNodes, ...logicNodes].filter((node: any) => node.chain == chainId)
+                const allNodes = [...stageNodes, ...logicNodes]
                 const nodes: FlowElement[] = allNodes.map((node: any) => (
                         {
                             id: node.id.toString(),
@@ -246,8 +246,8 @@ const DnDFlow = () => {
 
         const url = getTypeUrl(node)
         if (url) {
-            let res = await axios.post(url, data)
-            return res.data.id.toString()
+            let stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err))
+            return stage.id.toString()
         }
         return undefined;
     }

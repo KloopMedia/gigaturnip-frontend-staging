@@ -117,7 +117,10 @@ const Builder = () => {
                 let stage = Object.values(stageObject)[0] as any
                 let ui = JSON.parse(stage.ui_schema)
                 let sc = JSON.parse(stage.json_schema)
-                let deps = sc.dependencies ?? {}
+                let deps = {}
+                if (sc && sc.dependencies && Object.keys(sc.dependencies).length > 0) {
+                    deps = sc.dependencies
+                }
                 let depValues = Object.values(deps)
                 let stageFields = GetFormFields(sc)
                 if (depValues.length > 0) {
