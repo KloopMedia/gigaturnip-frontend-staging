@@ -18,25 +18,12 @@ const Builder = () => {
     const [ready, setReady] = useState(false)
     const [fields, setFields] = useState<string[]>([]);
     const [schema, setSchema] = useState<{}>({})
-    const [uiSchema, setUiSchema] = useState({
-        logic_array: {
-            items: {
-                'ui:order': [
-                    'field',
-                    'condition',
-                    'value'
-                ]
-            }
-        },
-        'ui:order': [
-            'logic_array'
-        ]
-    })
     const [formResponses, setFormResponses] = useState({})
     const [connectedStages, setConnectedStages] = useState<any[]>()
     const [pingPong, setPingPong] = useState<boolean>(false)
 
     useEffect(() => {
+        // Get current stage's data
         axios.get(conditionalstagesUrl + id + '/').then(res => res.data).then(currentStage => {
             setFormResponses(currentStage.conditions)
             setPingPong(currentStage.pingpong)
@@ -92,6 +79,11 @@ const Builder = () => {
     }, [id, pingPong])
 
     useEffect(() => {
+        /**
+         * Get fields from dependencies
+         * @param dep
+         * @returns {any}
+         */
         const getDependentFields = (dep: any) => {
             let data = null
             if (dep.hasOwnProperty("oneOf")) {
@@ -112,22 +104,25 @@ const Builder = () => {
         if (connectedStages && connectedStages.length > 0) {
             const allFields = connectedStages.map(stageObject => {
                 let stage = Object.values(stageObject)[0] as any
-                // let ui = JSON.parse(stage.ui_schema)
-                let sc = JSON.parse(stage.json_schema)
+                let stageSchema = JSON.parse(stage.json_schema)
+
+                // Get dependencies from stage's schema
                 let deps = {}
-                if (sc && sc.dependencies && Object.keys(sc.dependencies).length > 0) {
-                    deps = sc.dependencies
+                if (stageSchema && stageSchema.dependencies && Object.keys(stageSchema.dependencies).length > 0) {
+                    deps = stageSchema.dependencies
                 }
+
+                // Get fields from schema's properties and dependencies
+                let stageFields = GetFormFields(stageSchema)
                 let depValues = Object.values(deps)
-                let stageFields = GetFormFields(sc)
                 if (depValues.length > 0) {
                     let depFields = depValues.map((dep: any) => getDependentFields(dep)).flat()
                     stageFields = Array.from(new Set([...fields, ...depFields]))
                 }
-                console.log(stage)
-                console.log("Fields", fields)
+
                 return stageFields
             }).flat()
+
             setFields(allFields)
         }
     }, [pingPong, connectedStages])
@@ -197,7 +192,6 @@ const Builder = () => {
                     />
                     <Form
                         schema={schema as JSONSchema7}
-                        uiSchema={uiSchema}
                         formData={formResponses}
                         onChange={(e: { formData: object }) => setFormResponses(e.formData)}
                         onSubmit={handleSubmit}/>

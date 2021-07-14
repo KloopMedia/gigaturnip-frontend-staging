@@ -2,7 +2,13 @@ import {retrieveSchema, toPathSchema} from "@rjsf/core/lib/utils";
 import _get from "lodash/get";
 import _isEmpty from "lodash/isEmpty";
 
-const getFormFields = (schema, formData = {}, uiSchema) => {
+/**
+ * Get flatten fields from schema
+ * @param schema
+ * @param formData
+ * @returns {*[]}
+ */
+const getFormFields = (schema, formData = {}) => {
     const retrievedSchema = retrieveSchema(
         schema
     );
@@ -13,17 +19,6 @@ const getFormFields = (schema, formData = {}, uiSchema) => {
         schema,
         formData
     );
-    // let resolvedSchema = resolveSchema(schema);
-    // console.log("resolvedSchema: ", resolvedSchema)
-    // const idSchema = toIdSchema(
-    //   retrievedSchema,
-    //   uiSchema["ui:rootFieldId"],
-    //   schema,
-    //   formData,
-    //   'root_newInput1_newInput1_test2'
-    // );
-    //
-    // console.log(idSchema)
 
     const getFieldNames = (pathSchema, formData) => {
         const getAllPaths = (_obj, acc = [], paths = [""]) => {
@@ -54,6 +49,6 @@ const getFormFields = (schema, formData = {}, uiSchema) => {
     };
 
     return getFieldNames(pathSchema, formData);
-}
+};
 
 export default getFormFields

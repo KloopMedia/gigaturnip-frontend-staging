@@ -16,7 +16,7 @@ import {ConnectionsParams, RouterParams} from "../../util/Types";
 const DnDFlow = () => {
     const reactFlowWrapper = useRef(null);
     const history = useHistory();
-    const {chainId, campaignId} = useParams<RouterParams>();
+    const {chainId} = useParams<RouterParams>();
 
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [elements, setElements] = useState<FlowElement[]>([]);
