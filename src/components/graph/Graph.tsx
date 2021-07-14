@@ -1,7 +1,7 @@
 // noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
 
 import React, {useEffect, useRef, useState} from 'react';
-import ReactFlow, {addEdge, Controls, Edge, FlowElement, ReactFlowProvider} from 'react-flow-renderer';
+import ReactFlow, {addEdge, Controls, Edge, FlowElement, isEdge, ReactFlowProvider} from 'react-flow-renderer';
 import {useHistory, useParams} from "react-router-dom";
 import CustomLogicNode from '../nodes/LogicNode'
 import CustomStageNode from '../nodes/StageNode'
@@ -10,8 +10,8 @@ import Sidebar from '../sidebar/Sidebar';
 import '../../dnd.css';
 import axios from '../../util/Axios';
 import {conditionalstagesUrl, taskstagesUrl} from '../../util/Urls'
+import {ConnectionsParams, RouterParams} from "../../util/Types";
 
-type RouterParams = { chainId: string, campaignId: string }
 
 const DnDFlow = () => {
     const reactFlowWrapper = useRef(null);
@@ -21,6 +21,7 @@ const DnDFlow = () => {
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [elements, setElements] = useState<FlowElement[]>([]);
 
+    // <------ UseEffect Part ------>
     useEffect(() => {
         const getStageNodes = () => {
             return axios.get(`${taskstagesUrl}?chain=${chainId}`)
@@ -34,8 +35,12 @@ const DnDFlow = () => {
             .then((results) => {
                 const stageNodes = results[0].data;
                 const logicNodes = results[1].data;
+
+                // Add types to nodes
                 stageNodes.forEach((node: any) => node.type = "STAGE")
                 logicNodes.forEach((node: any) => node.type = "LOGIC")
+
+                // Construct nodes and save to state
                 const allNodes = [...stageNodes, ...logicNodes]
                 const nodes: FlowElement[] = allNodes.map((node: any) => (
                         {
@@ -50,6 +55,7 @@ const DnDFlow = () => {
                 return allNodes
             })
             .then(allNodes => {
+                // Construct edges and save to state
                 allNodes.forEach(stage => {
                     if (stage.in_stages.length > 0) {
                         stage.in_stages.forEach((sourceId: string | number) => {
@@ -66,11 +72,23 @@ const DnDFlow = () => {
             })
     }, [chainId])
 
+
+    // <------ Util Functions Part ------>
+    /**
+     * Search node in elements (state) and return it.
+     * @param id
+     * @return {FlowElement | undefined}
+     */
     const getNode = (id: string | number) => {
         return elements.filter(node => node.id == id).pop()
     }
 
-    const getTypeUrl = (node: FlowElement) => {
+    /**
+     *
+     * @param node
+     * @returns {string | undefined}
+     */
+    const getUrl = (node: FlowElement) => {
         if (node.type === "STAGE") {
             return taskstagesUrl
         }
@@ -80,9 +98,19 @@ const DnDFlow = () => {
         return undefined
     }
 
-    const updateConnections = async (node: FlowElement, currentNodeId: string | number, type: "in" | "out", method: "create" | "delete") => {
-        const url = getTypeUrl(node)
+    /**
+     * Add or remove connections (in_stages && out_stages) in database via API
+     * @param node - Source or Target of the current node
+     * @param currentNodeId
+     * @param type - 'in' (Incoming) or 'out' (Outgoing) connection
+     * @param method - 'create' or 'delete'
+     * @returns {Promise<void>}
+     */
+    const updateConnections = async ({node, currentNodeId, type, method}: ConnectionsParams) => {
+        // Returns url of given node type (logic or stage or undefined)
+        const url = getUrl(node)
         if (url) {
+            // Get connections of a given node
             const connections = await axios.get(url + node.id + '/').then(res => {
                 if (type === 'in') {
                     return res.data.in_stages
@@ -94,9 +122,11 @@ const DnDFlow = () => {
             }).catch(err => undefined);
 
             if (connections) {
+                // Change ids type to String
                 let parsed = connections.map((connection: string | number) => connection.toString())
 
                 let ids = []
+                // Add current node id to given node connections
                 if (method === 'create') {
                     ids = [currentNodeId, ...parsed]
                 }
@@ -120,34 +150,30 @@ const DnDFlow = () => {
         }
     }
 
-    const onConnect = async (params: object) => {
-        const newParams: any = {...params, arrowHeadType: 'arrow'}
-        const targetNode = getNode(newParams.target)
-        const sourceNode = getNode(newParams.source)
-        const target = newParams.target
-        const source = newParams.source
-
-        setElements((els: FlowElement[]) => addEdge(newParams, els))
+    const addConnections = async (target: string, source: string) => {
+        const targetNode = getNode(target)
+        const sourceNode = getNode(source)
 
         if (targetNode) {
-            updateConnections(targetNode, source, 'in', 'create')
+            updateConnections({node: targetNode, currentNodeId: source, type: 'in', method: 'create'})
         }
 
         if (sourceNode) {
-            updateConnections(sourceNode, target, 'out', 'create')
+            updateConnections({node: sourceNode, currentNodeId: target, type: 'out', method: 'create'})
         }
     }
+
 
     const removeConnections = async (target: string, source: string) => {
         const targetNode = getNode(target)
         const sourceNode = getNode(source)
 
         if (targetNode) {
-            updateConnections(targetNode, source, 'in', 'delete')
+            updateConnections({node: targetNode, currentNodeId: source, type: 'in', method: 'delete'})
         }
 
         if (sourceNode) {
-            updateConnections(sourceNode, target, 'out', 'delete')
+            updateConnections({node: sourceNode, currentNodeId: target, type: 'out', method: 'delete'})
         }
     }
 
@@ -157,16 +183,15 @@ const DnDFlow = () => {
         });
 
         return elements.filter((element: any) => {
-            let edgeElement = element;
-            if (nodeIdsToRemove.includes(element.id) || nodeIdsToRemove.includes(edgeElement.target) || nodeIdsToRemove.includes(edgeElement.source)) {
-                if (element.hasOwnProperty('source') && element.hasOwnProperty('target')) {
+            if (nodeIdsToRemove.includes(element.id)) {
+                if (isEdge(element)) {
                     let target = element.target
                     let source = element.source
 
                     removeConnections(target, source)
 
                 } else {
-                    const url = getTypeUrl(element)
+                    const url = getUrl(element)
                     if (url) {
                         axios.delete(url + element.id + '/')
                     }
@@ -177,6 +202,54 @@ const DnDFlow = () => {
             }
         });
     };
+
+    /**
+     * Update node (stage) coordinates in database via API
+     * @param node
+     */
+    const updateNode = (node: any) => {
+        let x_pos = node.position.x
+        let y_pos = node.position.y
+        let data = {x_pos, y_pos}
+        const url = getUrl(node)
+        if (url) {
+            axios.patch(url + node.id + '/', data)
+        }
+    }
+
+    /**
+     * Create node (stage) in database via API
+     * @param node
+     * @returns {Promise<string | undefined>}
+     */
+    const createNode = async (node: { type: string, position: { x: number, y: number }, label: string }) => {
+        let data = {
+            name: node.label,
+            x_pos: node.position.x,
+            y_pos: node.position.y,
+            chain: parseInt(chainId),
+            out_stages: []
+        }
+
+        const url = getUrl(node as any)
+        if (url) {
+            let stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err))
+            return stage.id.toString()
+        }
+        return undefined;
+    }
+
+
+    // <------ Frameworks Functions Part ------>
+
+    const onConnect = async (params: object) => {
+        const newParams: any = {...params, arrowHeadType: 'arrow'}
+        const target = newParams.target
+        const source = newParams.source
+
+        setElements((els: FlowElement[]) => addEdge(newParams, els))
+        addConnections(target, source)
+    }
 
     const onElementsRemove = (elementsToRemove: FlowElement[]) => {
         setElements((els) => removeElements(elementsToRemove, els));
@@ -195,6 +268,7 @@ const DnDFlow = () => {
 
         // @ts-ignore
         const reactFlowBounds = reactFlowWrapper.current.getBoundingClientRect();
+        // Get new node data from sidebar
         const transfer = event.dataTransfer.getData('application/reactflow');
         // @ts-ignore
         const position = reactFlowInstance.project({
@@ -222,33 +296,6 @@ const DnDFlow = () => {
         updateNode(node)
     }
 
-    const updateNode = (node: any) => {
-        let x_pos = node.position.x
-        let y_pos = node.position.y
-        let data = {x_pos, y_pos}
-        const url = getTypeUrl(node)
-        if (url) {
-            axios.patch(url + node.id + '/', data)
-        }
-    }
-
-    const createNode = async (node: any) => {
-        let data = {
-            name: node.label,
-            x_pos: node.position.x,
-            y_pos: node.position.y,
-            chain: parseInt(chainId),
-            out_stages: []
-        }
-
-        const url = getTypeUrl(node)
-        if (url) {
-            let stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err))
-            return stage.id.toString()
-        }
-        return undefined;
-    }
-
     const onElementDoubleClick = (event: any, element: any) => {
         console.log(element)
         let location = history.location.pathname
@@ -257,8 +304,7 @@ const DnDFlow = () => {
                 history.push(`${location}/createlogic/${element.id}`)
             }
             if (element.type === 'STAGE') {
-                // history.push('/createStage/' + element.id)
-                history.push(`${location}/actions/${element.id}`)
+                history.push(`${location}/createstage/${element.id}`)
             }
             if (element.type === 'default' && (element.target || element.source)) {
                 console.log('edge')
@@ -266,6 +312,7 @@ const DnDFlow = () => {
         }
     }
 
+    // Init custom node types
     const nodeTypes = {
         LOGIC: CustomLogicNode,
         STAGE: CustomStageNode
