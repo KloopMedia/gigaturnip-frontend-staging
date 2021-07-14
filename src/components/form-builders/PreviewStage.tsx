@@ -3,16 +3,10 @@ import Form from "@rjsf/bootstrap-4";
 import {Button, Switch, TextField, Typography} from "@material-ui/core";
 
 import CustomFileWidget from '../custom-widgets/file-widget/CustomFileWidget'
+import {PreviewFormParams} from "../../util/Types";
 
-type FormProps = {
-    jsonSchema: string,
-    uiSchema: string,
-    formResponses: any,
-    onJsonChange: (schema: string) => void,
-    onUiChange: (schema: string) => void
-}
 
-const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: FormProps) => {
+const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
     const json_schema = JSON.parse(jsonSchema) ?? {}
     const ui_schema = JSON.parse(uiSchema) ?? {}
     const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})

@@ -1,14 +1,17 @@
 import React, {useState} from "react";
-import {Dialog, DialogTitle, DialogActions, DialogContent, Grid, TextField, Button} from "@material-ui/core";
+import {
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    DialogContent,
+    Grid,
+    TextField,
+    Button
+} from "@material-ui/core";
+import {DialogParams} from "../../util/Types";
 
-type ChainDialogProps = {
-    title: string;
-    open: boolean;
-    onClose: () => void;
-    onSave: (data: any) => void;
-}
 
-const ParentDialog = (props: ChainDialogProps) => {
+const ParentDialog = (props: DialogParams) => {
     const {title, onClose, onSave, open} = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');

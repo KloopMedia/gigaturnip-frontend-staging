@@ -1,17 +1,15 @@
 import React, {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import axios from "../../util/Axios";
 import {Button, Grid} from "@material-ui/core";
-import Card from "./ChainCard";
+import Card from "../cards/Card";
 import AddIcon from '@material-ui/icons/Add';
 import {chainsUrl} from '../../util/Urls'
 import Dialog from '../dialogs/Dialog'
-
-type RouterParams = { campaignId: string }
-type ChainParams = { id: number, campaign: number, name: string, description?: string };
-export type NewChainParams = { campaign: number, name: string, description?: string }
+import {ChainParams, CreateChainParams, RouterParams} from "../../util/Types";
 
 const Builder = () => {
+    const history = useHistory()
     const [chains, setChains] = useState<ChainParams[]>([])
     const [open, setOpen] = useState(false);
     const {campaignId} = useParams<RouterParams>()
@@ -45,7 +43,7 @@ const Builder = () => {
         }
     }
 
-    const handleAddChain = (data: NewChainParams) => {
+    const handleAddChain = (data: CreateChainParams) => {
         console.log(data)
         axios.post(chainsUrl, data)
             .then(res => {
@@ -53,6 +51,10 @@ const Builder = () => {
                 window.location.reload();
             })
     };
+
+    const handleCardRedirect = (id: string | number) => {
+        history.push(`${history.location.pathname}/${id}`)
+    }
 
     return (
         <Grid container justify={"center"}>
@@ -62,8 +64,8 @@ const Builder = () => {
                     Chain</Button>
             </Grid>
             {chains.map(chain => (
-                <Grid item style={{padding: 10}}>
-                    <Card key={chain.id} chain={chain}/>
+                <Grid item style={{padding: 10}} key={chain.id}>
+                    <Card data={chain} onCardButtonClick={handleCardRedirect} />
                 </Grid>
             ))}
         </Grid>

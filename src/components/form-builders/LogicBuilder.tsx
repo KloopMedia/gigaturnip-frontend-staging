@@ -9,8 +9,8 @@ import axios from '../../util/Axios'
 import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
 import GetFormFields from './GetFormFields'
 import getFormFields from './GetFormFields'
+import {RouterParams} from "../../util/Types";
 
-type RouterParams = { id: string }
 
 const Builder = () => {
     const {id} = useParams<RouterParams>();

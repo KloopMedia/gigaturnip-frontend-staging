@@ -1,6 +1,7 @@
 import React from 'react';
 import {Handle, Position} from 'react-flow-renderer';
 import {createStyles, Grid, makeStyles, Theme} from "@material-ui/core";
+import {NodeParams} from "../../util/Types";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,9 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
     }));
 
-type NodeProps = { data: {label: string}, style: object }
 
-const CustomNode = ({data, style}: NodeProps) => {
+
+const CustomNode = ({data, style}: NodeParams) => {
     const classes = useStyles();
 
     return (

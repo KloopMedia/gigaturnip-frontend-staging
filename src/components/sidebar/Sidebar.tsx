@@ -34,7 +34,8 @@ const Sidebar = () => {
         <aside>
             <div className="description">You can drag these nodes to the pane on the right.</div>
             <div style={{marginRight: 5}}>
-                <Form schema={schema as JSONSchema7} formData={formResponses} onChange={(e) => setFormResponses(e.formData)}> </Form>
+                <Form schema={schema as JSONSchema7} formData={formResponses}
+                      onChange={(e) => setFormResponses(e.formData)}> </Form>
             </div>
             <div draggable={false} style={{
                 color: 'red',
@@ -44,11 +45,13 @@ const Sidebar = () => {
                 padding: 10
             }}>{!draggable && 'Enter Label to drag the node'}</div>
             <div className="dndnode stage" onDragEnd={onDragEnd}
-                 onDragStart={(event) => onDragStart(event, formResponses ? formResponses.label : '', 'STAGE')} draggable={draggable}>
+                 onDragStart={(event) => onDragStart(event, formResponses ? formResponses.label : '', 'STAGE')}
+                 draggable={draggable}>
                 Stage Node
             </div>
             <div className="dndnode logic" onDragEnd={onDragEnd}
-                 onDragStart={(event) => onDragStart(event, formResponses ? formResponses.label : '', 'LOGIC')} draggable={draggable}>
+                 onDragStart={(event) => onDragStart(event, formResponses ? formResponses.label : '', 'LOGIC')}
+                 draggable={draggable}>
                 Logic Node
             </div>
         </aside>

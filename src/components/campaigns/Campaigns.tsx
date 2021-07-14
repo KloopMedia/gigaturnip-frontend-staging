@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from "react";
 import axios from "../../util/Axios";
 import {Button, Grid} from "@material-ui/core";
-import Card from "./CampaignCard";
+import Card from "../cards/Card";
 import AddIcon from '@material-ui/icons/Add';
 import {campaignsUrl} from "../../util/Urls"
 import Dialog from '../dialogs/Dialog'
+import {CampaignParams, CreateCampaignParams} from "../../util/Types";
+import {useHistory} from "react-router-dom";
 
-type CampaignParams = { id: number, name: string, description?: string };
-export type NewCampaignParams = { name: string, description?: string }
 
 const Builder = () => {
     const [campaigns, setCampaigns] = useState<CampaignParams[]>([])
     const [open, setOpen] = useState(false);
+    const history = useHistory()
 
     useEffect(() => {
         axios.get(campaignsUrl)
@@ -39,13 +40,17 @@ const Builder = () => {
         }
     }
 
-    const handleCampaignAdd = (data: NewCampaignParams) => {
+    const handleCampaignAdd = (data: CreateCampaignParams) => {
         axios.post(campaignsUrl, data)
             .then(res => {
                 console.log(res)
                 window.location.reload();
             })
     };
+
+    const handleCardRedirect = (id: string | number) => {
+        history.push(`/campaign/${id}`)
+    }
 
     return (
         <Grid container justify={"center"}>
@@ -56,7 +61,7 @@ const Builder = () => {
             </Grid>
             {campaigns.map(campaign => (
                 <Grid item style={{padding: 10}}>
-                    <Card key={campaign.id} chain={campaign}/>
+                    <Card key={campaign.id} data={campaign} onCardButtonClick={handleCardRedirect}/>
                 </Grid>
             ))}
         </Grid>

@@ -3,8 +3,8 @@ import Form from "@rjsf/bootstrap-4";
 import {useParams} from "react-router-dom";
 import axios from "../../util/Axios";
 import {taskstagesUrl, tasksUrl} from '../../util/Urls'
+import {RouterParams} from "../../util/Types";
 
-type RouterParams = { id: string }
 
 const Builder = () => {
     const [schema, setSchema] = useState({})

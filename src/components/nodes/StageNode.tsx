@@ -1,12 +1,11 @@
 import React from 'react';
 import CustomNode from "./CustomNode";
+import {NodeParams} from "../../util/Types";
 
 const customNodeStyles = {
   borderColor: '#32CD32'
 };
 
-type NodeProps = { data: {label: string} }
-
-const CustomStageNode = ({ data }: NodeProps) => <CustomNode data={data} style={customNodeStyles} />;
+const CustomStageNode = ({ data }: NodeParams) => <CustomNode data={data} style={customNodeStyles} />;
 
 export default CustomStageNode

@@ -5,7 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import {useHistory} from "react-router-dom";
+import {CardParams} from "../../util/Types";
 
 const useStyles = makeStyles({
     root: {
@@ -17,15 +17,13 @@ const useStyles = makeStyles({
     }
 });
 
-type CardProps = { chain: { id: number, campaign: number, name: string, description?: string } }
-
-const ChainCard = (props: CardProps) => {
+const ParentCard = (props: CardParams) => {
     const classes = useStyles();
-    const {id, campaign, name, description} = props.chain;
-    const history = useHistory()
+    const {id, name, description, campaign} = props.data;
+    const {onCardButtonClick} = props;
 
     const handleOpen = () => {
-        history.push(`${history.location.pathname}/${id}`)
+        onCardButtonClick(id)
     }
 
     return (
@@ -35,7 +33,7 @@ const ChainCard = (props: CardProps) => {
                     {name}
                 </Typography>
                 <Typography className={classes.extra} variant="subtitle2" color="textSecondary">
-                    ID: {id} Campaign: {campaign}
+                    ID: {id} {campaign && `Campaign: ${campaign}`}
                 </Typography>
                 <Typography variant="body1" component="p">
                     {description ? description : <br/>}
@@ -48,4 +46,4 @@ const ChainCard = (props: CardProps) => {
     );
 };
 
-export default ChainCard
+export default ParentCard

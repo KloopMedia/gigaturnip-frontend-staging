@@ -1,12 +1,11 @@
 import React from 'react';
 import CustomNode from "./CustomNode";
+import {NodeParams} from "../../util/Types";
 
 const customNodeStyles = {
   borderColor: '#0041d0'
 };
 
-type NodeProps = { data: {label: string} }
-
-const CustomLogicNode = ({ data }: NodeProps) => <CustomNode data={data} style={customNodeStyles} />;
+const CustomLogicNode = ({ data }: NodeParams) => <CustomNode data={data} style={customNodeStyles} />;
 
 export default CustomLogicNode

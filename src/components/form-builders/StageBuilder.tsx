@@ -14,9 +14,8 @@ import {taskstagesUrl} from "../../util/Urls";
 import {IconButton} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import {RouterParams} from "../../util/Types";
 
-type RouterParams = { id: string, chainId: string }
-type ChainProps = { id: number, name: string, description: string, campaign: number }
 
 const Builder = () => {
     let {id, chainId} = useParams<RouterParams>();

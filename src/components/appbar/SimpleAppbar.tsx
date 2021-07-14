@@ -3,6 +3,7 @@ import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {AppBar, Button, CssBaseline, Toolbar, Typography} from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
+import {AppbarParams} from "../../util/Types";
 
 const drawerWidth = 240;
 
@@ -73,9 +74,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-type AppbarProps = { children: React.ReactNode }
 
-const Appbar = (props: AppbarProps) => {
+const Appbar = (props: AppbarParams) => {
     const classes = useStyles();
     const {children} = props;
     const {currentUser} = useContext(AuthContext)

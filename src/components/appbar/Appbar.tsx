@@ -30,6 +30,7 @@ import {useHistory, useParams} from "react-router-dom";
 import axios from '../../util/Axios';
 
 import {campaignsUrl} from '../../util/Urls';
+import { AppbarParams, CampaignParams } from '../../util/Types';
 
 const drawerWidth = 240;
 
@@ -113,10 +114,8 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-type AppbarProps = { children: React.ReactNode }
-type CampaignParams = { id: number, name: string, description?: string };
 
-const Appbar = (props: AppbarProps) => {
+const Appbar = (props: AppbarParams) => {
     const classes = useStyles();
     const theme = useTheme();
     const history = useHistory();

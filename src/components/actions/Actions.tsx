@@ -5,8 +5,7 @@ import {Button, Grid} from '@material-ui/core'
 import axios from "../../util/Axios";
 
 import {casesUrl, tasksUrl} from '../../util/Urls'
-
-type RouterParams = { id: string, chainId: string }
+import {RouterParams} from "../../util/Types";
 
 const Builder = () => {
     let {id, chainId} = useParams<RouterParams>();
