@@ -3,14 +3,14 @@ import axios from "../../util/Axios";
 import {Button, Grid} from "@material-ui/core";
 import Card from "./CampaignCard";
 import AddIcon from '@material-ui/icons/Add';
-import AddChainDialog from "./Dialog";
 import {campaignsUrl} from "../../util/Urls"
+import Dialog from '../dialogs/Dialog'
 
-type CampaingParams = { id: number, name: string, description?: string };
+type CampaignParams = { id: number, name: string, description?: string };
 export type NewCampaignParams = { name: string, description?: string }
 
 const Builder = () => {
-    const [campaigns, setCampaigns] = useState<CampaingParams[]>([])
+    const [campaigns, setCampaigns] = useState<CampaignParams[]>([])
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
@@ -30,24 +30,29 @@ const Builder = () => {
         setOpen(false);
     };
 
-    const handleDialogSave = (data: NewCampaignParams) => {
-        setOpen(false);
-        handleCampaignAdd(data)
+    const handleDialogSave = (data: any) => {
+        if (data.name) {
+            handleCampaignAdd(data)
+            setOpen(false);
+        } else {
+            alert('error: No name')
+        }
     }
 
     const handleCampaignAdd = (data: NewCampaignParams) => {
         axios.post(campaignsUrl, data)
             .then(res => {
                 console.log(res)
-                window.location.reload(false);
+                window.location.reload();
             })
     };
 
     return (
         <Grid container justify={"center"}>
-            <AddChainDialog open={open} onSave={handleDialogSave} onClose={handleClose}/>
+            <Dialog title={"Add campaign"} open={open} onSave={handleDialogSave} onClose={handleClose}/>
             <Grid container style={{padding: 20}}>
-                <Button variant={"contained"} color={"primary"} startIcon={<AddIcon/>} onClick={handleClickOpen}>Add Campaign</Button>
+                <Button variant={"contained"} color={"primary"} startIcon={<AddIcon/>} onClick={handleClickOpen}>Add
+                    Campaign</Button>
             </Grid>
             {campaigns.map(campaign => (
                 <Grid item style={{padding: 10}}>

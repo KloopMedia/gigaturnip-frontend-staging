@@ -1,35 +1,10 @@
-import React, {useEffect, useState} from "react";
-import firebase from '../../util/Firebase'
-import {
-    useHistory,
-    useParams
-} from "react-router-dom";
+import React from "react";
+import {useHistory, useParams} from "react-router-dom";
 
-import {
-    Button,
-    FormControl,
-    Grid,
-    Select,
-    InputLabel,
-    MenuItem,
-    createStyles,
-    makeStyles,
-    Theme
-} from '@material-ui/core'
+import {Button, Grid} from '@material-ui/core'
 import axios from "../../util/Axios";
 
 import {casesUrl, tasksUrl} from '../../util/Urls'
-
-const useStyles = makeStyles((theme: Theme) =>
-    createStyles({
-        formControl: {
-            margin: theme.spacing(1),
-            minWidth: 150,
-        },
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-        },
-    }));
 
 type RouterParams = { id: string, chainId: string }
 

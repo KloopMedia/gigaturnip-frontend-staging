@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import firebase from '../../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
 import {JSONSchema7} from "json-schema";
 

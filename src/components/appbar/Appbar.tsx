@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import clsx from 'clsx';
 import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
@@ -8,21 +8,21 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MenuIcon from '@material-ui/icons/Menu'
 
 import {
-    MenuItem,
-    Select,
-    FormControl,
-    InputLabel,
     AppBar,
     Button,
     CssBaseline,
     Drawer,
+    FormControl,
+    Grid,
     IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
+    MenuItem,
+    Select,
     Toolbar,
-    Typography, Grid
+    Typography
 } from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type AppbarProps = { children: React.ReactNode }
-type CampaingParams = { id: number, name: string, description?: string };
+type CampaignParams = { id: number, name: string, description?: string };
 
 const Appbar = (props: AppbarProps) => {
     const classes = useStyles();
@@ -126,7 +126,7 @@ const Appbar = (props: AppbarProps) => {
 
     const [open, setOpen] = useState(false);
     const [campaign, setCampaign] = useState<number | string | unknown>(campaignId);
-    const [allCampaigns, setAllCampaigns] = useState<CampaingParams[]>([])
+    const [allCampaigns, setAllCampaigns] = useState<CampaignParams[]>([])
 
     console.log("CURRENT CAMPAIGN", campaignId)
 

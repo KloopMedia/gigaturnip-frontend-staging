@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
-import clsx from 'clsx';
-import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/styles';
+import {createStyles, makeStyles, Theme} from '@material-ui/core/styles';
 import {AppBar, Button, CssBaseline, Toolbar, Typography} from "@material-ui/core";
 import {signInWithGoogle, signOut} from '../../util/Firebase';
 import {AuthContext} from "../../util/Auth";
-import {useHistory, useParams} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -79,35 +77,14 @@ type AppbarProps = { children: React.ReactNode }
 
 const Appbar = (props: AppbarProps) => {
     const classes = useStyles();
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
     const {children} = props;
     const {currentUser} = useContext(AuthContext)
-    const history = useHistory();
-    const {campaignId} = useParams<{campaignId: string}>();
-
-    console.log(campaignId)
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const handleOptionClick = (page: string) => {
-        history.push(`/campaign/${campaignId}/${page}`)
-    };
 
     return (
         <div className={classes.root}>
             <CssBaseline/>
             <AppBar
                 position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open,
-                })}
             >
                 <Toolbar>
                     <Typography className={classes.title} variant="h6" noWrap>

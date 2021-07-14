@@ -1,16 +1,14 @@
 import React, {useEffect, useState} from "react";
-import firebase from '../../util/Firebase'
 import Form from "@rjsf/bootstrap-4";
 import {useParams} from "react-router-dom";
 import {JSONSchema7} from "json-schema";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {Grid} from "@material-ui/core";
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import axios from '../../util/Axios'
 import {conditionalstagesUrl, taskstagesUrl} from "../../util/Urls";
 import GetFormFields from './GetFormFields'
-import getFormFields from "./GetFormFields";
+import getFormFields from './GetFormFields'
 
 type RouterParams = { id: string }
 
@@ -69,7 +67,7 @@ const Builder = () => {
         const getData = async () => {
             let currentStage = await getStage()
 
-            let connectedIds = undefined
+            let connectedIds: undefined
             if (pingPong) {
                 connectedIds = currentStage.out_stages
             } else {
@@ -87,6 +85,7 @@ const Builder = () => {
         }
 
         if (id) {
+            // noinspection JSIgnoredPromiseFromCall
             getData()
         }
 
@@ -102,12 +101,10 @@ const Builder = () => {
                 data = dep.allOf
             }
             if (data) {
-                let nestedFields = data.map((nested: any) => {
+                return data.map((nested: any) => {
                     let fiction = {type: "object", ...nested}
-                    let localFields = getFormFields(fiction)
-                    return localFields
+                    return getFormFields(fiction)
                 }).flat()
-                return nestedFields
             }
             return []
         }
@@ -115,7 +112,7 @@ const Builder = () => {
         if (connectedStages && connectedStages.length > 0) {
             const allFields = connectedStages.map(stageObject => {
                 let stage = Object.values(stageObject)[0] as any
-                let ui = JSON.parse(stage.ui_schema)
+                // let ui = JSON.parse(stage.ui_schema)
                 let sc = JSON.parse(stage.json_schema)
                 let deps = {}
                 if (sc && sc.dependencies && Object.keys(sc.dependencies).length > 0) {
@@ -200,6 +197,7 @@ const Builder = () => {
                     />
                     <Form
                         schema={schema as JSONSchema7}
+                        uiSchema={uiSchema}
                         formData={formResponses}
                         onChange={(e: { formData: object }) => setFormResponses(e.formData)}
                         onSubmit={handleSubmit}/>

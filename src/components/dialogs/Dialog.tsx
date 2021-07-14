@@ -1,52 +1,32 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Dialog from '@material-ui/core/Dialog';
-import {blue} from '@material-ui/core/colors';
-import {DialogActions, DialogContent, Grid, TextField} from "@material-ui/core";
-
-
-const useStyles = makeStyles({
-    avatar: {
-        backgroundColor: blue[100],
-        color: blue[600],
-    },
-});
+import React, {useState} from "react";
+import {Dialog, DialogTitle, DialogActions, DialogContent, Grid, TextField, Button} from "@material-ui/core";
 
 type ChainDialogProps = {
+    title: string;
     open: boolean;
     onClose: () => void;
     onSave: (data: any) => void;
 }
 
-const AddCampaignDialog = (props: ChainDialogProps) => {
-    const classes = useStyles();
-    const {onClose, onSave, open} = props;
+const ParentDialog = (props: ChainDialogProps) => {
+    const {title, onClose, onSave, open} = props;
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
-    const [campaign, setCampaign] = useState<number>();
 
     const handleClose = () => {
         onClose();
     };
 
     const handleSave = () => {
-        if (name) {
-            let data = {name, description, campaign}
-            onSave(data)
-        }
-        else {
-            alert('error: No name')
-        }
+        let data = {name, description}
+        onSave(data)
     }
 
     const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         let value = event.target.value
         if (value) {
             setName(value)
-        }
-        else {
+        } else {
             setName('')
         }
     };
@@ -55,20 +35,20 @@ const AddCampaignDialog = (props: ChainDialogProps) => {
         let value = event.target.value
         if (value) {
             setDescription(value)
-        }
-        else {
+        } else {
             setDescription('')
         }
     };
 
     return (
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
-            <DialogTitle>Add Chain</DialogTitle>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <Grid container justify={"center"}>
                     <Grid container item><TextField fullWidth label={"Name"} onChange={handleNameChange}/></Grid>
                     <Grid container item>
-                        <TextField fullWidth label={"Description"} multiline rows={4} onChange={handleDescriptionChange}/>
+                        <TextField fullWidth label={"Description"} multiline rows={4}
+                                   onChange={handleDescriptionChange}/>
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -78,6 +58,6 @@ const AddCampaignDialog = (props: ChainDialogProps) => {
             </DialogActions>
         </Dialog>
     );
-};
+}
 
-export default AddCampaignDialog
+export default ParentDialog

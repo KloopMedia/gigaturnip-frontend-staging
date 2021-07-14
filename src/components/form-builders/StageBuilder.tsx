@@ -1,4 +1,4 @@
-import React, {ChangeEvent, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 // @ts-ignore
 import {FormBuilder} from '@ginkgo-bioworks/react-json-schema-form-builder';
 import Form from "@rjsf/bootstrap-4";
@@ -10,7 +10,7 @@ import CustomFileType from '../custom-widgets/file-widget/CustomFileType'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
-import {chainsUrl, rankslimitsUrl, ranksUrl, taskstagesUrl} from "../../util/Urls";
+import {taskstagesUrl} from "../../util/Urls";
 import {IconButton} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
@@ -26,11 +26,12 @@ const Builder = () => {
     const [optionsSchema, setOptionsSchema] = useState<{ [index: string]: any }>(StageOptions)
     const [formResponses, setFormResponses] = useState<{ [index: string]: any }>({})
     const [preview, setPreview] = useState(false)
-    const [existingRanks, setExistingRanks] = useState<any[]>([])
-    const [isByRanks, setIsByRanks] = useState<boolean>(true)
-    const [recipients, setRecipients] = useState<string[]>([])
-    const [allInStages, setAllInStages] = useState<string[]>([])
-    const [ranksLimits, setRanksLimits] = useState([])
+
+    // const [existingRanks, setExistingRanks] = useState<any[]>([])
+    // const [isByRanks, setIsByRanks] = useState<boolean>(true)
+    // const [recipients, setRecipients] = useState<string[]>([])
+    // const [allInStages, setAllInStages] = useState<string[]>([])
+    // const [ranksLimits, setRanksLimits] = useState([])
 
     useEffect(() => {
         /*const getAllInStages = (prevTask: number[], previousStages: number[]) => {

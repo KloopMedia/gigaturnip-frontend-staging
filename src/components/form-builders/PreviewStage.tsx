@@ -27,7 +27,7 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
     useEffect(() => {
         setLocalJson(jsonSchema)
         setLocalUi(uiSchema)
-    }, [])
+    }, [jsonSchema, uiSchema])
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(stage_data).then(() => console.log("success")).catch(err => alert(err))

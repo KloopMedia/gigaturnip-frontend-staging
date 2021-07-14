@@ -31,7 +31,7 @@ export const signInWithGoogle = () => {
 export const signOut = () => {
     return firebase.auth().signOut()
         .then(() => localStorage.removeItem("token"))
-        .then(() => window.location.reload(false))
+        .then(() => window.location.reload())
 }
 
 export default firebase;

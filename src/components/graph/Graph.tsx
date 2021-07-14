@@ -1,7 +1,8 @@
+// noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
+
 import React, {useEffect, useRef, useState} from 'react';
-import ReactFlow, {addEdge, Controls, FlowElement, ReactFlowProvider, Edge} from 'react-flow-renderer';
+import ReactFlow, {addEdge, Controls, Edge, FlowElement, ReactFlowProvider} from 'react-flow-renderer';
 import {useHistory, useParams} from "react-router-dom";
-import firebase from '../../util/Firebase'
 import CustomLogicNode from '../nodes/LogicNode'
 import CustomStageNode from '../nodes/StageNode'
 import Sidebar from '../sidebar/Sidebar';
@@ -63,17 +64,17 @@ const DnDFlow = () => {
                     }
                 })
             })
-    }, [])
+    }, [chainId])
 
     const getNode = (id: string | number) => {
         return elements.filter(node => node.id == id).pop()
     }
 
     const getTypeUrl = (node: FlowElement) => {
-        if (node.type == "STAGE") {
+        if (node.type === "STAGE") {
             return taskstagesUrl
         }
-        if (node.type == "LOGIC") {
+        if (node.type === "LOGIC") {
             return conditionalstagesUrl
         }
         return undefined
@@ -219,10 +220,6 @@ const DnDFlow = () => {
 
     const onNodeDragStop = (event: any, node: any) => {
         updateNode(node)
-    }
-
-    const updateNodeInFirebase = (node: any) => {
-        firebase.firestore().collection('flow').doc(node.id).set(node, {merge: true})
     }
 
     const updateNode = (node: any) => {
