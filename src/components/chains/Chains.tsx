@@ -19,7 +19,7 @@ const Builder = () => {
             .then(res => res.data)
             .then(res => {
                 console.log(res)
-                const filtered = res.filter((chain: { campaign: number, name: string, description: string, id: number }) => chain.campaign?.toString() === campaignId)
+                const filtered = res.filter((chain: ChainParams) => chain.campaign?.toString() === campaignId)
                 setChains(filtered)
             })
     }, [campaignId])
