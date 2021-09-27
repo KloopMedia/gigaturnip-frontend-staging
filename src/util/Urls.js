@@ -7,6 +7,7 @@ const ranksUrl = "api/v1/ranks/"
 const rankslimitsUrl = "api/v1/ranklimits/"
 const webhookstagesUrl = "api/v1/webhookstages/"
 const conditionalstagesUrl = "api/v1/conditionalstages/"
+const manualstagesUrl = "api/v1/manualstages/" // TBD
 const casesUrl = "api/v1/cases/"
 const tasksUrl = "api/v1/tasks/"
 
@@ -20,5 +21,6 @@ export {
     webhookstagesUrl,
     conditionalstagesUrl,
     casesUrl,
-    tasksUrl
+    tasksUrl,
+    manualstagesUrl
 }

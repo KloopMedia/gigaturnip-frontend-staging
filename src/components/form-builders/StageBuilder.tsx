@@ -14,7 +14,10 @@ import {taskstagesUrl} from "../../util/Urls";
 import {IconButton} from "@material-ui/core";
 import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import CreateIcon from '@material-ui/icons/Create';
 import {RouterParams} from "../../util/Types";
+import DocBuilder from "./DocBuilder";
+import {Editor} from "@tinymce/tinymce-react";
 
 
 const Builder = () => {
@@ -25,6 +28,8 @@ const Builder = () => {
     const [optionsSchema, setOptionsSchema] = useState<{ [index: string]: any }>(StageOptions)
     const [formResponses, setFormResponses] = useState<{ [index: string]: any }>({})
     const [preview, setPreview] = useState(false)
+    const [editorView, setEditorView] = useState(false)
+    const [editorData, setEditorData] = useState("")
 
     // const [existingRanks, setExistingRanks] = useState<any[]>([])
     // const [isByRanks, setIsByRanks] = useState<boolean>(true)
@@ -58,7 +63,7 @@ const Builder = () => {
             axios.get(taskstagesUrl + id + '/')
                 .then(res => res.data)
                 .then(res => {
-                    const {id, json_schema, ui_schema, ...options} = res
+                    const {id, json_schema, ui_schema, rich_text, ...options} = res
 
                     // let parse_json_schema = JSON.parse(json_schema)
                     // let parse_ui_schema = JSON.parse(ui_schema)
@@ -68,9 +73,9 @@ const Builder = () => {
                     setSchema(json_schema)
                     setUiSchema(ui_schema)
                     setFormResponses(options)
+                    setEditorData(rich_text)
                 })
         }
-
 
         if (id) {
             getStage()
@@ -188,7 +193,7 @@ const Builder = () => {
         } else if (transition['assign_user_by'] === 'prevStage') {
         }*/
         let {chain, ...responses} = formResponses
-        let data = {...responses, json_schema: json_schema, ui_schema: ui_schema}
+        let data = {...responses, json_schema: json_schema, ui_schema: ui_schema, rich_text: editorData}
         console.log(JSON.stringify(data))
         axios
             .patch(taskstagesUrl + id + '/', data)
@@ -210,31 +215,47 @@ const Builder = () => {
         setUiSchema(schema)
     }
 
+    const handleEditorChange = (d: string) => {
+        console.log(d)
+        setEditorData(d)
+    }
+
+    const handleEditorViewMode = () => {
+        setEditorView(!editorView)
+    }
+
     return (
         <div>
-            <IconButton style={{float: 'right'}} onClick={changePreviewMode}>
-                {!preview ?
-                    <VisibilityIcon fontSize={"large"}/>
-                    :
-                    <VisibilityOffIcon fontSize={"large"}/>
-                }
-
-            </IconButton>
+            <div style={{display: 'block', float: 'right'}}>
+                <IconButton onClick={handleEditorViewMode}>
+                    <CreateIcon fontSize={"large"}/>
+                </IconButton>
+                <IconButton onClick={changePreviewMode}>
+                    {!preview ?
+                        <VisibilityIcon fontSize={"large"}/>
+                        :
+                        <VisibilityOffIcon fontSize={"large"}/>
+                    }
+                </IconButton>
+            </div>
             {!preview ?
                 <div>
-                    <FormBuilder
-                        schema={schema}
-                        uischema={uiSchema}
-                        onChange={(newSchema: string, newUiSchema: string) => {
-                            setSchema(newSchema)
-                            setUiSchema(newUiSchema)
-                        }}
-                        mods={
-                            {
-                                customFormInputs: {...CustomFileType}
+                    {editorView ?
+                        <DocBuilder data={editorData} handleChange={handleEditorChange}/>
+                        :
+                        <FormBuilder
+                            schema={schema}
+                            uischema={uiSchema}
+                            onChange={(newSchema: string, newUiSchema: string) => {
+                                setSchema(newSchema)
+                                setUiSchema(newUiSchema)
+                            }}
+                            mods={
+                                {
+                                    customFormInputs: {...CustomFileType}
+                                }
                             }
-                        }
-                    />
+                        />}
                     <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
                         <Form
                             schema={optionsSchema as JSONSchema7}
@@ -250,13 +271,32 @@ const Builder = () => {
 
                 </div>
                 :
-                <PreviewStage
-                    jsonSchema={schema}
-                    uiSchema={uiSchema}
-                    formResponses={formResponses}
-                    onJsonChange={handleJsonSchemaChange}
-                    onUiChange={handleUiSchemaChange}
-                />
+                <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
+                    {editorView ?
+                        <Editor
+                            id={"ViewerTinyMCE"}
+                            value={editorData}
+                            toolbar={false}
+                            inline={false}
+                            disabled={true}
+                            tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
+                            init={{
+                                plugins: 'autoresize',
+                                menubar: false,
+                                image_advtab: true,
+                                importcss_append: true,
+                            }}
+                        />
+                        :
+                        <PreviewStage
+                            jsonSchema={schema}
+                            uiSchema={uiSchema}
+                            formResponses={formResponses}
+                            onJsonChange={handleJsonSchemaChange}
+                            onUiChange={handleUiSchemaChange}
+                        />
+                    }
+                </div>
             }
         </div>
     )

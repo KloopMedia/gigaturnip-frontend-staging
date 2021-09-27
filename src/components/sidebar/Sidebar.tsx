@@ -54,6 +54,11 @@ const Sidebar = () => {
                  draggable={draggable}>
                 Logic Node
             </div>
+            {/*<div className="dndnode manual" onDragEnd={onDragEnd}*/}
+            {/*     onDragStart={(event) => onDragStart(event, formResponses ? formResponses.label : '', 'STAGE')}*/}
+            {/*     draggable={draggable}>*/}
+            {/*    Document Node*/}
+            {/*</div>*/}
         </aside>
     );
 };

@@ -2,6 +2,7 @@ import React from "react";
 import Graph from './components/graph/Graph'
 import StageBuilder from './components/form-builders/StageBuilder'
 import LogicBuilder from './components/form-builders/LogicBuilder'
+import DocBuilder from "./components/form-builders/DocBuilder";
 import Actions from './components/actions/Actions'
 import Task from './components/task/Task'
 import Appbar from "./components/appbar/Appbar";
@@ -25,6 +26,9 @@ const App = () => {
                             <Route exact path="/campaign/:campaignId/chain/:chainId/createlogic/:id">
                                 <LogicBuilder/>
                             </Route>
+                            {/*<Route exact path="/campaign/:campaignId/chain/:chainId/createdoc/:id">*/}
+                            {/*    <DocBuilder/>*/}
+                            {/*</Route>*/}
                             <Route exact path="/campaign/:campaignId/chain/:chainId/task/:id">
                                 <Task/>
                             </Route>
@@ -34,6 +38,9 @@ const App = () => {
                             <Route exact path="/campaign/:campaignId/chain">
                                 <Chains/>
                             </Route>
+                            {/*<Route exact path="/campaign/:campaignId/manual">*/}
+                            {/*    <Chains/>*/}
+                            {/*</Route>*/}
                             <Route exact path="/campaign/:campaignId/chain/:chainId">
                                 <Graph/>
                             </Route>

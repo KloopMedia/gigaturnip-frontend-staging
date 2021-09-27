@@ -47,7 +47,7 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
     };
 
     return (
-        <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
+        <div>
             <Form
                 schema={json_schema as any}
                 uiSchema={ui_schema}

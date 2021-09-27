@@ -9,7 +9,7 @@ import Sidebar from '../sidebar/Sidebar';
 
 import '../../dnd.css';
 import axios from '../../util/Axios';
-import {conditionalstagesUrl, taskstagesUrl} from '../../util/Urls'
+import {conditionalstagesUrl, manualstagesUrl, taskstagesUrl} from '../../util/Urls'
 import {ConnectionsParams, RouterParams} from "../../util/Types";
 
 
@@ -94,6 +94,9 @@ const DnDFlow = () => {
         }
         if (node.type === "LOGIC") {
             return conditionalstagesUrl
+        }
+        if (node.type === "MANUAL") {
+            return manualstagesUrl
         }
         return undefined
     }
@@ -306,6 +309,9 @@ const DnDFlow = () => {
             if (element.type === 'STAGE') {
                 history.push(`${location}/createstage/${element.id}`)
             }
+            // if (element.type === 'DOC') {
+            //     history.push(`${location}/createdoc/${element.id}`)
+            // }
             if (element.type === 'default' && (element.target || element.source)) {
                 console.log('edge')
             }

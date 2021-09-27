@@ -4,6 +4,7 @@ import {createStyles, makeStyles, Theme, useTheme} from '@material-ui/core/style
 import Divider from '@material-ui/core/Divider';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MenuIcon from '@material-ui/icons/Menu'
 
@@ -238,6 +239,10 @@ const Appbar = (props: AppbarParams) => {
                 </div>
                 <Divider/>
                 <List>
+                    {/*<ListItem button onClick={() => handleOptionClick("manual")}>*/}
+                    {/*    <ListItemIcon><MenuBookIcon/></ListItemIcon>*/}
+                    {/*    <ListItemText primary={"Manual"}/>*/}
+                    {/*</ListItem>*/}
                     <ListItem button onClick={() => handleOptionClick("chain")}>
                         <ListItemIcon><InboxIcon/></ListItemIcon>
                         <ListItemText primary={"Chains"}/>
