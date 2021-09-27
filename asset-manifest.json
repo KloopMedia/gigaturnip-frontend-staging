@@ -1,25 +1,25 @@
 {
   "files": {
     "main.css": "/gigaturnip-frontend/static/css/main.4480bb8b.chunk.css",
-    "main.js": "/gigaturnip-frontend/static/js/main.d10098b2.chunk.js",
-    "main.js.map": "/gigaturnip-frontend/static/js/main.d10098b2.chunk.js.map",
-    "runtime-main.js": "/gigaturnip-frontend/static/js/runtime-main.196a6f63.js",
-    "runtime-main.js.map": "/gigaturnip-frontend/static/js/runtime-main.196a6f63.js.map",
+    "main.js": "/gigaturnip-frontend/static/js/main.512e7c06.chunk.js",
+    "main.js.map": "/gigaturnip-frontend/static/js/main.512e7c06.chunk.js.map",
+    "runtime-main.js": "/gigaturnip-frontend/static/js/runtime-main.6694ab44.js",
+    "runtime-main.js.map": "/gigaturnip-frontend/static/js/runtime-main.6694ab44.js.map",
     "static/css/2.4c97ca4f.chunk.css": "/gigaturnip-frontend/static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.d228ddc4.chunk.js": "/gigaturnip-frontend/static/js/2.d228ddc4.chunk.js",
-    "static/js/2.d228ddc4.chunk.js.map": "/gigaturnip-frontend/static/js/2.d228ddc4.chunk.js.map",
-    "static/js/3.2c2b5cfd.chunk.js": "/gigaturnip-frontend/static/js/3.2c2b5cfd.chunk.js",
-    "static/js/3.2c2b5cfd.chunk.js.map": "/gigaturnip-frontend/static/js/3.2c2b5cfd.chunk.js.map",
+    "static/js/2.be41f3ee.chunk.js": "/gigaturnip-frontend/static/js/2.be41f3ee.chunk.js",
+    "static/js/2.be41f3ee.chunk.js.map": "/gigaturnip-frontend/static/js/2.be41f3ee.chunk.js.map",
+    "static/js/3.06878bb5.chunk.js": "/gigaturnip-frontend/static/js/3.06878bb5.chunk.js",
+    "static/js/3.06878bb5.chunk.js.map": "/gigaturnip-frontend/static/js/3.06878bb5.chunk.js.map",
     "index.html": "/gigaturnip-frontend/index.html",
     "static/css/2.4c97ca4f.chunk.css.map": "/gigaturnip-frontend/static/css/2.4c97ca4f.chunk.css.map",
     "static/css/main.4480bb8b.chunk.css.map": "/gigaturnip-frontend/static/css/main.4480bb8b.chunk.css.map",
-    "static/js/2.d228ddc4.chunk.js.LICENSE.txt": "/gigaturnip-frontend/static/js/2.d228ddc4.chunk.js.LICENSE.txt"
+    "static/js/2.be41f3ee.chunk.js.LICENSE.txt": "/gigaturnip-frontend/static/js/2.be41f3ee.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.196a6f63.js",
+    "static/js/runtime-main.6694ab44.js",
     "static/css/2.4c97ca4f.chunk.css",
-    "static/js/2.d228ddc4.chunk.js",
+    "static/js/2.be41f3ee.chunk.js",
     "static/css/main.4480bb8b.chunk.css",
-    "static/js/main.d10098b2.chunk.js"
+    "static/js/main.512e7c06.chunk.js"
   ]
 }
