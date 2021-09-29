@@ -14,11 +14,6 @@
       "description": "Example: Form that describes an election violation",
       "default": ""
     },
-    "allow_multiple_files": {
-      "type": "boolean",
-      "title": "Allow multiple files",
-      "default": false
-    },
     "is_creatable": {
       "type": "boolean",
       "title": "Task is creatable",
@@ -28,6 +23,17 @@
       "type": "boolean",
       "title": "Copy input",
       "default": false
+    },
+    "webhook_address": {
+      "title": "Webhook address",
+      "type": "string",
+      "format": "uri",
+      "default": ""
+    },
+    "webhook_params": {
+      "title": "Webhook parameters",
+      "type": "string",
+      "default": ""
     },
     "library": {
       "title": "Library",

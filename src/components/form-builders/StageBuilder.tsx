@@ -65,6 +65,8 @@ const Builder = () => {
                 .then(res => {
                     const {id, json_schema, ui_schema, rich_text, ...options} = res
 
+                    // options["webhook_params"] = JSON.stringify(webhook_params)
+
                     // let parse_json_schema = JSON.parse(json_schema)
                     // let parse_ui_schema = JSON.parse(ui_schema)
                     // console.log(parse_json_schema)
