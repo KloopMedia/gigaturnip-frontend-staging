@@ -60,8 +60,8 @@ const Builder = () => {
                     Campaign</Button>
             </Grid>
             {campaigns.map(campaign => (
-                <Grid item style={{padding: 10}}>
-                    <Card key={campaign.id} data={campaign} onCardButtonClick={handleCardRedirect}/>
+                <Grid item key={campaign.id} style={{padding: 10}}>
+                    <Card data={campaign} onCardButtonClick={handleCardRedirect}/>
                 </Grid>
             ))}
         </Grid>

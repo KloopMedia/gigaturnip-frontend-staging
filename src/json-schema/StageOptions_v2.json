@@ -27,8 +27,7 @@
     "webhook_address": {
       "title": "Webhook address",
       "type": "string",
-      "format": "uri",
-      "default": ""
+      "format": "uri"
     },
     "webhook_params": {
       "title": "Webhook parameters",
