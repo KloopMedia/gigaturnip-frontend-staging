@@ -4,6 +4,7 @@
   "version": "0.1.0",
   "private": false,
   "dependencies": {
+    "@chatui/core": "^1.2.1",
     "@ginkgo-bioworks/react-json-schema-form-builder": "^2.5.0",
     "@material-ui/core": "^4.12.1",
     "@material-ui/icons": "^4.11.2",

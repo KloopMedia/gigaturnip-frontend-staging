@@ -1,19 +1,32 @@
-// import React from 'react'
+import React from 'react'
 
-// const CardBody = (props: any) => {
-//     const handleChange = (event: any) => {
-//         props.onChange({...props.parameters, default: event.target.checked})
-//     }
-//     return (
-//         <div>
-//             <input type="checkbox" id="multiple"
-//                    value={props.parameters.default}
-//                    onChange={handleChange}
-//             />
-//             <label htmlFor="multiple">Multiple files</label>
-//         </div>
-//     )
-// }
+type Parameters = {
+    name: string,
+    path: string,
+    definitionData: any,
+    definitionUi: any,
+    category: string,
+    'ui:options': {private: boolean},
+    // 'ui:private': boolean
+    // private: boolean,
+};
+
+const CustomFileField = ({
+                             parameters,
+                             onChange,
+                         }: { parameters: Parameters, onChange: (newParams: Parameters) => void, }) => (
+    <React.Fragment>
+        <h5>Private Upload</h5>
+        <input
+            checked={parameters['ui:options']?.private}
+            type="checkbox"
+            onChange={(ev: React.ChangeEvent<any>) =>
+                onChange({...parameters, "ui:options": {private: ev.target.checked}})
+            }
+            className='card-text'
+        />
+    </React.Fragment>
+);
 
 const CustomFileType = {
     file: {
@@ -24,12 +37,14 @@ const CustomFileType = {
                 widget: "customfile"
             },
         ],
+        possibleOptions: ['private'],
         defaultDataSchema: {},
         defaultUiSchema: {
-            "ui:widget": "customfile"
+            "ui:widget": "customfile",
+            "ui:options": {private: false}
         },
         type: "string",
-        // cardBody: CardBody,
+        cardBody: CustomFileField,
         // modalBody: (parameters: any, onChange: any) => <div>
         //     Extra editing options in modal appear hear
         // </div>,
