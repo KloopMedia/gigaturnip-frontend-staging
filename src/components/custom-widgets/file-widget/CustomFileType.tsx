@@ -6,26 +6,37 @@ type Parameters = {
     definitionData: any,
     definitionUi: any,
     category: string,
-    'ui:options': {private: boolean},
-    // 'ui:private': boolean
-    // private: boolean,
+    'ui:options': { private: boolean, multiple: boolean }
 };
 
 const CustomFileField = ({
                              parameters,
                              onChange,
                          }: { parameters: Parameters, onChange: (newParams: Parameters) => void, }) => (
-    <React.Fragment>
-        <h5>Private Upload</h5>
-        <input
-            checked={parameters['ui:options']?.private}
-            type="checkbox"
-            onChange={(ev: React.ChangeEvent<any>) =>
-                onChange({...parameters, "ui:options": {private: ev.target.checked}})
-            }
-            className='card-text'
-        />
-    </React.Fragment>
+    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
+        <div style={{display: "flex", alignItems: "baseline", padding: "0 10px"}}>
+            <h5 style={{padding: "0 5px"}}>Private Upload</h5>
+            <input
+                checked={parameters['ui:options']?.private}
+                type="checkbox"
+                onChange={(ev: React.ChangeEvent<any>) =>
+                    onChange({...parameters, "ui:options": {...parameters['ui:options'], private: ev.target.checked}})
+                }
+                className='card-text'
+            />
+        </div>
+        <div style={{display: "flex", alignItems: "baseline", padding: "0 10px"}}>
+            <h5 style={{padding: "0 5px"}}>Multiple Files</h5>
+            <input
+                checked={parameters['ui:options']?.multiple}
+                type="checkbox"
+                onChange={(ev: React.ChangeEvent<any>) =>
+                    onChange({...parameters, "ui:options": {...parameters['ui:options'], multiple: ev.target.checked}})
+                }
+                className='card-text'
+            />
+        </div>
+    </div>
 );
 
 const CustomFileType = {
@@ -37,11 +48,11 @@ const CustomFileType = {
                 widget: "customfile"
             },
         ],
-        possibleOptions: ['private'],
+        possibleOptions: ['private', 'multiple'],
         defaultDataSchema: {},
         defaultUiSchema: {
             "ui:widget": "customfile",
-            "ui:options": {private: false}
+            "ui:options": {private: false, multiple: false}
         },
         type: "string",
         cardBody: CustomFileField,

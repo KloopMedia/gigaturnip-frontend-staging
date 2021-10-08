@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {Editor} from '@tinymce/tinymce-react';
 
-const DocBuilder = (props: {data: string, handleChange: (d: string) => void}) => {
+const TextEditor = (props: {data: string, handleChange: (d: string) => void}) => {
     const {data, handleChange} = props;
     const editorRef = useRef<any>(null);
     const [docData, setDocData] = useState("")
@@ -47,4 +47,4 @@ const DocBuilder = (props: {data: string, handleChange: (d: string) => void}) =>
 };
 
 
-export default DocBuilder
+export default TextEditor

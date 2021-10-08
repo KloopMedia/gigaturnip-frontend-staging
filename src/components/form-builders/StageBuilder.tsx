@@ -16,8 +16,8 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
 import CreateIcon from '@material-ui/icons/Create';
 import {RouterParams} from "../../util/Types";
-import DocBuilder from "./DocBuilder";
-import {Editor} from "@tinymce/tinymce-react";
+import TextEditor from "../text-editor/TextEditor";
+import TextViewer from "../text-editor/TextViewer";
 
 
 const Builder = () => {
@@ -243,7 +243,7 @@ const Builder = () => {
             {!preview ?
                 <div>
                     {editorView ?
-                        <DocBuilder data={editorData} handleChange={handleEditorChange}/>
+                        <TextEditor data={editorData} handleChange={handleEditorChange}/>
                         :
                         <FormBuilder
                             schema={schema}
@@ -275,20 +275,7 @@ const Builder = () => {
                 :
                 <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
                     {editorView ?
-                        <Editor
-                            id={"ViewerTinyMCE"}
-                            value={editorData}
-                            toolbar={false}
-                            inline={false}
-                            disabled={true}
-                            tinymceScriptSrc={process.env.PUBLIC_URL + '/tinymce/tinymce.min.js'}
-                            init={{
-                                plugins: 'autoresize',
-                                menubar: false,
-                                image_advtab: true,
-                                importcss_append: true,
-                            }}
-                        />
+                        <TextViewer data={editorData} />
                         :
                         <PreviewStage
                             jsonSchema={schema}
