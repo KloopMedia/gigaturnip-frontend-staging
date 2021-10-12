@@ -10,6 +10,7 @@ import {HashRouter as Router, Route, Switch} from "react-router-dom";
 import Chains from "./components/chains/Chains";
 import Campaigns from "./components/campaigns/Campaigns";
 import SimpleAppbar from "./components/appbar/SimpleAppbar";
+import About from "./components/campaigns/About";
 
 
 const App = () => {
@@ -25,6 +26,9 @@ const App = () => {
                             <Route exact path="/campaign/:campaignId/chain/:chainId/createlogic/:id">
                                 <LogicBuilder/>
                             </Route>
+                            {/*<Route exact path={"/campaign/about/:id"}>*/}
+                            {/*    <About />*/}
+                            {/*</Route>*/}
                             <Route exact path="/campaign/:campaignId/chain/:chainId/task/:id">
                                 <Task/>
                             </Route>

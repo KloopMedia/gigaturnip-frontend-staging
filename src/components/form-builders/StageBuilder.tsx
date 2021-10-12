@@ -63,9 +63,10 @@ const Builder = () => {
             axios.get(taskstagesUrl + id + '/')
                 .then(res => res.data)
                 .then(res => {
-                    const {id, json_schema, ui_schema, rich_text, ...options} = res
+                    const {id, json_schema, ui_schema, rich_text, webhook_address, webhook_params, ...options} = res
 
-                    // options["webhook_params"] = JSON.stringify(webhook_params)
+                    options["webhook_address"] = webhook_address ? webhook_address : undefined
+                    options["webhook_params"] = webhook_params ? webhook_params : undefined
 
                     // let parse_json_schema = JSON.parse(json_schema)
                     // let parse_ui_schema = JSON.parse(ui_schema)

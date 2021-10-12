@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import axios from "../../util/Axios";
 import {Button, Grid} from "@material-ui/core";
 import Card from "../cards/Card";
 import AddIcon from '@material-ui/icons/Add';
-import {campaignsUrl} from "../../util/Urls"
 import Dialog from '../dialogs/Dialog'
 import {CampaignParams, CreateCampaignParams} from "../../util/Types";
 import {useHistory} from "react-router-dom";
+import {createCampaign, getCampaigns} from "../../util/Util";
 
 
 const Builder = () => {
@@ -15,12 +14,7 @@ const Builder = () => {
     const history = useHistory()
 
     useEffect(() => {
-        axios.get(campaignsUrl)
-            .then(res => res.data)
-            .then(res => {
-                console.log(res)
-                setCampaigns(res)
-            })
+        getCampaigns().then(res => setCampaigns(res))
     }, [])
 
     const handleClickOpen = () => {
@@ -40,12 +34,12 @@ const Builder = () => {
         }
     }
 
+    const openCampaignInfo = (id: string | number) => {
+        history.push(`/campaign/about/${id}`)
+    }
+
     const handleCampaignAdd = (data: CreateCampaignParams) => {
-        axios.post(campaignsUrl, data)
-            .then(res => {
-                console.log(res)
-                window.location.reload();
-            })
+        createCampaign(data).then(res => window.location.reload())
     };
 
     const handleCardRedirect = (id: string | number) => {
@@ -53,7 +47,7 @@ const Builder = () => {
     }
 
     return (
-        <Grid container justify={"center"}>
+        <Grid container justifyContent={"center"}>
             <Dialog title={"Add campaign"} open={open} onSave={handleDialogSave} onClose={handleClose}/>
             <Grid container style={{padding: 20}}>
                 <Button variant={"contained"} color={"primary"} startIcon={<AddIcon/>} onClick={handleClickOpen}>Add
@@ -61,7 +55,7 @@ const Builder = () => {
             </Grid>
             {campaigns.map(campaign => (
                 <Grid item key={campaign.id} style={{padding: 10}}>
-                    <Card data={campaign} onCardButtonClick={handleCardRedirect}/>
+                    <Card data={campaign} onCardButtonClick={handleCardRedirect} openCampaignInfo={openCampaignInfo}/>
                 </Grid>
             ))}
         </Grid>

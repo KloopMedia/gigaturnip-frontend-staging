@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useHistory, useParams} from "react-router-dom";
-import axios from "../../util/Axios";
 import {Button, Grid} from "@material-ui/core";
 import Card from "../cards/Card";
 import AddIcon from '@material-ui/icons/Add';
-import {chainsUrl} from '../../util/Urls'
 import Dialog from '../dialogs/Dialog'
 import {ChainParams, CreateChainParams, RouterParams} from "../../util/Types";
+import {createChain, getChains} from "../../util/Util";
 
 const Builder = () => {
     const history = useHistory()
@@ -15,13 +14,7 @@ const Builder = () => {
     const {campaignId} = useParams<RouterParams>()
 
     useEffect(() => {
-        axios.get(chainsUrl)
-            .then(res => res.data)
-            .then(res => {
-                console.log(res)
-                const filtered = res.filter((chain: ChainParams) => chain.campaign?.toString() === campaignId)
-                setChains(filtered)
-            })
+        getChains(campaignId).then(res => setChains(res))
     }, [campaignId])
 
     const handleClickOpen = () => {
@@ -37,19 +30,13 @@ const Builder = () => {
             let parsedData = {...data, campaign: parseInt(campaignId)}
             handleAddChain(parsedData)
             setOpen(false);
-        }
-        else {
+        } else {
             alert('error: No name or campaign')
         }
     }
 
     const handleAddChain = (data: CreateChainParams) => {
-        console.log(data)
-        axios.post(chainsUrl, data)
-            .then(res => {
-                console.log(res)
-                window.location.reload();
-            })
+        createChain(data).then(res => window.location.reload())
     };
 
     const handleCardRedirect = (id: string | number) => {
@@ -57,7 +44,7 @@ const Builder = () => {
     }
 
     return (
-        <Grid container justify={"center"}>
+        <Grid container justifyContent={"center"}>
             <Dialog title={"Add Chain"} open={open} onSave={handleDialogSave} onClose={handleClose}/>
             <Grid container style={{padding: 20}}>
                 <Button variant={"contained"} color={"primary"} startIcon={<AddIcon/>} onClick={handleClickOpen}>Add
@@ -65,7 +52,7 @@ const Builder = () => {
             </Grid>
             {chains.map(chain => (
                 <Grid item style={{padding: 10}} key={chain.id}>
-                    <Card data={chain} onCardButtonClick={handleCardRedirect} />
+                    <Card data={chain} onCardButtonClick={handleCardRedirect}/>
                 </Grid>
             ))}
         </Grid>

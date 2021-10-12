@@ -33,7 +33,8 @@ export type PreviewFormParams = {
 
 export type CardParams = {
     data: ID & NameAndDescription & { campaign?: string | number },
-    onCardButtonClick: (id: string | number) => void
+    onCardButtonClick: (id: string | number) => void,
+    openCampaignInfo?: (id: string | number) => void
 }
 
 export type ConnectionsParams = {

@@ -20,10 +20,16 @@ const useStyles = makeStyles({
 const ParentCard = (props: CardParams) => {
     const classes = useStyles();
     const {id, name, description, campaign} = props.data;
-    const {onCardButtonClick} = props;
+    const {onCardButtonClick, openCampaignInfo} = props;
 
     const handleOpen = () => {
         onCardButtonClick(id)
+    }
+
+    const redirectToInfoPage = () => {
+        if (openCampaignInfo) {
+            openCampaignInfo(id)
+        }
     }
 
     return (
@@ -41,6 +47,7 @@ const ParentCard = (props: CardParams) => {
             </CardContent>
             <CardActions>
                 <Button size="small" onClick={handleOpen}>Open</Button>
+                {/*<Button size="small" onClick={redirectToInfoPage}>Info</Button>*/}
             </CardActions>
         </Card>
     );

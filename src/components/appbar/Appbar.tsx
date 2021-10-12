@@ -32,6 +32,7 @@ import axios from '../../util/Axios';
 
 import {campaignsUrl} from '../../util/Urls';
 import { AppbarParams, CampaignParams } from '../../util/Types';
+import {getCampaigns} from "../../util/Util";
 
 const drawerWidth = 240;
 
@@ -131,12 +132,7 @@ const Appbar = (props: AppbarParams) => {
     console.log("CURRENT CAMPAIGN", campaignId)
 
     useEffect(() => {
-        axios.get(campaignsUrl)
-            .then(res => res.data)
-            .then(res => {
-                console.log(res)
-                setAllCampaigns(res)
-            })
+        getCampaigns().then(res => setAllCampaigns(res))
     }, [])
 
     const handleDrawerOpen = () => {
@@ -187,6 +183,7 @@ const Appbar = (props: AppbarParams) => {
                         GigaTurnip Admin
                     </Typography>
                     <Grid className={classes.title} />
+                    <Typography>{currentUser?.email}</Typography>
                     <FormControl className={classes.formControl} size="small">
                         <Select
                             className={classes.select}

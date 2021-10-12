@@ -31,8 +31,7 @@
     },
     "webhook_params": {
       "title": "Webhook parameters",
-      "type": "string",
-      "default": ""
+      "type": "string"
     },
     "library": {
       "title": "Library",

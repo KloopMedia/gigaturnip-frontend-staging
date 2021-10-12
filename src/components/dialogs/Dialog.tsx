@@ -47,7 +47,7 @@ const ParentDialog = (props: DialogParams) => {
         <Dialog onClose={handleClose} aria-labelledby="simple-dialog-title" open={open}>
             <DialogTitle>{title}</DialogTitle>
             <DialogContent>
-                <Grid container justify={"center"}>
+                <Grid container justifyContent={"center"}>
                     <Grid container item><TextField fullWidth label={"Name"} onChange={handleNameChange}/></Grid>
                     <Grid container item>
                         <TextField fullWidth label={"Description"} multiline rows={4}
