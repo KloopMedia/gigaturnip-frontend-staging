@@ -66,7 +66,7 @@ const Builder = () => {
                     const {id, json_schema, ui_schema, rich_text, webhook_address, webhook_params, ...options} = res
 
                     options["webhook_address"] = webhook_address ? webhook_address : undefined
-                    options["webhook_params"] = webhook_params ? webhook_params : undefined
+                    options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined
 
                     // let parse_json_schema = JSON.parse(json_schema)
                     // let parse_ui_schema = JSON.parse(ui_schema)
@@ -195,8 +195,11 @@ const Builder = () => {
             })
         } else if (transition['assign_user_by'] === 'prevStage') {
         }*/
-        let {chain, ...responses} = formResponses
-        let data = {...responses, json_schema: json_schema, ui_schema: ui_schema, rich_text: editorData}
+        let {chain, webhook_params, ...responses} = formResponses
+
+        const parsed_webhook_params = webhook_params ? JSON.parse(webhook_params) : null;
+
+        let data = {...responses, json_schema: json_schema, ui_schema: ui_schema, rich_text: editorData, webhook_params: parsed_webhook_params}
         console.log(JSON.stringify(data))
         axios
             .patch(taskstagesUrl + id + '/', data)
