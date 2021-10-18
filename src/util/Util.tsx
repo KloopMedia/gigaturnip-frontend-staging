@@ -180,12 +180,13 @@ export const removeElements = (elementsToRemove: FlowElement[], elements: FlowEl
  * @param node
  */
 export const updateNode = (node: any) => {
-    let x_pos = node.position.x
-    let y_pos = node.position.y
+    let x_pos = Math.round(node.position.x)
+    let y_pos = Math.round(node.position.y)
     let data = {x_pos, y_pos}
     const url = getUrl(node)
+    console.log(data)
     if (url) {
-        axios.patch(url + node.id + '/', data)
+        axios.patch(url + node.id + '/', data).then(res => console.log(res.data))
     }
 }
 
