@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useContext} from "react";
 import Graph from './components/graph/Graph'
 import StageBuilder from './components/form-builders/StageBuilder'
 import LogicBuilder from './components/form-builders/LogicBuilder'
@@ -11,9 +11,25 @@ import Chains from "./components/chains/Chains";
 import Campaigns from "./components/campaigns/Campaigns";
 import SimpleAppbar from "./components/appbar/SimpleAppbar";
 import About from "./components/campaigns/About";
+import {AuthContext} from "./util/Auth";
 
 
 const App = () => {
+    const {currentUser} = useContext(AuthContext)
+    if (currentUser) {
+        const token = localStorage.getItem("token");
+        currentUser.getIdToken(false).then((idToken: string) => {
+            if (token) {
+                if (idToken !== token) {
+                    localStorage.setItem("token", idToken);
+                    window.location.reload()
+                }
+            } else {
+                localStorage.setItem("token", idToken);
+                window.location.reload()
+            }
+        })
+    }
     return (
         <div>
             <Router>
