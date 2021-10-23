@@ -6,7 +6,7 @@ import {ConnectionsParams, CreateCampaignParams, CreateChainParams} from "./Type
 const IS_PAGINATION_ON = true;
 
 export const getCampaigns = () => {
-    return axios.get(campaignsUrl)
+    return axios.get(`${campaignsUrl}?limit=1000`)
         .then(res => res.data)
         .then(res => {
             console.log(res)
@@ -15,7 +15,7 @@ export const getCampaigns = () => {
 }
 
 export const getChains = (campaignId: string) => {
-    return axios.get(`${chainsUrl}?campaign=${campaignId}`)
+    return axios.get(`${chainsUrl}?campaign=${campaignId}&limit=1000`)
         .then(res => res.data)
         .then(res => IS_PAGINATION_ON ? res.results : res)
 }
