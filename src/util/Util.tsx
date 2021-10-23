@@ -3,10 +3,10 @@ import {campaignsUrl, chainsUrl, conditionalstagesUrl, manualstagesUrl, taskstag
 import {FlowElement, isEdge} from "react-flow-renderer";
 import {ConnectionsParams, CreateCampaignParams, CreateChainParams} from "./Types";
 
-const IS_PAGINATION_ON = false;
+const IS_PAGINATION_ON = true;
 
 export const getCampaigns = () => {
-    return axios.get(campaignsUrl + '?limit=100')
+    return axios.get(campaignsUrl)
         .then(res => res.data)
         .then(res => {
             console.log(res)
