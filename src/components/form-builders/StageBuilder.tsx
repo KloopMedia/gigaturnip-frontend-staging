@@ -21,7 +21,7 @@ import TextViewer from "../text-editor/TextViewer";
 
 
 const Builder = () => {
-    let {id, chainId} = useParams<RouterParams>();
+    let {id} = useParams<RouterParams>();
 
     const [schema, setSchema] = useState('')
     const [uiSchema, setUiSchema] = useState('')
@@ -31,34 +31,7 @@ const Builder = () => {
     const [editorView, setEditorView] = useState(false)
     const [editorData, setEditorData] = useState("")
 
-    // const [existingRanks, setExistingRanks] = useState<any[]>([])
-    // const [isByRanks, setIsByRanks] = useState<boolean>(true)
-    // const [recipients, setRecipients] = useState<string[]>([])
-    // const [allInStages, setAllInStages] = useState<string[]>([])
-    // const [ranksLimits, setRanksLimits] = useState([])
-
     useEffect(() => {
-        /*const getAllInStages = (prevTask: number[], previousStages: number[]) => {
-            if (prevTask[0]) {
-                axios.get(taskstagesUrl + prevTask[0] + '/')
-                    .then(res => res.data)
-                    .then(res => {
-                        let previousInStage = res.in_stages;
-                        if (previousInStage[0]) {
-                            previousStages.push(previousInStage[0])
-                            getAllInStages(res.in_stages, previousStages)
-                        } else {
-                            setAllInStages(previousStages.map(String))
-                        }
-                    })
-            }
-        }*/
-        /* const getAllRanks = () => {
-            axios.get(ranksUrl)
-                .then(res => res.data).then(res => {
-                setExistingRanks(res)
-            })
-        }*/
         const getStage = () => {
             axios.get(taskstagesUrl + id + '/')
                 .then(res => res.data)
@@ -68,11 +41,6 @@ const Builder = () => {
                     options["webhook_address"] = webhook_address ? webhook_address : undefined
                     options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined
 
-                    // let parse_json_schema = JSON.parse(json_schema)
-                    // let parse_ui_schema = JSON.parse(ui_schema)
-                    // console.log(parse_json_schema)
-                    // console.log(parse_ui_schema)
-                    // // getAllInStages(res.in_stages, res.in_stages)
                     setSchema(json_schema)
                     setUiSchema(ui_schema)
                     setFormResponses(options)
@@ -82,112 +50,10 @@ const Builder = () => {
 
         if (id) {
             getStage()
-            // getAllRanks()
         }
     }, [id])
 
-    /*function formPropsForSchema(arrayOfNames: string[]) {
-        let propsForSchema: { [index: string]: { [index: string]: string } } = {};
-        arrayOfNames.forEach((rank, index, array) => {
-            propsForSchema[index.toString()] = {title: rank, type: "boolean"}
-        })
-        return propsForSchema;
-    }
-
-    const getRanksLimits = () => {
-            axios.get(rankslimitsUrl)
-                .then(res => res.data)
-                .then(res => {
-                    setRanksLimits(res)
-                })
-        }
-
-    useEffect(() => {
-        if (formResponses) {
-            let transition: { [index: string]: { [index: string]: any } } = formResponses['transition']
-            if (transition) {
-                let sentBy = transition['assign_user_by']
-                if (sentBy) {
-                    let whichSent: string = formResponses['transition']['assign_user_by'];
-                    if (whichSent === 'ranks') {
-                        getRanksLimits()
-                        setIsByRanks(true)
-                    } else if (whichSent === 'prevStage') {
-                        setRanksLimits([])
-                        setIsByRanks(false)
-                    }
-                }
-            }
-        }
-    }, [formResponses])
-
-    useEffect(() => {
-        if (existingRanks) {
-            let propExistingRanks = formPropsForSchema(existingRanks.map(item => item.name));
-            let newOptionSchema = optionsSchema;
-            newOptionSchema.properties.transition.dependencies.assign_user_by.oneOf[0].properties.ranks.properties = propExistingRanks;
-            setOptionsSchema(newOptionSchema)
-        }
-    }, [existingRanks])
-
-    useEffect(() => {
-        let propPrevInStages = formPropsForSchema(allInStages);
-        let newOptionSchema = optionsSchema;
-        newOptionSchema.properties.transition.dependencies.assign_user_by.oneOf[1].properties.by_previous_stages.properties = propPrevInStages;
-        setOptionsSchema(newOptionSchema)
-    }, [allInStages])*/
-
     const handleSubmit = () => {
-        /*let transition: { [key: string]: string | any } = formResponses['transition'];
-
-        if (transition['assign_user_by'] === 'ranks') {
-            // debugger
-            existingRanks.forEach((item, index, array) => {
-                if (transition['ranks'][index]) {
-                    let formdata = {
-                        open_limit: 0,
-                        total_limit: 0,
-                        list_permission: false,
-                        close_submission: false,
-                        close_selection: false,
-                        stage: +id,
-                        rank: item['id']
-                    }
-
-                    let existingRank: boolean[] = [];
-                    ranksLimits.forEach((rankLimit) => {
-                        if (rankLimit['rank'] === item['id'] && rankLimit['stage'] === +id) {
-                            existingRank.push(true)
-                        } else {
-                            existingRank.push(false)
-                        }
-                    })
-
-                    if (existingRank.includes(false) || !(ranksLimits.length != 0)) {
-                        axios
-                            .post(rankslimitsUrl, formdata)
-                            // .then((res: any) => alert("Saved"))
-                            .catch((err: any) => alert(err));
-                    }
-
-                } else {
-                    ranksLimits.forEach((rankLimit) => {
-                        // console.log(rankLimit['rank'], item['id'])
-                        // console.log(rankLimit['stage'], +id)
-                        // console.log('========')
-                        if (rankLimit['rank'] === item['id'] && rankLimit['stage'] === +id) {
-                            axios
-                                .delete(rankslimitsUrl + rankLimit['id'] + '/')
-                                // .then((res: any) => alert("Delete rankLimit for " + item['name'] + " rank"))
-                                .catch((err: any) => alert(err));
-                        }
-                    })
-
-                }
-            })
-        } else if (transition['assign_user_by'] === 'prevStage') {
-        }*/
-
         console.log("JSON SCHEMA", schema)
         console.log("UI SCHEMA", uiSchema)
 
@@ -208,12 +74,10 @@ const Builder = () => {
     }
 
     const handleJsonSchemaChange = (schema: string) => {
-        // let parsed = JSON.parse(schema)
         setSchema(schema)
     }
 
     const handleUiSchemaChange = (schema: string) => {
-        // let parsed = JSON.parse(schema)
         setUiSchema(schema)
     }
 
@@ -266,11 +130,6 @@ const Builder = () => {
                             onSubmit={handleSubmit}
                         />
                     </div>
-                    {/*<div>
-                        {JSON.stringify(ranksLimits)}
-                    </div>*/}
-
-
                 </div>
                 :
                 <div style={{width: '70%', minWidth: '400px', margin: '0 auto', display: 'block', padding: 10}}>
