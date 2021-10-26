@@ -7,12 +7,14 @@ import {PreviewFormParams} from "../../util/Types";
 
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
-    const json_schema = JSON.parse(jsonSchema) ?? {}
-    const ui_schema = JSON.parse(uiSchema) ?? {}
+    const json_schema = jsonSchema ? JSON.parse(jsonSchema) : {}
+    const ui_schema = uiSchema ? JSON.parse(uiSchema) : {}
     const stage_data = JSON.stringify({...formResponses, json_schema: json_schema, ui_schema: ui_schema})
     const [edit, setEdit] = useState(false)
     const [localJson, setLocalJson] = useState('')
     const [localUi, setLocalUi] = useState('')
+
+    console.log(jsonSchema, uiSchema)
 
     const widgets = {
         customfile: CustomFileWidget
