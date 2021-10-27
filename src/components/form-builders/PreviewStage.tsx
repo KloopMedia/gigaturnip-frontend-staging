@@ -4,6 +4,7 @@ import {Button, Switch, TextField, Typography} from "@material-ui/core";
 
 import CustomFileWidget from '../custom-widgets/file-widget/CustomFileWidget'
 import {PreviewFormParams} from "../../util/Types";
+import CustomAutoCompleteWidget from "../custom-widgets/autocomplete/AutoCompleteWidget";
 
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
@@ -17,7 +18,8 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
     console.log(jsonSchema, uiSchema)
 
     const widgets = {
-        customfile: CustomFileWidget
+        customfile: CustomFileWidget,
+        autocomplete: CustomAutoCompleteWidget
     };
 
     useEffect(() => {
@@ -72,7 +74,6 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
                 label="JSON"
                 multiline
                 fullWidth
-                defaultValue="Default Value"
                 variant="outlined"
                 InputProps={{
                     readOnly: !edit,
@@ -86,7 +87,6 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
                 label="UI"
                 multiline
                 fullWidth
-                defaultValue="Default Value"
                 variant="outlined"
                 InputProps={{
                     readOnly: !edit,
@@ -103,7 +103,6 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
                 label="FULL STAGE"
                 multiline
                 fullWidth
-                defaultValue="Default Value"
                 variant="outlined"
                 InputProps={{
                     readOnly: true,
