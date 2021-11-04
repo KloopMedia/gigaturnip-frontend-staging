@@ -5,6 +5,7 @@ import {Button, Switch, TextField, Typography} from "@material-ui/core";
 import CustomFileWidget from '../custom-widgets/file-widget/CustomFileWidget'
 import {PreviewFormParams} from "../../util/Types";
 import CustomAutoCompleteWidget from "../custom-widgets/autocomplete/AutoCompleteWidget";
+import FixedRadioWidget from "../custom-widgets/fixed-radio-widget/FixedRadioWidget";
 
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
@@ -19,7 +20,8 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
 
     const widgets = {
         customfile: CustomFileWidget,
-        autocomplete: CustomAutoCompleteWidget
+        autocomplete: CustomAutoCompleteWidget,
+        RadioWidget: FixedRadioWidget
     };
 
     useEffect(() => {
