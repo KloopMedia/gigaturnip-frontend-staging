@@ -199,15 +199,18 @@ export const updateNode = (node: any) => {
 export const createNode = async (node: { type: string, position: { x: number, y: number }, label: string }, chainId: string) => {
     let data = {
         name: node.label,
-        x_pos: node.position.x,
-        y_pos: node.position.y,
+        x_pos: Math.round(node.position.x),
+        y_pos: Math.round(node.position.y),
         chain: parseInt(chainId),
         out_stages: []
     }
 
+    console.log(data)
+
     const url = getUrl(node as any)
     if (url) {
         let stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err))
+        console.log("stage", stage)
         return stage.id.toString()
     }
     return undefined;
