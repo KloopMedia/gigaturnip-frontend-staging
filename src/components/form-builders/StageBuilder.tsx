@@ -8,6 +8,7 @@ import {JSONSchema7} from "json-schema";
 import PreviewStage from './PreviewStage'
 import CustomFileType from '../custom-widgets/file-widget/CustomFileType'
 import CustomAutoCompleteType from '../custom-widgets/autocomplete/AutoCompleteType'
+import CustomTextareaType from '../custom-widgets/textarea-widget/CustomTextareaWidgetType'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "../../util/Axios";
@@ -119,7 +120,7 @@ const Builder = () => {
                             }}
                             mods={
                                 {
-                                    customFormInputs: {...CustomFileType, ...CustomAutoCompleteType},
+                                    customFormInputs: {...CustomFileType, ...CustomAutoCompleteType, ...CustomTextareaType},
                                 }
                             }
                         />}
