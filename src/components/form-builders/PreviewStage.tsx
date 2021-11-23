@@ -6,6 +6,7 @@ import CustomFileWidget from '../custom-widgets/file-widget/CustomFileWidget'
 import {PreviewFormParams} from "../../util/Types";
 import CustomAutoCompleteWidget from "../custom-widgets/autocomplete/AutoCompleteWidget";
 import FixedRadioWidget from "../custom-widgets/fixed-radio-widget/FixedRadioWidget";
+import CustomLinkWidget from "../custom-widgets/link-widget/CustomLinkWidget";
 
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
@@ -21,7 +22,8 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
     const widgets = {
         customfile: CustomFileWidget,
         autocomplete: CustomAutoCompleteWidget,
-        RadioWidget: FixedRadioWidget
+        RadioWidget: FixedRadioWidget,
+        customlink: CustomLinkWidget
     };
 
     useEffect(() => {
