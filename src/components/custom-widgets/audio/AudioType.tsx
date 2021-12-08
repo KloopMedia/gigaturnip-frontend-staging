@@ -7,8 +7,7 @@ type Parameters = {
     definitionData: any,
     definitionUi: any,
     category: string,
-    default: string,
-    'ui:options': { private: boolean }
+    'ui:options': { private: boolean, default: string }
 };
 
 const CustomAudioField = ({
@@ -29,11 +28,11 @@ const CustomAudioField = ({
         </div>
         <h5>Default Audio (Link)</h5>
         <Input
-            value={parameters.default ?? ""}
+            value={parameters['ui:options']?.default ?? ""}
             placeholder='Default'
             type='text'
             onChange={(ev: React.ChangeEvent<any>) =>
-                onChange({...parameters, default: ev.target.value})
+                onChange({...parameters, "ui:options": {...parameters['ui:options'], default: ev.target.value}})
             }
             className='card-text'
         />
@@ -49,11 +48,11 @@ const AudioType = {
                 widget: "audio"
             },
         ],
-        possibleOptions: ['private'],
+        possibleOptions: ['private', 'default'],
         defaultDataSchema: {},
         defaultUiSchema: {
             "ui:widget": "audio",
-            "ui:options": {private: false}
+            "ui:options": {private: false, default: ""}
         },
         type: "string",
         cardBody: CustomAudioField,
