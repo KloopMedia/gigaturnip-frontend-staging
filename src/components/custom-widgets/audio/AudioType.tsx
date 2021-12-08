@@ -1,4 +1,5 @@
 import React from 'react'
+import {Input} from 'reactstrap';
 
 type Parameters = {
     name: string,
@@ -6,6 +7,7 @@ type Parameters = {
     definitionData: any,
     definitionUi: any,
     category: string,
+    default: string,
     'ui:options': { private: boolean }
 };
 
@@ -13,8 +15,8 @@ const CustomAudioField = ({
                              parameters,
                              onChange,
                          }: { parameters: Parameters, onChange: (newParams: Parameters) => void, }) => (
-    <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-        <div style={{display: "flex", alignItems: "baseline", padding: "0 10px"}}>
+    <div>
+        <div style={{display: "flex", justifyContent: "center", alignItems: "baseline", padding: "0 10px"}}>
             <h5 style={{padding: "0 5px"}}>Private Upload</h5>
             <input
                 checked={parameters['ui:options']?.private}
@@ -25,6 +27,16 @@ const CustomAudioField = ({
                 className='card-text'
             />
         </div>
+        <h5>Default Audio (Link)</h5>
+        <Input
+            value={parameters.default ?? ""}
+            placeholder='Default'
+            type='text'
+            onChange={(ev: React.ChangeEvent<any>) =>
+                onChange({...parameters, default: ev.target.value})
+            }
+            className='card-text'
+        />
     </div>
 );
 
