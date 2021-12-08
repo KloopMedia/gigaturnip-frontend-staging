@@ -21,6 +21,7 @@ import CreateIcon from '@material-ui/icons/Create';
 import {RouterParams} from "../../util/Types";
 import TextEditor from "../text-editor/TextEditor";
 import TextViewer from "../text-editor/TextViewer";
+import AudioType from "../custom-widgets/audio/AudioType";
 
 
 const Builder = () => {
@@ -125,7 +126,8 @@ const Builder = () => {
                                         ...CustomFileType,
                                         ...CustomAutoCompleteType,
                                         ...CustomTextareaType,
-                                        ...CustomLinkType
+                                        ...CustomLinkType,
+                                        ...AudioType
                                     },
                                 }
                             }

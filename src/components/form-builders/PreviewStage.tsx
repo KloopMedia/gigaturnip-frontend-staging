@@ -7,6 +7,7 @@ import {PreviewFormParams} from "../../util/Types";
 import CustomAutoCompleteWidget from "../custom-widgets/autocomplete/AutoCompleteWidget";
 import FixedRadioWidget from "../custom-widgets/fixed-radio-widget/FixedRadioWidget";
 import CustomLinkWidget from "../custom-widgets/link-widget/CustomLinkWidget";
+import AudioWidget from "../custom-widgets/audio/AudioWidget";
 
 
 const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}: PreviewFormParams) => {
@@ -23,7 +24,8 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
         customfile: CustomFileWidget,
         autocomplete: CustomAutoCompleteWidget,
         RadioWidget: FixedRadioWidget,
-        customlink: CustomLinkWidget
+        customlink: CustomLinkWidget,
+        audio: AudioWidget
     };
 
     useEffect(() => {
