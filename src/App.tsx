@@ -10,6 +10,8 @@ import {ROUTES} from "./utils/constants/Paths";
 import Campaigns from "./pages/campaigns/Campaigns";
 import Login from "./pages/login/Login";
 import Layout from "./components/layout/Layout";
+import Chains from "./pages/chains/Chains";
+import Graph from "./pages/graph/Graph";
 
 
 const App = () => (
@@ -17,8 +19,13 @@ const App = () => (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
-                    <Route path={ROUTES.campaigns.path}>
-                        {/*<Route path=":campaignId" element={<MockComponent/>}/>*/}
+                    <Route path={"campaign"}>
+                        <Route path=":campaignId">
+                            <Route path="chain">
+                                <Route path=":chainId"/>
+                                <Route index element={<Chains/>}/>
+                            </Route>
+                        </Route>
                         {/*<Route path="new" element={<MockComponent/>}/>*/}
                         <Route index element={<Campaigns/>}/>
                     </Route>

@@ -53,6 +53,7 @@ const useAxios = () => {
     };
 
     return {
+        axios,
         getCampaigns,
         getChains,
         getStageNodes,

@@ -1,20 +1,18 @@
 import React from 'react';
 import {Button, CardActions, CardContent, Typography} from '@mui/material'
 import MuiCard from '@mui/material/Card';
-import {useCampaign} from "../../../utils/hooks/useCampaign";
-import {useNavigate} from "react-router-dom";
 
 type Props = {
     data: any;
+    onClick: (id: number) => void;
 };
 
 const Card = (props: Props) => {
-    const {name, description, id} = props.data;
-    const {select} = useCampaign();
-    const navigate = useNavigate();
+    const {data, onClick} = props;
+    const {name, description, id} = data;
 
     const handleClick = () => {
-        select(id, () => navigate(`chains/${id}`))
+        onClick(id)
     }
 
     return (

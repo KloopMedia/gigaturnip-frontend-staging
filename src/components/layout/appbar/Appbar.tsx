@@ -17,7 +17,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -92,6 +92,7 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 export default function Appbar(props: { children?: any }) {
     const theme = useTheme();
+    const {campaignId} = useParams()
     const [open, setOpen] = React.useState(false);
     const {children} = props;
 
@@ -133,7 +134,7 @@ export default function Appbar(props: { children?: any }) {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem component={Link} to="chains">
+                    <ListItem component={Link} to={`campaign/${campaignId}/chain`}>
                         <ListItemIcon>
                             <InboxIcon/>
                         </ListItemIcon>
