@@ -1,12 +1,12 @@
-import React, {ReactChildren} from 'react';
-import {styled, useTheme, Theme, CSSObject} from '@mui/material/styles';
+import React from 'react';
+import {CSSObject, styled, Theme, useTheme} from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
+import MuiLink from '@mui/material/Link';
 import MuiAppBar, {AppBarProps as MuiAppBarProps} from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -16,8 +16,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
+import {Button} from "@mui/material";
+import {useAuth} from "../../../utils/hooks/useAuth";
 
 const drawerWidth = 240;
 
@@ -92,7 +93,9 @@ const Drawer = styled(MuiDrawer, {shouldForwardProp: (prop) => prop !== 'open'})
 
 export default function Appbar(props: { children?: any }) {
     const theme = useTheme();
-    const {campaignId} = useParams()
+    const {campaignId} = useParams();
+    const navigate = useNavigate();
+    const {logout} = useAuth();
     const [open, setOpen] = React.useState(false);
     const {children} = props;
 
@@ -109,7 +112,7 @@ export default function Appbar(props: { children?: any }) {
             <CssBaseline/>
             <StyledAppBar position="fixed" open={open}>
                 <Toolbar>
-                    <IconButton
+                    {campaignId && <IconButton
                         color="inherit"
                         aria-label="open drawer"
                         onClick={handleDrawerOpen}
@@ -120,13 +123,16 @@ export default function Appbar(props: { children?: any }) {
                         }}
                     >
                         <MenuIcon/>
-                    </IconButton>
-                    <Typography variant="h6" noWrap component="div">
-                        GigaTurnip Admin Interface
-                    </Typography>
+                    </IconButton>}
+                    <Box sx={{flexGrow: 1}}>
+                        <MuiLink component={Link} color={"inherit"} underline="none" variant="h6" noWrap to={"/"}>
+                            GigaTurnip Admin Interface
+                        </MuiLink>
+                    </Box>
+                    <Button color={"inherit"} onClick={() => logout(() => navigate('/'))}>Выход</Button>
                 </Toolbar>
             </StyledAppBar>
-            <Drawer variant="permanent" open={open}>
+            {campaignId && <Drawer variant="permanent" open={open}>
                 <DrawerHeader>
                     <IconButton onClick={handleDrawerClose}>
                         {theme.direction === 'rtl' ? <ChevronRightIcon/> : <ChevronLeftIcon/>}
@@ -141,7 +147,7 @@ export default function Appbar(props: { children?: any }) {
                         <ListItemText primary={"Цепочки"}/>
                     </ListItem>
                 </List>
-            </Drawer>
+            </Drawer>}
             <Box component="main" sx={{flexGrow: 1, width: "100%"}}>
                 <DrawerHeader/>
                 {children}
