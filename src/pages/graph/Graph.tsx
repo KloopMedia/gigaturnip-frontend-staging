@@ -1,15 +1,16 @@
 // noinspection ES6MissingAwait,JSIgnoredPromiseFromCall
 
 import React, {useEffect, useRef, useState} from 'react';
-import ReactFlow, {addEdge, Controls, Edge, FlowElement, ReactFlowProvider} from 'react-flow-renderer';
+import ReactFlow, {addEdge, Controls, Edge, FlowElement} from 'react-flow-renderer';
 import LogicNode from './nodes/LogicNode'
 import StageNode from './nodes/StageNode'
-import Sidebar from './sidebar/Sidebar';
 
 import './util/dnd.css';
 import {useNavigate, useParams} from "react-router-dom";
 import useHelpers from "./util/UseHelpers";
 import useAxios from "../../services/api/useAxios";
+import {Grid} from "@mui/material";
+import Sidebar from "./sidebar/Sidebar";
 
 
 const Graph = () => {
@@ -145,31 +146,32 @@ const Graph = () => {
 
 
     return (
-        <div className="dndflow">
-            <ReactFlowProvider>
-                <div className="reactflow-wrapper" ref={reactFlowWrapper}>
-                    <ReactFlow
-                        nodeTypes={nodeTypes}
-                        elements={elements}
-                        onConnect={onConnect}
-                        onElementsRemove={onElementsRemove}
-                        onNodeDoubleClick={onElementDoubleClick}
-                        onEdgeDoubleClick={onElementDoubleClick}
-                        onLoad={onLoad}
-                        onDrop={onDrop}
-                        onDragOver={onDragOver}
-                        onNodeDragStop={onNodeDragStop}
-                        style={{
-                            width: '100%',
-                            height: 700,
-                        }}
-                    >
-                        <Controls/>
-                    </ReactFlow>
-                </div>
+        <Grid container>
+            <Grid item md={10} zIndex={1}>
+                <ReactFlow
+                    ref={reactFlowWrapper}
+                    nodeTypes={nodeTypes}
+                    elements={elements}
+                    onConnect={onConnect}
+                    onElementsRemove={onElementsRemove}
+                    onNodeDoubleClick={onElementDoubleClick}
+                    onEdgeDoubleClick={onElementDoubleClick}
+                    onLoad={onLoad}
+                    onDrop={onDrop}
+                    onDragOver={onDragOver}
+                    onNodeDragStop={onNodeDragStop}
+                    style={{
+                        width: '94vw',
+                        height: '90vh'
+                    }}
+                >
+                    <Controls/>
+                </ReactFlow>
+            </Grid>
+            <Grid item md={2} zIndex={2} height={210} sx={{background: "white"}}>
                 <Sidebar/>
-            </ReactFlowProvider>
-        </div>
+            </Grid>
+        </Grid>
     );
 };
 
