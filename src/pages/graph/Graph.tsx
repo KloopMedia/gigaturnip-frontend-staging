@@ -173,7 +173,7 @@ const Graph = () => {
                     <Controls/>
                 </ReactFlow>
             </Grid>
-            <Grid item md={2} zIndex={2} height={210} sx={{background: "white"}}>
+            <Grid item md={2} zIndex={2} height={200} sx={{background: "white"}}>
                 <Sidebar/>
             </Grid>
         </Grid>

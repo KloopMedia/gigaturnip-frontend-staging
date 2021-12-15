@@ -42,7 +42,7 @@ const Sidebar = () => {
             <Grid container item mt={2} justifyContent={"center"}>
                 <TextField label={"Label"} size="small" value={label} onChange={(e) => setLabel(e.target.value)}/>
                 <Typography py={1} variant={"caption"} color={"red"} align={"center"}>
-                    {!draggable && 'Enter Label to drag the node'}
+                    {!draggable && 'Enter label to drag the node'}
                 </Typography>
             </Grid>
             <Grid item>
