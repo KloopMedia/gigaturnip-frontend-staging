@@ -29,12 +29,12 @@ const BaseNode = (props: NodeType) => {
             <Handle
                 type="target"
                 position={Position.Top}
-                style={{borderRadius: '100%'}}
+                style={{borderRadius: '100%', width: 10, height: 10}}
             />
             <Handle
                 type="source"
                 position={Position.Bottom}
-                style={{borderRadius: '100%'}}
+                style={{borderRadius: '100%', width: 10, height: 10}}
             />
         </Node>
     );

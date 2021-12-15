@@ -23,6 +23,7 @@ const Graph = () => {
 
     const parsedCampaignId: number = parseId(campaignId);
     const parsedChainId: number = parseId(chainId);
+    const extraEdgeOptions = {style: {strokeWidth: 3}, arrowHeadType: "arrow"}
 
     // <------ UseEffect Part ------>
     useEffect(() => {
@@ -58,7 +59,7 @@ const Graph = () => {
                                 source: sourceId.toString(),
                                 target: stage.id.toString(),
                                 id: `${sourceId}-${stage.id}`,
-                                arrowHeadType: "arrow"
+                                ...extraEdgeOptions
                             } as Edge
                             setElements((els) => addEdge(edge, els))
                         })
@@ -71,7 +72,7 @@ const Graph = () => {
     // <------ Frameworks Functions Part ------>
 
     const onConnect = async (params: object) => {
-        const newParams: any = {...params, arrowHeadType: 'arrow'}
+        const newParams: any = {...params, ...extraEdgeOptions}
         const target = newParams.target
         const source = newParams.source
 
