@@ -1,4 +1,4 @@
 export type NodeType = {
     data: { label: string },
-    style?: object
+    type: "stage" | "logic"
 }

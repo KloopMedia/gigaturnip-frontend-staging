@@ -1,31 +1,31 @@
 import React from 'react';
 import {Handle, Position} from 'react-flow-renderer';
-import {styled} from "@mui/material/styles";
+import {styled, Theme} from "@mui/material/styles";
 import {NodeType} from "./Node.types";
+import {Box, BoxProps as MuiBoxProps, Typography} from "@mui/material";
 
 
-const Node = styled('div')(({theme}) => ({
-    // background: '#FFF',
-    // borderColor: '#000',
-    // borderWidth: '1px',
-    // borderStyle: 'solid',
-    // borderRadius: '3px',
+interface NodeProps extends MuiBoxProps {
+    type: "logic" | "stage";
+}
+
+const Node = styled(Box)<NodeProps>(({theme, type}) => ({
     fontSize: '12px',
     width: '150px',
     textAlign: 'center',
-    color: theme.palette.primary.contrastText,
-    backgroundColor: theme.palette.primary.main,
+    color: type === "logic" ? theme.palette.success.contrastText : theme.palette.primary.contrastText,
+    backgroundColor: type === "logic" ? theme.palette.success.main : theme.palette.primary.main,
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
 }));
 
 
 const BaseNode = (props: NodeType) => {
-    const {data, style} = props;
+    const {data, type} = props;
 
     return (
-        <Node style={style}>
-            <div>{data.label}</div>
+        <Node type={type}>
+            <Typography>{data.label}</Typography>
             <Handle
                 type="target"
                 position={Position.Top}

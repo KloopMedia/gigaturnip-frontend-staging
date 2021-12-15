@@ -22,7 +22,7 @@ const App = () => (
                     <Route path={"campaign"}>
                         <Route path=":campaignId">
                             <Route path="chain">
-                                <Route path=":chainId"/>
+                                <Route path=":chainId" element={<Graph/>}/>
                                 <Route index element={<Chains/>}/>
                             </Route>
                         </Route>
