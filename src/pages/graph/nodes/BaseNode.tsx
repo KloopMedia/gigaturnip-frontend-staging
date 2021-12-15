@@ -13,8 +13,8 @@ const Node = styled(Box)<NodeProps>(({theme, type}) => ({
     fontSize: '12px',
     width: '150px',
     textAlign: 'center',
-    color: type === "logic" ? theme.palette.success.contrastText : theme.palette.primary.contrastText,
-    backgroundColor: type === "logic" ? theme.palette.success.main : theme.palette.primary.main,
+    color: type === "stage" ? theme.palette.success.contrastText : theme.palette.primary.contrastText,
+    backgroundColor: type === "stage" ? theme.palette.success.main : theme.palette.primary.main,
     padding: theme.spacing(1),
     borderRadius: theme.shape.borderRadius,
 }));

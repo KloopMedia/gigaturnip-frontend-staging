@@ -7,6 +7,14 @@ import useAxios from "../../../services/api/useAxios";
 const useHelpers = () => {
     const {axios} = useAxios();
 
+    const parseId = (id: string | undefined) => {
+        if (id) {
+            return parseInt(id)
+        } else {
+            throw new Error("No id");
+        }
+    }
+
     /**
      * Search node in elements (state) and return it.
      * @param id
@@ -75,7 +83,6 @@ const useHelpers = () => {
                 if (type === 'out') {
                     data = {out_stages: ids}
                 }
-
                 if (data) {
                     console.log(data)
                     axios.patch(url + node.id + '/', data)
@@ -112,7 +119,7 @@ const useHelpers = () => {
     }
 
     const removeElements = (elementsToRemove: FlowElement[], elements: FlowElement[]) => {
-        let nodeIdsToRemove = elementsToRemove.map((n: any) => {
+        const nodeIdsToRemove = elementsToRemove.map((n: any) => {
             return n.id;
         });
 
@@ -142,9 +149,9 @@ const useHelpers = () => {
      * @param node
      */
     const updateNode = (node: any) => {
-        let x_pos = Math.round(node.position.x)
-        let y_pos = Math.round(node.position.y)
-        let data = {x_pos, y_pos}
+        const x_pos = Math.round(node.position.x);
+        const y_pos = Math.round(node.position.y);
+        const data = {x_pos, y_pos};
         const url = getUrl(node)
         console.log(data)
         if (url) {
@@ -159,22 +166,23 @@ const useHelpers = () => {
      * @returns {Promise<string | undefined>}
      */
     const createNode = async (node: { type: string, position: { x: number, y: number }, label: string }, chainId: number) => {
-        let data = {
+        const data = {
             name: node.label,
             x_pos: Math.round(node.position.x),
             y_pos: Math.round(node.position.y),
             chain: chainId,
             out_stages: []
-        }
+        };
 
         const url = getUrl(node as any)
         if (url) {
-            let stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err))
+            const stage = await axios.post(url, data).then(res => res.data).catch(err => console.log(err));
             return stage.id.toString()
         }
         return undefined;
     }
     return {
+        parseId,
         getNode,
         getUrl,
         updateConnections,

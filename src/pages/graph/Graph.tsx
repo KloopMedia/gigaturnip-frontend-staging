@@ -7,31 +7,22 @@ import StageNode from './nodes/StageNode'
 import Sidebar from './sidebar/Sidebar';
 
 import './util/dnd.css';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useHelpers from "./util/UseHelpers";
 import useAxios from "../../services/api/useAxios";
 
 
 const Graph = () => {
     const reactFlowWrapper = useRef(null);
-    const {campaignId, chainId} = useParams();
-    let parsedCampaignId: number;
-    if (campaignId) {
-        parsedCampaignId = parseInt(campaignId);
-    } else {
-        throw new Error("No campaign id");
-    }
-    let parsedChainId: number;
-    if (chainId) {
-        parsedChainId = parseInt(chainId);
-    } else {
-        throw new Error("No chain id");
-    }
     const {getStageNodes, getLogicNodes} = useAxios();
-    const {addConnections, createNode, removeElements, updateNode} = useHelpers();
-
+    const {parseId, addConnections, createNode, removeElements, updateNode} = useHelpers();
+    const {campaignId, chainId} = useParams();
     const [reactFlowInstance, setReactFlowInstance] = useState(null);
     const [elements, setElements] = useState<FlowElement[]>([]);
+    const navigate = useNavigate();
+
+    const parsedCampaignId: number = parseId(campaignId);
+    const parsedChainId: number = parseId(chainId);
 
     // <------ UseEffect Part ------>
     useEffect(() => {
@@ -135,15 +126,14 @@ const Graph = () => {
 
     const onElementDoubleClick = (event: any, element: any) => {
         console.log(element)
-        // let location = history.location.pathname
-        // if (element.id) {
-        //     if (element.type === 'LOGIC') {
-        //         history.push(`${location}/createlogic/${element.id}`)
-        //     }
-        //     if (element.type === 'STAGE') {
-        //         history.push(`${location}/createstage/${element.id}`)
-        //     }
-        // }
+        if (element.id) {
+            if (element.type === 'LOGIC') {
+                navigate(`createlogic/${element.id}`)
+            }
+            if (element.type === 'STAGE') {
+                navigate(`createstage/${element.id}`)
+            }
+        }
     }
 
     // Init custom node types
