@@ -110,6 +110,10 @@ const Graph = () => {
         const label = parsedData.label
         const type = parsedData.type
 
+        if (label === "") {
+            return 0;
+        }
+
         const id = await createNode({type, position, label}, parsedChainId)
 
         let newNode = {
@@ -160,6 +164,7 @@ const Graph = () => {
                     onDrop={onDrop}
                     onDragOver={onDragOver}
                     onNodeDragStop={onNodeDragStop}
+                    preventScrolling={true}
                     style={{
                         width: '94vw',
                         height: '90vh'
