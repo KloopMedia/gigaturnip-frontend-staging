@@ -1,0 +1,52 @@
+{
+  "type": "object",
+  "title": "Stage options",
+  "description": "Describe the stage you want.",
+  "properties": {
+    "name": {
+      "title": "Stage name",
+      "type": "string",
+      "description": "Example: Violation description form"
+    },
+    "description": {
+      "title": "Stage description",
+      "type": "string",
+      "description": "Example: Form that describes an election violation",
+      "default": ""
+    },
+    "is_creatable": {
+      "type": "boolean",
+      "title": "Task is creatable",
+      "default": false
+    },
+    "copy_input": {
+      "type": "boolean",
+      "title": "Copy input",
+      "default": false
+    },
+    "webhook_address": {
+      "title": "Webhook address",
+      "type": "string",
+      "format": "uri"
+    },
+    "webhook_params": {
+      "title": "Webhook parameters",
+      "type": "string"
+    },
+    "library": {
+      "title": "Library",
+      "type": "string",
+      "default": ""
+    },
+    "displayed_prev_stages": {
+      "items": {
+        "type": "number",
+        "title": "Stage"
+      },
+      "title": "Background Stages",
+      "type": "array"
+    }
+  },
+  "dependencies": {},
+  "required": ["name"]
+}

@@ -1,4 +1,4 @@
-import {useAuth} from "../../utils/hooks/useAuth";
+import {useAuth} from "../../context/authentication/hooks/useAuth";
 import {useLocation, Navigate} from "react-router-dom";
 import {ROUTES} from "../../utils/constants/Paths";
 import {CircularProgress} from "@mui/material";

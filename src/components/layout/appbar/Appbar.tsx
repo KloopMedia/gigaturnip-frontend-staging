@@ -18,7 +18,7 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button} from "@mui/material";
-import {useAuth} from "../../../utils/hooks/useAuth";
+import {useAuth} from "../../../context/authentication/hooks/useAuth";
 
 const drawerWidth = 240;
 

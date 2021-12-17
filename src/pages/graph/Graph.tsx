@@ -5,9 +5,9 @@ import ReactFlow, {addEdge, Controls, Edge, FlowElement} from 'react-flow-render
 import LogicNode from './nodes/LogicNode'
 import StageNode from './nodes/StageNode'
 
-import './util/dnd.css';
+import './css/dnd.css';
 import {useNavigate, useParams} from "react-router-dom";
-import useHelpers from "./util/UseHelpers";
+import useHelpers from "../../utils/hooks/UseHelpers";
 import useAxios from "../../services/api/useAxios";
 import {Grid} from "@mui/material";
 import Sidebar from "./sidebar/Sidebar";

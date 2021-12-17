@@ -1,8 +1,8 @@
 import {FlowElement} from "react-flow-renderer/dist/types/general";
-import {conditionalstagesUrl, taskstagesUrl} from "../../../services/api/Urls";
+import {conditionalstagesUrl, taskstagesUrl} from "../../services/api/Urls";
 import {ConnectionsParams} from "./Helpers.types";
 import {isEdge} from "react-flow-renderer";
-import useAxios from "../../../services/api/useAxios";
+import useAxios from "../../services/api/useAxios";
 
 const useHelpers = () => {
     const {axios} = useAxios();

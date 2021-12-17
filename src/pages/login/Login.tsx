@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import {Button} from "@mui/material";
-import {useAuth} from "../../utils/hooks/useAuth";
+import {useAuth} from "../../context/authentication/hooks/useAuth";
 import {useLocation, useNavigate} from "react-router-dom";
 
 

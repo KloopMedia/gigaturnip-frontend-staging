@@ -52,12 +52,23 @@ const useAxios = () => {
             .then(res => res.results)
     };
 
+    const getTaskStage = (id: number) => {
+        return axios.get(`${taskstagesUrl + id}/`)
+                .then(res => res.data)
+    }
+
+    const saveTaskStage = (id: number, data: any) => {
+        return axios.patch(`${taskstagesUrl + id}/`, data)
+    }
+
     return {
         axios,
         getCampaigns,
         getChains,
         getStageNodes,
-        getLogicNodes
+        getLogicNodes,
+        getTaskStage,
+        saveTaskStage
     }
 }
 
