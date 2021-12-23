@@ -145,7 +145,7 @@ const StageBuilder = () => {
                 <ViewModeSetter mode={viewMode} onChange={handleViewModeChange}/>
             </Box>
             {renderContent(viewMode)}
-            {viewMode === "builder" && <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}} pb={2}>
+            {viewMode === "builder" && <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}} pb={3}>
                 <Button variant={"contained"} color={"warning"} fullWidth onClick={handleSubmit}>Сохранить</Button>
             </Box>}
         </Box>
