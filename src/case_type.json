@@ -1,0 +1,35 @@
+{
+  "type": "object",
+  "title": "Case type",
+  "description": "A case consists of stages. A stage is a form, that will be filled by some people. Later we will create a pipeline for the stages.",
+  "properties": {
+    "caseTitle": {
+      "title": "Case title",
+      "type": "string",
+      "minLength": 1,
+      "description": "Example: Election violations"
+    },
+    "caseDescription": {
+      "title": "Case description",
+      "type": "string",
+      "description": "Example: Forms for documenting election violations"
+    },
+    "caseStages": {
+      "items": {
+        "title": "Stage name",
+        "type": "string",
+        "description": "Example: violation_description_form"
+      },
+      "title": "Stages",
+      "type": "array",
+      "description": "Names of the stages in your case. Do not duplicate the names.",
+      "minItems": 1
+    }
+  },
+  "dependencies": {},
+  "required": [
+    "caseTitle",
+    "caseDescription",
+    "caseStages"
+  ]
+}
