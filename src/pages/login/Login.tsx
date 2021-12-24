@@ -9,7 +9,8 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const from = location.state?.from?.pathname || "/";
+    // @ts-ignore
+    const from = location?.state?.from?.pathname || "/";
 
     const handleLogin = () => {
         login(() => navigate(from, { replace: true }))
