@@ -54,11 +54,20 @@ const useAxios = () => {
 
     const getTaskStage = (id: number) => {
         return axios.get(`${taskstagesUrl + id}/`)
-                .then(res => res.data)
+            .then(res => res.data)
     }
 
     const saveTaskStage = (id: number, data: any) => {
         return axios.patch(`${taskstagesUrl + id}/`, data)
+    }
+
+    const getConditionalStage = (id: number) => {
+        return axios.get(`${conditionalstagesUrl + id}/`)
+            .then(res => res.data)
+    }
+
+    const saveConditionalStage = (id: number, data: any) => {
+        return axios.patch(`${conditionalstagesUrl + id}/`, data)
     }
 
     return {
@@ -68,7 +77,9 @@ const useAxios = () => {
         getStageNodes,
         getLogicNodes,
         getTaskStage,
-        saveTaskStage
+        saveTaskStage,
+        getConditionalStage,
+        saveConditionalStage
     }
 }
 

@@ -3,9 +3,64 @@ import {conditionalstagesUrl, taskstagesUrl} from "../../services/api/Urls";
 import {ConnectionsParams} from "./Helpers.types";
 import {isEdge} from "react-flow-renderer";
 import useAxios from "../../services/api/useAxios";
+// @ts-ignore
+import {retrieveSchema, toPathSchema} from "@rjsf/core/lib/utils";
+// @ts-ignore
+import _get from "lodash/get";
+// @ts-ignore
+import _isEmpty from "lodash/isEmpty";
 
 const useHelpers = () => {
     const {axios} = useAxios();
+
+    /**
+     * Get flatten fields from schema
+     * @param schema
+     * @param formData
+     * @returns {*[]}
+     */
+    const getFormFields = (schema: any, formData = {}) => {
+        const retrievedSchema = retrieveSchema(
+            schema
+        );
+
+        const pathSchema = toPathSchema(
+            retrievedSchema,
+            "",
+            schema,
+            formData
+        );
+
+        const getFieldNames = (pathSchema: any, formData: any) => {
+            const getAllPaths = (_obj:any, acc:any[] = [], paths = [""]) => {
+                Object.keys(_obj).forEach(key => {
+                    if (typeof _obj[key] === "object") {
+                        let newPaths = paths.map(path => `${path}.${key}`);
+                        // If an object is marked with additionalProperties, all its keys are valid
+                        if (_obj[key].__rjsf_additionalProperties && _obj[key].$name !== "") {
+                            acc.push(_obj[key].$name);
+                        } else {
+                            getAllPaths(_obj[key], acc, newPaths);
+                        }
+                    } else if (key === "$name" && _obj[key] !== "") {
+                        paths.forEach(path => {
+                            path = path.replace(/^\./, "");
+                            const formValue = _get(formData, path);
+                            // adds path to fieldNames if it points to a value
+                            // or an empty object/array
+                            if (typeof formValue !== "object" || _isEmpty(formValue)) {
+                                acc.push(path);
+                            }
+                        });
+                    }
+                });
+                return acc;
+            };
+            return getAllPaths(pathSchema);
+        };
+
+        return getFieldNames(pathSchema, formData);
+    };
 
     const parseId = (id: string | undefined) => {
         if (id) {
@@ -182,6 +237,7 @@ const useHelpers = () => {
         return undefined;
     }
     return {
+        getFormFields,
         parseId,
         getNode,
         getUrl,
