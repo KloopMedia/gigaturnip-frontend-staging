@@ -113,14 +113,14 @@ const Builder = () => {
                 }
 
                 // Get fields from schema's properties and dependencies
-                let stageFields = GetFormFields(stageSchema)
-                let depValues = Object.values(deps)
+                const stageFields = GetFormFields(stageSchema)
+                const depValues = Object.values(deps)
+                let depFields = []
                 if (depValues.length > 0) {
-                    let depFields = depValues.map((dep: any) => getDependentFields(dep)).flat()
-                    stageFields = Array.from(new Set([...fields, ...depFields]))
+                    depFields = depValues.map((dep: any) => getDependentFields(dep)).flat()
                 }
 
-                return stageFields
+                return Array.from(new Set([...stageFields, ...depFields]))
             }).flat()
 
             setFields(allFields)

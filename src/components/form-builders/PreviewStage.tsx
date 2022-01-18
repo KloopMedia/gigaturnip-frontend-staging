@@ -62,7 +62,7 @@ const Preview = ({jsonSchema, uiSchema, formResponses, onJsonChange, onUiChange}
                 schema={json_schema as any}
                 uiSchema={ui_schema}
                 widgets={widgets}
-                onSubmit={(formData) => console.log(formData.formData)}
+                onSubmit={(e) => console.log(e.formData)}
             />
             <br/>
             <Switch
