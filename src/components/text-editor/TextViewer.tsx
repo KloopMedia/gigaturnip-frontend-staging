@@ -1,8 +1,11 @@
+import React from 'react';
 import {Editor} from "@tinymce/tinymce-react";
-import React from "react";
 
+type Props = {
+    data: string
+};
 
-const TextViewer = (props: {data: string}) => {
+const TextViewer = (props: Props) => {
     const {data} = props;
 
     return (
@@ -20,7 +23,7 @@ const TextViewer = (props: {data: string}) => {
                 importcss_append: true,
             }}
         />
-    )
-}
+    );
+};
 
 export default TextViewer

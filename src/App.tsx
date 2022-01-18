@@ -1,74 +1,46 @@
-import React, {useContext} from "react";
-import Graph from './components/graph/Graph'
-import StageBuilder from './components/form-builders/StageBuilder'
-import LogicBuilder from './components/form-builders/LogicBuilder'
-import Actions from './components/actions/Actions'
-import Task from './components/task/Task'
-import Appbar from "./components/appbar/Appbar";
+import React from 'react';
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from "react-router-dom";
+import AuthProvider from "./context/authentication/AuthProvider";
+import RequireAuth from "./pages/login/RequireAuth";
+import {ROUTES} from "./utils/constants/Paths";
+import Campaigns from "./pages/campaigns/Campaigns";
+import Login from "./pages/login/Login";
+import Layout from "./components/layout/Layout";
+import Chains from "./pages/chains/Chains";
+import Graph from "./pages/graph/Graph";
+import StageBuilder from "./pages/form-builders/stage-builder/StageBuilder";
+import LogicBuilder from "./pages/form-builders/logic-builder/LogicBuilder";
 
-import {HashRouter as Router, Route, Switch} from "react-router-dom";
-import Chains from "./components/chains/Chains";
-import Campaigns from "./components/campaigns/Campaigns";
-import SimpleAppbar from "./components/appbar/SimpleAppbar";
-import About from "./components/campaigns/About";
-import {AuthContext} from "./util/Auth";
 
-
-const App = () => {
-    const {currentUser} = useContext(AuthContext)
-    if (currentUser) {
-        const token = localStorage.getItem("token");
-        currentUser.getIdToken(false).then((idToken: string) => {
-            if (token) {
-                if (idToken !== token) {
-                    localStorage.setItem("token", idToken);
-                    window.location.reload()
-                }
-            } else {
-                localStorage.setItem("token", idToken);
-                window.location.reload()
-            }
-        })
-    }
-    return (
-        <div>
-            <Router>
-                <Switch>
-                    <Route path={"/campaign/:campaignId"}>
-                        <Appbar>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/createstage/:id">
-                                <StageBuilder/>
+const App = () => (
+    <AuthProvider>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
+                    <Route path={"campaign"}>
+                        <Route path=":campaignId">
+                            <Route path="chain">
+                                <Route path=":chainId">
+                                    <Route path={"createstage/:stageId"} element={<StageBuilder/>}/>
+                                    <Route path={"createlogic/:stageId"} element={<LogicBuilder/>}/>
+                                    <Route index element={<Graph/>}/>
+                                </Route>
+                                <Route index element={<Chains/>}/>
                             </Route>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/createlogic/:id">
-                                <LogicBuilder/>
-                            </Route>
-                            {/*<Route exact path={"/campaign/about/:id"}>*/}
-                            {/*    <About />*/}
-                            {/*</Route>*/}
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/task/:id">
-                                <Task/>
-                            </Route>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId/actions/:id">
-                                <Actions/>
-                            </Route>
-                            <Route exact path="/campaign/:campaignId/chain">
-                                <Chains/>
-                            </Route>
-                            <Route exact path="/campaign/:campaignId/chain/:chainId">
-                                <Graph/>
-                            </Route>
-                        </Appbar>
+                        </Route>
+                        {/*<Route path="new" element={<MockComponent/>}/>*/}
+                        <Route index element={<Campaigns/>}/>
                     </Route>
-                    <Route path="/">
-                        <SimpleAppbar>
-                            <Campaigns/>
-                        </SimpleAppbar>
-                    </Route>
-                </Switch>
-            </Router>
+                    <Route index element={<Campaigns/>}/>
+                </Route>
+                <Route path={ROUTES.login.path} element={<Login/>}/>
+            </Routes>
+        </BrowserRouter>
+    </AuthProvider>
+);
 
-        </div>
-    );
-}
-
-export default App
+export default App;
