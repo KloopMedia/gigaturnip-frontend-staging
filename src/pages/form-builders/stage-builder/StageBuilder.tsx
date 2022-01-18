@@ -122,6 +122,8 @@ const StageBuilder = () => {
                     onSchemaChange={handleSchemaChange}
                     onFormDataChange={handleFormDataChange}
                 />;
+            case "plugins":
+                return <p>plugins</p>;
             case "text":
                 return <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}}>
                     <TextEditor data={textEditorData} onChange={handleTextChange}/>

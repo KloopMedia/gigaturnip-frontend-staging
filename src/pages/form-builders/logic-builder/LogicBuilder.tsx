@@ -102,12 +102,12 @@ const LogicBuilder = () => {
 
                 // Return fields from schema's properties and dependencies
                 const dependenciesValues = Object.values(dependencies);
+                const formFields = getFormFields(stageSchema);
+                let depFields = [];
                 if (dependenciesValues.length > 0) {
-                    const depFields = dependenciesValues.map((dep: any) => getDependentFields(dep)).flat()
-                    return Array.from(new Set([...fields, ...depFields]))
-                } else {
-                    return getFormFields(stageSchema);
+                    depFields = dependenciesValues.map((dep: any) => getDependentFields(dep)).flat()
                 }
+                return Array.from(new Set([...formFields, ...depFields]))
             }).flat()
 
             setFields(allFields)

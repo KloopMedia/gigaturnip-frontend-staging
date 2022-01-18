@@ -1,1 +1,1 @@
-export type ViewModeProps = "builder" | "preview" | "text" | "editor";
+export type ViewModeProps = "builder" | "preview" | "text" | "editor" | "plugins";
