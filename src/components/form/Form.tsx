@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 type Props = {
     schema: object,
     uiSchema?: object,
-    formData?: object,
+    formData?: any,
     onChange?: (formData: object) => void,
     onSubmit?: (formData: object) => void,
     hideButton?: boolean

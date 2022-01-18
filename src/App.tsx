@@ -18,7 +18,7 @@ import LogicBuilder from "./pages/form-builders/logic-builder/LogicBuilder";
 
 const App = () => (
     <AuthProvider>
-        <BrowserRouter>
+        <BrowserRouter basename={"gigaturnip-frontend"}>
             <Routes>
                 <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
                     <Route path={"campaign"}>

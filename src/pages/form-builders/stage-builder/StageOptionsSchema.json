@@ -41,8 +41,9 @@
     "displayed_prev_stages": {
       "items": {
         "type": "number",
-        "title": "Stage"
+        "enum": []
       },
+      "uniqueItems": true,
       "title": "Background Stages",
       "type": "array"
     }
