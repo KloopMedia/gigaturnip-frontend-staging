@@ -13,7 +13,7 @@ export const AuthContext = React.createContext<AuthContextType>(null!);
 
 const AuthProvider = ({children}: { children: React.ReactNode }) => {
     const [user, setUser] = useState<any>(null);
-    const [ready, setReady] = useState(false)
+    const [ready, setReady] = useState(false);
 
     useEffect(() => {
         onIdTokenChanged(auth, async (user) => {

@@ -1,0 +1,17 @@
+{
+  "title": "Создание цепочки",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Название"
+    },
+    "description": {
+      "type": "string",
+      "title": "Описание"
+    }
+  }
+}

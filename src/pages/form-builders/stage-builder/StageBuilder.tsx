@@ -5,11 +5,12 @@ import useHelpers from "../../../utils/hooks/UseHelpers";
 import {ViewModeProps} from "./StageBuilder.types";
 import ViewModeSetter from "./view-mode-setter/ViewModeSetter";
 import Builder from "./builder/Builder";
-import TextEditor from "../../../components/text-editor/TextEditor";
 import {Box, Button} from "@mui/material";
 import Preview from "./preview/Preview";
 import SchemaEditor from "./schema-editor/SchemaEditor";
 import Plugins from "./plugins/Plugins";
+import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
+import Text from "./text/Text";
 
 const StageBuilder = () => {
     const {stageId} = useParams();
@@ -126,9 +127,7 @@ const StageBuilder = () => {
             case "plugins":
                 return <Plugins/>;
             case "text":
-                return <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}}>
-                    <TextEditor data={textEditorData} onChange={handleTextChange}/>
-                </Box>;
+                return <Text data={textEditorData} onChange={handleTextChange}/>;
             case "preview":
                 return <Preview schema={schemaJson} uiSchema={uiJson} text={textEditorData}/>;
             case "editor":
@@ -148,9 +147,9 @@ const StageBuilder = () => {
                 <ViewModeSetter mode={viewMode} onChange={handleViewModeChange}/>
             </Box>
             {renderContent(viewMode)}
-            {viewMode === "builder" && <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}} pb={3}>
+            {viewMode === "builder" && <BuilderLayout pb={3}>
                 <Button variant={"contained"} color={"warning"} fullWidth onClick={handleSubmit}>Сохранить</Button>
-            </Box>}
+            </BuilderLayout>}
         </Box>
     );
 };

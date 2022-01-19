@@ -31,9 +31,9 @@ const Form = (props: Props) => {
         }
     }
 
-    const handleSubmit = (formData: object) => {
+    const handleSubmit = (e: {formData: object}) => {
         if (onSubmit) {
-            onSubmit(formData)
+            onSubmit(e.formData)
         } else {
             return 0
         }

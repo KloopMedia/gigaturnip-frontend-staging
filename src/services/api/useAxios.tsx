@@ -40,6 +40,10 @@ const useAxios = () => {
             .then(res => res.results)
     }
 
+    const createChain = (data: {name: string, campaign: number, description?: string}) => {
+        return axios.post(`${chainsUrl}`, data)
+    }
+
     const getStageNodes = (campaignId: number, chainId: number) => {
         return axios.get(`${taskstagesUrl}?chain__campaign=${campaignId}&chain=${chainId}&limit=1000`)
             .then(res => res.data)
@@ -74,6 +78,7 @@ const useAxios = () => {
         axios,
         getCampaigns,
         getChains,
+        createChain,
         getStageNodes,
         getLogicNodes,
         getTaskStage,

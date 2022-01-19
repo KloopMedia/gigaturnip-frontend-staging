@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import useAxios from "../../services/api/useAxios";
-import {Grid} from "@mui/material";
+import {Box} from "@mui/material";
 import {useNavigate} from "react-router-dom";
 import List from "../../components/list/List";
 
@@ -8,10 +8,10 @@ const Campaigns = () => {
     const {getCampaigns} = useAxios()
     const navigate = useNavigate();
 
-    const [campaigns, setCampaigns] = useState([])
+    const [data, setData] = useState([])
 
     useEffect(() => {
-        getCampaigns().then(res => setCampaigns(res))
+        getCampaigns().then(res => setData(res))
     }, [])
 
     const handleSelect = (id: number) => {
@@ -19,9 +19,9 @@ const Campaigns = () => {
     }
 
     return (
-        <Grid>
-            <List data={campaigns} label={"Кампании"} onSelect={handleSelect}/>
-        </Grid>
+        <Box px={3} py={1}>
+            <List id={"campaigns"} data={data} label={"Кампании"} onSelect={handleSelect}/>
+        </Box>
     )
 }
 

@@ -3,6 +3,7 @@ import Form from "../../../../components/form/Form"
 import StageOptionsSchema from '../StageOptionsSchema.json'
 import {Box} from "@mui/material";
 import FormBuilder from "../../../../components/form-builder/FormBuilder";
+import BuilderLayout from "../../../../components/layout/common-layouts/BuilderLayout";
 
 type Props = {
     schema: string,
@@ -31,7 +32,7 @@ const Builder = (props: Props) => {
                     uiSchema={uiSchema}
                     onChange={onSchemaChange}
                 />
-            <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}}>
+            <BuilderLayout>
                 <Form
                     schema={StageOptionsSchema}
                     uiSchema={{
@@ -43,7 +44,7 @@ const Builder = (props: Props) => {
                     onChange={onFormDataChange}
                     hideButton={true}
                 />
-            </Box>
+            </BuilderLayout>
         </Box>
     );
 };

@@ -4,6 +4,7 @@ import {useParams} from "react-router-dom";
 import useHelpers from "../../../utils/hooks/UseHelpers";
 import {Box, Checkbox, FormControlLabel} from "@mui/material";
 import Form from "../../../components/form/Form";
+import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
 
 const LogicBuilder = () => {
     const {getConditionalStage, saveConditionalStage, getTaskStage} = useAxios();
@@ -172,7 +173,7 @@ const LogicBuilder = () => {
     }
 
     return (
-        <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}} pb={3}>
+        <BuilderLayout pb={3}>
             <FormControlLabel
                 control={<Checkbox checked={isPingPong} onChange={handleChangePingPong} name="PingPong"
                                    color="primary"/>}
@@ -183,7 +184,7 @@ const LogicBuilder = () => {
                 formData={formData}
                 onChange={(formData) => setFormData(formData)}
                 onSubmit={handleSubmit}/>
-        </Box>
+        </BuilderLayout>
     );
 };
 
