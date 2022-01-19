@@ -9,6 +9,7 @@ import TextEditor from "../../../components/text-editor/TextEditor";
 import {Box, Button} from "@mui/material";
 import Preview from "./preview/Preview";
 import SchemaEditor from "./schema-editor/SchemaEditor";
+import Plugins from "./plugins/Plugins";
 
 const StageBuilder = () => {
     const {stageId} = useParams();
@@ -123,7 +124,7 @@ const StageBuilder = () => {
                     onFormDataChange={handleFormDataChange}
                 />;
             case "plugins":
-                return <p>plugins</p>;
+                return <Plugins/>;
             case "text":
                 return <Box sx={{width: '70%', minWidth: '400px', margin: '0 auto'}}>
                     <TextEditor data={textEditorData} onChange={handleTextChange}/>
