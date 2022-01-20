@@ -17,12 +17,12 @@ const Card = (props: Props) => {
 
     return (
         <MuiCard>
-            <CardContent>
+            <CardContent sx={{pb: 1}}>
                 <Typography variant="h5" component="div">
                     {name}
                 </Typography>
                 <Typography gutterBottom variant={"caption"} color="text.secondary">ID: {id}</Typography>
-                <Typography noWrap={true} variant="body1" sx={{height: 40}}>
+                <Typography overflow={"hidden"} textOverflow={"ellipsis"} variant="body2" sx={{height: 60, maxWidth: 500}}>
                     {description}
                 </Typography>
             </CardContent>

@@ -24,6 +24,7 @@ const Form = (props: Props) => {
     };
 
     const handleChange = (e: { formData: object }) => {
+        console.log(e.formData)
         if (onChange) {
             onChange(e.formData)
         } else {
@@ -32,6 +33,7 @@ const Form = (props: Props) => {
     }
 
     const handleSubmit = (e: {formData: object}) => {
+        console.log(e.formData)
         if (onSubmit) {
             onSubmit(e.formData)
         } else {
@@ -47,6 +49,8 @@ const Form = (props: Props) => {
             widgets={widgets}
             onChange={handleChange}
             onSubmit={handleSubmit}
+            omitExtraData
+            liveOmit
         >
             {hideButton ? " " :
                 <button type="submit" className="btn btn-primary">Отправить</button>}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import CardHeader from "@mui/material/CardHeader";
-import {Stack} from "@mui/material";
+import {Button, Stack} from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Collapse from "@mui/material/Collapse";
 import CardContent from "@mui/material/CardContent";
@@ -9,7 +9,10 @@ import {styled} from "@mui/material/styles";
 import IconButton, {IconButtonProps} from "@mui/material/IconButton";
 
 type Props = {
-    title: string,
+    data: any,
+    showExpandButton: boolean,
+    showOpenButton?: boolean,
+    onClick?: (id: number) => void
 };
 
 interface ExpandMoreProps extends IconButtonProps {
@@ -28,30 +31,52 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const ExpandableCard: React.FC<Props> = (props) => {
-    const {title, children} = props;
+    const {data, children, showExpandButton, showOpenButton, onClick} = props;
+    const {name, description, id} = data;
     const [expand, setExpand] = useState(false);
 
     const handleToggle = () => {
         setExpand(!expand)
     }
 
+    const handleClick = () => {
+        if (onClick) {
+            onClick(id)
+        }
+    }
+
+    const actions = [];
+    if (showOpenButton) {
+        actions.push(
+            <Button variant={"contained"} onClick={handleClick}>Открыть</Button>
+        )
+    }
+    if (showExpandButton) {
+        actions.push(
+            <ExpandMore
+                expand={expand}
+                onClick={handleToggle}
+                aria-expanded={expand}
+                aria-label="show more"
+            >
+                <ExpandMoreIcon/>
+            </ExpandMore>
+        )
+    }
+
     return (
-        <Card sx={{m: 1}}>
+        <Card>
             <CardHeader
                 action={
                     <Stack direction="row" spacing={1}>
-                        <ExpandMore
-                            expand={expand}
-                            onClick={handleToggle}
-                            aria-expanded={expand}
-                            aria-label="show more"
-                        >
-                            <ExpandMoreIcon/>
-                        </ExpandMore>
+                        {actions}
                     </Stack>
                 }
-                title={title}
+
+                title={name}
+                subheader={`ID: ${id}`}
                 titleTypographyProps={{variant: "h6"}}
+                subheaderTypographyProps={{variant: "caption"}}
             />
             <Collapse in={expand} timeout="auto" unmountOnExit>
                 <CardContent>

@@ -8,7 +8,7 @@ const Plugins = (props: Props) => {
     const {} = props;
 
     return (
-        <ExpandableCard title={"test"}>
+        <ExpandableCard data={{name: "test"}} showExpandButton={true}>
             <p>test</p>
         </ExpandableCard>
     );

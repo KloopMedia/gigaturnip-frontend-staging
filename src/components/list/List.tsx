@@ -4,8 +4,11 @@ import {Box, Button, Grid, IconButton, Typography} from "@mui/material";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import {Link, useLocation} from "react-router-dom";
+import ExpandableCard from "../card/ExpandableCard";
+import ListContent from "./ListContent";
+import ListHeader from "./ListHeader";
+import {ViewProps} from "./List.types";
 
-type ViewProps = "grid" | "list";
 
 type Props = {
     data: any[],
@@ -36,35 +39,9 @@ const List = (props: Props) => {
 
     return (
         <Box>
-            <Grid container alignItems={"center"} spacing={1}>
-                <Grid item flex={1}>
-                    <Typography variant={"h4"}>{label}</Typography>
-                </Grid>
-                {showCreateButton && <Grid item>
-                    <Button component={Link} to={"new"} state={{from: location}} variant={"contained"} sx={{
-                        '&:hover': {
-                            color: 'white',
-                            boxShadow: 'none',
-                        }
-                    }}>Создать</Button>
-                </Grid>}
-                {showViewButton && <Grid item>
-                    <IconButton color={view === "grid" ? "primary" : "default"} onClick={() => handleViewChange("grid")}>
-                        <GridViewIcon/>
-                    </IconButton>
-                    <IconButton color={view === "list" ? "primary" : "default"} onClick={() => handleViewChange("list")}>
-                        <ViewListIcon/>
-                    </IconButton>
-                </Grid>}
-            </Grid>
-
-            <Grid container py={2} spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>
-                {data.map((item, index) =>
-                    <Grid item xs={2} sm={4} md={4} key={index}>
-                        <Card data={item} onClick={onSelect}/>
-                    </Grid>
-                )}
-            </Grid>
+            <ListHeader label={label} view={view} onViewChange={handleViewChange} location={location}
+                        showCreateButton={showCreateButton} showViewButton={showViewButton}/>
+            <ListContent data={data} view={view} onSelect={onSelect}/>
         </Box>
     );
 };
