@@ -125,7 +125,12 @@ export default function Appbar(props: { children?: any }) {
                         <MenuIcon/>
                     </IconButton>}
                     <Box sx={{flexGrow: 1}}>
-                        <MuiLink component={Link} color={"inherit"} underline="none" variant="h6" noWrap to={"/"}>
+                        <MuiLink component={Link} color={"inherit"} underline="none" variant="h6" noWrap to={"/"} sx={{
+                            '&:hover': {
+                                color: 'white',
+                                boxShadow: 'none',
+                            }
+                        }}>
                             GigaTurnip Admin Interface
                         </MuiLink>
                     </Box>

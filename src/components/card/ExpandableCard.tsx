@@ -48,12 +48,13 @@ const ExpandableCard: React.FC<Props> = (props) => {
     const actions = [];
     if (showOpenButton) {
         actions.push(
-            <Button variant={"contained"} onClick={handleClick}>Открыть</Button>
+            <Button key={"open_button"} variant={"contained"} onClick={handleClick}>Открыть</Button>
         )
     }
     if (showExpandButton) {
         actions.push(
             <ExpandMore
+                key={"expand_button"}
                 expand={expand}
                 onClick={handleToggle}
                 aria-expanded={expand}
