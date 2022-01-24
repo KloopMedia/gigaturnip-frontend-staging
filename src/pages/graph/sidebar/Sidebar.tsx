@@ -49,12 +49,12 @@ const Sidebar = () => {
                 <Node type={"stage"} onDragEnd={onDragEnd}
                       onDragStart={(event) => onDragStart(event, label ? label : '', 'STAGE')}
                       draggable={draggable}>
-                    Stage Node
+                    Taskstage Node
                 </Node>
                 <Node type={"logic"} onDragEnd={onDragEnd}
                       onDragStart={(event) => onDragStart(event, label ? label : '', 'LOGIC')}
                       draggable={draggable}>
-                    Logic Node
+                    Conditional Node
                 </Node>
             </Grid>
         </Grid>
