@@ -11,10 +11,12 @@ import Graph from "./pages/graph/Graph";
 import StageBuilder from "./pages/form-builders/stage-builder/StageBuilder";
 import LogicBuilder from "./pages/form-builders/logic-builder/LogicBuilder";
 import CreateChain from "./pages/chains/create-chain/CreateChain";
+import ToastProvider from "./context/toast/ToastProvider";
 
 
 const App = () => (
     <AuthProvider>
+        <ToastProvider>
             <BrowserRouter basename={"gigaturnip-frontend"}>
                 <Routes>
                     <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
@@ -37,6 +39,7 @@ const App = () => (
                     <Route path={ROUTES.login.path} element={<Login/>}/>
                 </Routes>
             </BrowserRouter>
+        </ToastProvider>
     </AuthProvider>
 );
 

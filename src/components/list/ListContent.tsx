@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid} from "@mui/material";
+import {Grid, Typography} from "@mui/material";
 import Card from "../card/Card";
 import ExpandableCard from "../card/ExpandableCard";
 import {ViewProps} from "./List.types";
@@ -12,6 +12,9 @@ type Props = {
 
 const ListContent = (props: Props) => {
     const {data, view, onSelect} = props;
+    if (!data) {
+        return <Typography>Error</Typography>;
+    }
     if (view === "grid") {
         return (
             <Grid container py={2} spacing={{xs: 2, md: 3}} columns={{xs: 4, sm: 8, md: 12}}>

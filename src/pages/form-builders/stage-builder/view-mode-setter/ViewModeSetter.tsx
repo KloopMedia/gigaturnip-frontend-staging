@@ -1,45 +1,31 @@
-import React from 'react';
-import {IconButton, Stack} from "@mui/material";
+import React, {Component} from 'react';
+import {IconButton, Stack, Tooltip} from "@mui/material";
 import {ViewModeProps} from "../StageBuilder.types";
-import BuildIcon from '@mui/icons-material/Build';
-import EditIcon from '@mui/icons-material/Edit';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import ExtensionIcon from '@mui/icons-material/Extension';
 
 type Props = {
     mode: ViewModeProps,
+    allModes: {[mode: string]: {title: string, icon: Component}},
     onChange: (mode: ViewModeProps) => void
 };
 
 const ViewModeSetter = (props: Props) => {
-    const {mode, onChange} = props;
-    const types = ["builder", "plugins", "text", "preview", "editor"]
-
-    const getIcon = (type: ViewModeProps) => {
-        const fill = mode === type ? "blue" : "grey";
-        switch (type) {
-            case "builder":
-                return <BuildIcon sx={{fill}} fontSize={"large"}/>
-            case "text":
-                return <EditIcon sx={{fill}} fontSize={"large"}/>
-            case "preview":
-                return <VisibilityIcon sx={{fill}} fontSize={"large"}/>
-            case "editor":
-                return <CompareArrowsIcon sx={{fill}} fontSize={"large"}/>
-            case "plugins":
-                return <ExtensionIcon sx={{fill}} fontSize={"large"}/>
-        }
-    }
+    const {mode, allModes, onChange} = props;
 
     const renderButtons = () => {
-        return types.map((type: any) =>
-            (
-                <IconButton key={type} onClick={() => onChange(type as ViewModeProps)}>
-                    {getIcon(type)}
-                </IconButton>
-            ))
-    }
+        const types = Object.keys(allModes);
+        return types.map((type: any) => {
+            const fill = mode === type ? "primary" : "default";
+            const title = allModes[type].title;
+            const icon = allModes[type].icon;
+            return (
+                <Tooltip title={title} key={type}>
+                    <IconButton color={fill} onClick={() => onChange(type as ViewModeProps)}>
+                        {icon}
+                    </IconButton>
+                </Tooltip>
+            );
+        });
+    };
 
     return (
         <Stack direction="row" spacing={1}>

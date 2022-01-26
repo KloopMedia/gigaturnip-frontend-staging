@@ -22,8 +22,15 @@ const Builder = (props: Props) => {
         onFormDataChange
     } = props;
 
-    const optionsSchema = StageOptionsSchema
-    optionsSchema["properties"]["displayed_prev_stages"]["items"]["enum"] = formData["in_stages"] ?? []
+    const optionsSchema: any = {...StageOptionsSchema};
+    const inStages = formData["in_stages"];
+    if (inStages) {
+        optionsSchema["properties"]["displayed_prev_stages"]["items"]["enum"] = inStages;
+        optionsSchema["properties"]["displayed_prev_stages"]["description"] = "";
+    } else {
+        optionsSchema["properties"]["displayed_prev_stages"]["description"] = "Нет доступных вариантов.";
+    }
+
 
     return (
         <Box p={1}>
@@ -34,7 +41,7 @@ const Builder = (props: Props) => {
                 />
             <BuilderLayout>
                 <Form
-                    schema={StageOptionsSchema}
+                    schema={optionsSchema}
                     uiSchema={{
                         displayed_prev_stages: {
                             "ui:widget": "checkboxes"

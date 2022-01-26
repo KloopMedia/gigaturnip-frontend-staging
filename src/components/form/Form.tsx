@@ -49,8 +49,6 @@ const Form = (props: Props) => {
             widgets={widgets}
             onChange={handleChange}
             onSubmit={handleSubmit}
-            omitExtraData
-            liveOmit
         >
             {hideButton ? " " :
                 <button type="submit" className="btn btn-primary">Отправить</button>}

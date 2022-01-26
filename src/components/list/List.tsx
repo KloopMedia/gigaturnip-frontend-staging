@@ -1,10 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import Card from "../card/Card";
-import {Box, Button, Grid, IconButton, Typography} from "@mui/material";
-import GridViewIcon from "@mui/icons-material/GridView";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import {Link, useLocation} from "react-router-dom";
-import ExpandableCard from "../card/ExpandableCard";
+import {Box} from "@mui/material";
+import {useLocation} from "react-router-dom";
 import ListContent from "./ListContent";
 import ListHeader from "./ListHeader";
 import {ViewProps} from "./List.types";

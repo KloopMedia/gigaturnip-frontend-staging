@@ -11,12 +11,20 @@ import SchemaEditor from "./schema-editor/SchemaEditor";
 import Plugins from "./plugins/Plugins";
 import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
 import Text from "./text/Text";
+import {useToast} from "../../../context/toast/hooks/useToast";
+import BuildIcon from "@mui/icons-material/Build";
+import ExtensionIcon from "@mui/icons-material/Extension";
+import EditIcon from "@mui/icons-material/Edit";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import StageOptionsSchema from "./StageOptionsSchema.json";
 
 const StageBuilder = () => {
     const {stageId} = useParams();
     const {getTaskStage, saveTaskStage} = useAxios();
     const {parseId} = useHelpers();
     const parsedId = parseId(stageId);
+    const {openToast} = useToast();
 
     const [schema, setSchema] = useState('');
     const [uiSchema, setUiSchema] = useState('');
@@ -28,6 +36,14 @@ const StageBuilder = () => {
     const [tmpUi, setTmpUi] = useState("");
     const [originalSchema, setOriginalSchema] = useState("")
     const [originalUi, setOriginalUi] = useState("")
+
+    const VIEW_MODES: any = {
+        builder: {title: "Конструктор", icon: <BuildIcon fontSize={"large"}/>},
+        // plugins: {title: "Плагины", icon: <ExtensionIcon fontSize={"large"}/>},
+        text: {title: "Текст", icon: <EditIcon fontSize={"large"}/>},
+        preview: {title: "Превью", icon: <VisibilityIcon fontSize={"large"}/>},
+        editor: {title: "Схемы", icon: <CompareArrowsIcon fontSize={"large"}/>},
+    }
 
     useEffect(() => {
         const getStage = async (parsedId: number) => {
@@ -65,8 +81,7 @@ const StageBuilder = () => {
         }
 
         saveTaskStage(parsedId, data)
-            .then((res: any) => alert("Saved"))
-            .catch((err: any) => alert(err));
+            .then((res: any) => openToast("Данные сохранены", "success"));
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
@@ -144,7 +159,7 @@ const StageBuilder = () => {
     return (
         <Box>
             <Box display={"flex"} justifyContent={"flex-end"}>
-                <ViewModeSetter mode={viewMode} onChange={handleViewModeChange}/>
+                <ViewModeSetter allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange}/>
             </Box>
             {renderContent(viewMode)}
             {viewMode === "builder" && <BuilderLayout pb={3}>

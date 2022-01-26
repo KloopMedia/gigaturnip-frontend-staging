@@ -5,12 +5,14 @@ import useHelpers from "../../../utils/hooks/UseHelpers";
 import {Box, Checkbox, FormControlLabel} from "@mui/material";
 import Form from "../../../components/form/Form";
 import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
+import {useToast} from "../../../context/toast/hooks/useToast";
 
 const LogicBuilder = () => {
     const {getConditionalStage, saveConditionalStage, getTaskStage} = useAxios();
     const {stageId} = useParams();
     const {parseId, getFormFields} = useHelpers();
     const parsedId = parseId(stageId);
+    const {openToast} = useToast();
 
     const [schema, setSchema] = useState({});
     const [formData, setFormData] = useState({});
@@ -160,8 +162,7 @@ const LogicBuilder = () => {
         let data = {conditions: formData, pingpong: isPingPong}
 
         saveConditionalStage(parsedId, data)
-            .then((res: any) => alert("Saved"))
-            .catch((err: any) => alert(err));
+            .then((res: any) => openToast("Данные сохранены", "success"));
     }
 
     const handleChangePingPong = (event: React.ChangeEvent<HTMLInputElement>) => {

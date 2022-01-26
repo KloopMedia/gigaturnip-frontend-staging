@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Grid, IconButton, Typography} from "@mui/material";
+import {Button, Grid, IconButton, Tooltip, Typography} from "@mui/material";
 import {Link} from "react-router-dom";
 import GridViewIcon from "@mui/icons-material/GridView";
 import ViewListIcon from "@mui/icons-material/ViewList";
@@ -29,14 +29,26 @@ const ListHeader = (props: Props) => {
                     }
                 }}>Создать</Button>
             </Grid>}
-            {showViewButton && <Grid item>
-                <IconButton color={view === "grid" ? "primary" : "default"} onClick={() => onViewChange("grid")}>
-                    <GridViewIcon/>
-                </IconButton>
-                <IconButton color={view === "list" ? "primary" : "default"} onClick={() => onViewChange("list")}>
-                    <ViewListIcon/>
-                </IconButton>
-            </Grid>}
+            {showViewButton &&
+                <Grid item>
+                    <Tooltip title={"Сетка"}>
+                        <IconButton
+                            color={view === "grid" ? "primary" : "default"}
+                            onClick={() => onViewChange("grid")}
+                        >
+                            <GridViewIcon/>
+                        </IconButton>
+                    </Tooltip>
+                    <Tooltip title={"Список"}>
+                        <IconButton
+                            color={view === "list" ? "primary" : "default"}
+                            onClick={() => onViewChange("list")}
+                        >
+                            <ViewListIcon/>
+                        </IconButton>
+                    </Tooltip>
+                </Grid>
+            }
         </Grid>
     );
 };

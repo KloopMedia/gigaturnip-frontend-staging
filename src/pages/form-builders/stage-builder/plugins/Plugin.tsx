@@ -13,7 +13,7 @@ const Plugin = (props: Props) => {
     const [schema, setSchema] = useState({});
 
     const getOptions = async () => {
-        const options = await getTaskStageOptions().catch(err => alert(err));
+        const options = await getTaskStageOptions();
         if (options) {
             return options.actions.POST;
         } else {
@@ -24,7 +24,8 @@ const Plugin = (props: Props) => {
     const transformOptionsToForm = (options: any) => {
         const DEFAULT_FORM_TYPES = ["string", "number", "integer", "boolean", "null"];
 
-        const keys = Object.keys(options)
+
+        const keys = options ? Object.keys(options) : []
         const properties: any = {}
         const required: any[] = []
 
