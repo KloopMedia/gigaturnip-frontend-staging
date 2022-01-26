@@ -5,6 +5,7 @@ import {signInWithPopup, getIdToken, signOut, onIdTokenChanged} from "firebase/a
 interface AuthContextType {
     user: any;
     ready: boolean;
+    getToken: () => Promise<string>;
     login: (callback: VoidFunction) => void;
     logout: (callback: VoidFunction) => void;
 }
@@ -26,6 +27,9 @@ const AuthProvider = ({children}: { children: React.ReactNode }) => {
         });
     }, [])
 
+    const getToken = async () => {
+        return await getIdToken(user);
+    }
 
     const login = (callback: VoidFunction) => {
         return signInWithPopup(auth, provider).then((result) => {
@@ -43,7 +47,7 @@ const AuthProvider = ({children}: { children: React.ReactNode }) => {
         });
     };
 
-    const value = {user, ready, login, logout};
+    const value = {user, ready, getToken, login, logout};
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

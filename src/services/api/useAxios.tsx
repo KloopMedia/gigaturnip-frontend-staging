@@ -1,26 +1,25 @@
 import {baseUrl, campaignsUrl, chainsUrl, conditionalstagesUrl, taskstagesUrl} from "./Urls";
 import React from "react";
 import defaultAxios from "axios";
-import {AuthContext} from "../../context/authentication/AuthProvider";
 import {useAuth} from "../../context/authentication/hooks/useAuth";
 import {useToast} from "../../context/toast/hooks/useToast";
 
 
 const useAxios = () => {
     const {openToast} = useToast();
-    const {user} = useAuth();
+    const {getToken} = useAuth();
     const axios = defaultAxios.create({
         baseURL: baseUrl
     });
 
-    const token = user.accessToken
-
     axios.interceptors.request.use(
         config => {
-            if (token && config && config.headers) {
-                config.headers["Authorization"] = 'JWT ' + token;
-            }
-            return config;
+            return getToken().then(token => {
+                if (token && config && config.headers) {
+                    config.headers["Authorization"] = 'JWT ' + token;
+                }
+                return config;
+            });
         },
         error => Promise.reject(error)
     );
@@ -29,10 +28,7 @@ const useAxios = () => {
     const getCampaigns = () => {
         return axios.get(`${campaignsUrl}?limit=1000`)
             .then(res => res.data)
-            .then(res => {
-                console.log(res)
-                return res.results
-            })
+            .then(res => res.results)
             .catch((err) => openToast(err.message));
     }
 
