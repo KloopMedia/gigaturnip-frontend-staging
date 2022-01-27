@@ -10,8 +10,8 @@ import IconButton, {IconButtonProps} from "@mui/material/IconButton";
 
 type Props = {
     data: any,
-    showExpandButton: boolean,
-    showOpenButton?: boolean,
+    hideExpandButton?: boolean,
+    hideOpenButton?: boolean,
     onClick?: (id: number) => void
 };
 
@@ -31,7 +31,7 @@ const ExpandMore = styled((props: ExpandMoreProps) => {
 }));
 
 const ExpandableCard: React.FC<Props> = (props) => {
-    const {data, children, showExpandButton, showOpenButton, onClick} = props;
+    const {data, children, hideExpandButton, hideOpenButton, onClick} = props;
     const {name, description, id} = data;
     const [expand, setExpand] = useState(false);
 
@@ -46,12 +46,12 @@ const ExpandableCard: React.FC<Props> = (props) => {
     }
 
     const actions = [];
-    if (showOpenButton) {
+    if (!hideOpenButton) {
         actions.push(
             <Button key={"open_button"} variant={"contained"} onClick={handleClick}>Открыть</Button>
         )
     }
-    if (showExpandButton) {
+    if (!hideExpandButton) {
         actions.push(
             <ExpandMore
                 key={"expand_button"}

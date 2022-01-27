@@ -19,8 +19,6 @@ const Chains = () => {
         }
     }, [])
 
-
-
     const handleSelect = (id: number) => {
         navigate(`${id}`)
     }
@@ -31,8 +29,6 @@ const Chains = () => {
                 id={"chains"}
                 data={data}
                 label={"Цепочки"}
-                showCreateButton={true}
-                showViewButton={true}
                 onSelect={handleSelect}
             />
         </Box>

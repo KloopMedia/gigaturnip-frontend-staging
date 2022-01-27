@@ -20,7 +20,7 @@ const Campaigns = () => {
 
     return (
         <Box px={3} py={1}>
-            <List id={"campaigns"} data={data} showViewButton={true} label={"Кампании"} onSelect={handleSelect}/>
+            <List id={"campaigns"} data={data} hideCreateButton={true} label={"Кампании"} onSelect={handleSelect}/>
         </Box>
     )
 }

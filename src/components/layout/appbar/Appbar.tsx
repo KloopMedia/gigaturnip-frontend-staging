@@ -38,9 +38,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     }),
     overflowX: 'hidden',
     width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(7)} + 1px)`,
-    },
+    [theme.breakpoints.down('sm')]: {
+        width: 0,
+    }
 });
 
 const DrawerHeader = styled('div')(({theme}) => ({
@@ -107,6 +107,21 @@ export default function Appbar(props: { children?: any }) {
         setOpen(false);
     };
 
+    const DrawerItems = [
+        {page: "chain", title: "Цепочки", icon: <InboxIcon/>}
+    ]
+
+    const renderDrawerItems = () => {
+        return DrawerItems.map(item => (
+            <ListItem component={Link} to={`campaign/${campaignId}/${item.page}`}>
+                <ListItemIcon>
+                    {item.icon}
+                </ListItemIcon>
+                <ListItemText primary={item.title}/>
+            </ListItem>
+        ));
+    };
+
     return (
         <Box sx={{display: 'flex'}}>
             <CssBaseline/>
@@ -145,12 +160,7 @@ export default function Appbar(props: { children?: any }) {
                 </DrawerHeader>
                 <Divider/>
                 <List>
-                    <ListItem component={Link} to={`campaign/${campaignId}/chain`}>
-                        <ListItemIcon>
-                            <InboxIcon/>
-                        </ListItemIcon>
-                        <ListItemText primary={"Цепочки"}/>
-                    </ListItem>
+                    {renderDrawerItems()}
                 </List>
             </Drawer>}
             <Box component="main" sx={{flexGrow: 1, width: "100%"}}>

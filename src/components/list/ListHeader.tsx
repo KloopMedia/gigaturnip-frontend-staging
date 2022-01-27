@@ -9,46 +9,45 @@ type Props = {
     label: string,
     location: any,
     view: ViewProps,
-    showCreateButton?: boolean,
-    showViewButton?: boolean,
+    hideLabel?: boolean,
+    hideCreateButton?: boolean,
+    hideViewButton?: boolean,
     onViewChange: (view: ViewProps) => void
 };
 
 const ListHeader = (props: Props) => {
-    const {label, view, location, showCreateButton, showViewButton, onViewChange} = props;
+    const {label, view, location, hideLabel, hideCreateButton, hideViewButton, onViewChange} = props;
     return (
         <Grid container alignItems={"center"} spacing={1}>
             <Grid item flex={1}>
-                <Typography variant={"h4"}>{label}</Typography>
+                <Typography hidden={hideLabel} variant={"h4"}>{label}</Typography>
             </Grid>
-            {showCreateButton && <Grid item>
+            <Grid item hidden={hideCreateButton}>
                 <Button component={Link} to={"new"} state={{from: location}} variant={"contained"} sx={{
                     '&:hover': {
                         color: 'white',
                         boxShadow: 'none',
                     }
                 }}>Создать</Button>
-            </Grid>}
-            {showViewButton &&
-                <Grid item>
-                    <Tooltip title={"Сетка"}>
-                        <IconButton
-                            color={view === "grid" ? "primary" : "default"}
-                            onClick={() => onViewChange("grid")}
-                        >
-                            <GridViewIcon/>
-                        </IconButton>
-                    </Tooltip>
-                    <Tooltip title={"Список"}>
-                        <IconButton
-                            color={view === "list" ? "primary" : "default"}
-                            onClick={() => onViewChange("list")}
-                        >
-                            <ViewListIcon/>
-                        </IconButton>
-                    </Tooltip>
-                </Grid>
-            }
+            </Grid>
+            <Grid item hidden={hideViewButton}>
+                <Tooltip title={"Сетка"}>
+                    <IconButton
+                        color={view === "grid" ? "primary" : "default"}
+                        onClick={() => onViewChange("grid")}
+                    >
+                        <GridViewIcon/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title={"Список"}>
+                    <IconButton
+                        color={view === "list" ? "primary" : "default"}
+                        onClick={() => onViewChange("list")}
+                    >
+                        <ViewListIcon/>
+                    </IconButton>
+                </Tooltip>
+            </Grid>
         </Grid>
     );
 };

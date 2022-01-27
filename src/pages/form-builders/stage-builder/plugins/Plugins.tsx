@@ -16,7 +16,7 @@ const Plugins = (props: Props) => {
             <Grid container py={2} spacing={2}>
                 {pluginsList.map((p, index) =>
                     <Grid item xs={12} key={index}>
-                        <ExpandableCard data={{name: p}} showExpandButton={true}>
+                        <ExpandableCard data={{name: p}} hideExpandButton={true}>
                             <Plugin id={p}/>
                         </ExpandableCard>
                     </Grid>

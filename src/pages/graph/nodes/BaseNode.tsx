@@ -1,6 +1,6 @@
 import React from 'react';
 import {Handle, Position} from 'react-flow-renderer';
-import {styled, Theme} from "@mui/material/styles";
+import {styled} from "@mui/material/styles";
 import {NodeType} from "./Node.types";
 import {Box, BoxProps as MuiBoxProps, Typography} from "@mui/material";
 

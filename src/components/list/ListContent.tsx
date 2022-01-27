@@ -31,7 +31,7 @@ const ListContent = (props: Props) => {
             <Grid container py={2} spacing={2}>
                 {data.map((item, index) =>
                     <Grid item xs={12} key={index}>
-                        <ExpandableCard data={item} showExpandButton={false} showOpenButton={true} onClick={onSelect}/>
+                        <ExpandableCard data={item} hideExpandButton={true} onClick={onSelect}/>
                     </Grid>
                 )}
             </Grid>
