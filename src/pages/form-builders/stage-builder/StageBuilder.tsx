@@ -13,11 +13,9 @@ import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayo
 import Text from "./text/Text";
 import {useToast} from "../../../context/toast/hooks/useToast";
 import BuildIcon from "@mui/icons-material/Build";
-import ExtensionIcon from "@mui/icons-material/Extension";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import StageOptionsSchema from "./StageOptionsSchema.json";
 
 const StageBuilder = () => {
     const {stageId} = useParams();
@@ -34,8 +32,9 @@ const StageBuilder = () => {
     const [isEditable, setEditable] = useState(false);
     const [tmpSchema, setTmpSchema] = useState("");
     const [tmpUi, setTmpUi] = useState("");
-    const [originalSchema, setOriginalSchema] = useState("")
-    const [originalUi, setOriginalUi] = useState("")
+    const [originalSchema, setOriginalSchema] = useState("");
+    const [originalUi, setOriginalUi] = useState("");
+
 
     const VIEW_MODES: any = {
         builder: {title: "Конструктор", icon: <BuildIcon fontSize={"large"}/>},
@@ -49,22 +48,22 @@ const StageBuilder = () => {
         const getStage = async (parsedId: number) => {
             const stage = await getTaskStage(parsedId);
             const {id, json_schema, ui_schema, rich_text, webhook_address, webhook_params, ...options} = stage;
+;
+            options["webhook_address"] = webhook_address ? webhook_address : undefined;
+            options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined;
 
-            options["webhook_address"] = webhook_address ? webhook_address : undefined
-            options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined
-
-            setSchema(json_schema)
-            setUiSchema(ui_schema)
-            setTmpSchema(json_schema)
-            setTmpUi(ui_schema)
-            setOriginalSchema(json_schema)
-            setOriginalUi(ui_schema)
-            setFormData(options)
-            setTextEditorData(rich_text)
+            setSchema(json_schema);
+            setUiSchema(ui_schema);
+            setTmpSchema(json_schema);
+            setTmpUi(ui_schema);
+            setOriginalSchema(json_schema);
+            setOriginalUi(ui_schema);
+            setFormData(options);
+            setTextEditorData(rich_text);
         }
 
         if (parsedId) {
-            getStage(parsedId)
+            getStage(parsedId);
         }
     }, [parsedId])
 
@@ -82,51 +81,52 @@ const StageBuilder = () => {
 
         saveTaskStage(parsedId, data)
             .then((res: any) => openToast("Данные сохранены", "success"));
+
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
-        setSchema(schema)
-        setUiSchema(ui)
-        setOriginalSchema(schema)
-        setOriginalUi(ui)
-        setTmpSchema(schema)
-        setTmpUi(ui)
+        setSchema(schema);
+        setUiSchema(ui);
+        setOriginalSchema(schema);
+        setOriginalUi(ui);
+        setTmpSchema(schema);
+        setTmpUi(ui);
     }
 
     const handleFormDataChange = (formData: object) => {
-        setFormData(formData)
+        setFormData(formData);
     }
 
     const handleTextChange = (d: string) => {
-        setTextEditorData(d)
+        setTextEditorData(d);
     }
 
     const handleViewModeChange = (mode: ViewModeProps) => {
-        setViewMode(mode)
+        setViewMode(mode);
     }
 
     const handleIsEditableChange = () => {
-        setEditable(!isEditable)
+        setEditable(!isEditable);
     }
 
     const handleTmpSchemaChange = (schema: string) => {
-        setTmpSchema(schema)
+        setTmpSchema(schema);
     }
 
     const handleTmpUiChange = (ui: string) => {
-        setTmpUi(ui)
+        setTmpUi(ui);
     }
 
     const handleTmpSave = () => {
-        setSchema(tmpSchema)
-        setUiSchema(tmpUi)
+        setSchema(tmpSchema);
+        setUiSchema(tmpUi);
     }
 
     const handleTmpUndo = () => {
-        setSchema(originalSchema)
-        setUiSchema(originalUi)
-        setTmpSchema(originalSchema)
-        setTmpUi(originalUi)
+        setSchema(originalSchema);
+        setUiSchema(originalUi);
+        setTmpSchema(originalSchema);
+        setTmpUi(originalUi);
     }
 
     const renderContent = (mode: ViewModeProps) => {

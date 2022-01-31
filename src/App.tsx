@@ -1,5 +1,5 @@
 import React from 'react';
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter as Router, Route, Routes} from "react-router-dom";
 import AuthProvider from "./context/authentication/AuthProvider";
 import RequireAuth from "./pages/login/RequireAuth";
 import {ROUTES} from "./utils/constants/Paths";
@@ -17,7 +17,7 @@ import ToastProvider from "./context/toast/ToastProvider";
 const App = () => (
     <AuthProvider>
         <ToastProvider>
-            <BrowserRouter basename={"gigaturnip-frontend"}>
+            <Router>
                 <Routes>
                     <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
                         <Route path={"campaign"}>
@@ -38,7 +38,7 @@ const App = () => (
                     </Route>
                     <Route path={ROUTES.login.path} element={<Login/>}/>
                 </Routes>
-            </BrowserRouter>
+            </Router>
         </ToastProvider>
     </AuthProvider>
 );
