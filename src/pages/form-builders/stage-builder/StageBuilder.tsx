@@ -16,6 +16,8 @@ import BuildIcon from "@mui/icons-material/Build";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
+import ExtensionIcon from '@mui/icons-material/Extension';
+
 
 const StageBuilder = () => {
     const {stageId} = useParams();
