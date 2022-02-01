@@ -159,7 +159,9 @@ const StageBuilder = () => {
     }
 
     const goBack = () => {
-        saveData().then(() => navigate(-1))
+        // saveData().then(() => navigate(-1))
+        // window.prompt("Вы уверены что хотите покинуть страницу?")
+        navigate(-1)
     }
 
     const schemaJson = schema ? JSON.parse(schema) : {};
