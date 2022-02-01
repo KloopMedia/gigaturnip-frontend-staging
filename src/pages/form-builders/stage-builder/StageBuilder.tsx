@@ -171,9 +171,9 @@ const StageBuilder = () => {
         <Box>
             <Controls allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange} onBack={goBack}/>
             {renderContent(viewMode)}
-            {viewMode === "builder" && <BuilderLayout pb={3}>
+            <BuilderLayout pb={3}>
                 <Button variant={"contained"} color={"warning"} fullWidth onClick={handleSubmit}>Сохранить</Button>
-            </BuilderLayout>}
+            </BuilderLayout>
         </Box>
     );
 };
