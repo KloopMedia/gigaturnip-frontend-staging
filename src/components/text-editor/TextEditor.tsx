@@ -1,5 +1,6 @@
 import React from 'react';
 import {Editor} from "@tinymce/tinymce-react";
+import "./Editor.css"
 
 type Props = {
     data: string,

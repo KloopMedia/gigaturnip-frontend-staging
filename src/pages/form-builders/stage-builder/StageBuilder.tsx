@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import useAxios from "../../../services/api/useAxios";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import useHelpers from "../../../utils/hooks/UseHelpers";
 import {ViewModeProps} from "./StageBuilder.types";
-import ViewModeSetter from "./view-mode-setter/ViewModeSetter";
+import Controls from "./controls/Controls";
 import Builder from "./builder/Builder";
 import {Box, Button} from "@mui/material";
 import Preview from "./preview/Preview";
@@ -19,6 +19,7 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 
 const StageBuilder = () => {
     const {stageId} = useParams();
+    const navigate = useNavigate();
     const {getTaskStage, saveTaskStage} = useAxios();
     const {parseId} = useHelpers();
     const parsedId = parseId(stageId);
@@ -48,7 +49,7 @@ const StageBuilder = () => {
         const getStage = async (parsedId: number) => {
             const stage = await getTaskStage(parsedId);
             const {id, json_schema, ui_schema, rich_text, webhook_address, webhook_params, ...options} = stage;
-;
+
             options["webhook_address"] = webhook_address ? webhook_address : undefined;
             options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined;
 
@@ -67,7 +68,7 @@ const StageBuilder = () => {
         }
     }, [parsedId])
 
-    const handleSubmit = () => {
+    const saveData = () => {
         const {chain, webhook_params, ...responses} = formData;
         const parsed_webhook_params = webhook_params ? JSON.parse(webhook_params) : null;
 
@@ -79,9 +80,11 @@ const StageBuilder = () => {
             webhook_params: parsed_webhook_params
         }
 
-        saveTaskStage(parsedId, data)
-            .then((res: any) => openToast("Данные сохранены", "success"));
+        return saveTaskStage(parsedId, data)
+    }
 
+    const handleSubmit = () => {
+        saveData().then((res: any) => openToast("Данные сохранены", "success"));
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
@@ -153,14 +156,16 @@ const StageBuilder = () => {
         }
     }
 
+    const goBack = () => {
+        saveData().then(() => navigate(-1))
+    }
+
     const schemaJson = schema ? JSON.parse(schema) : {};
     const uiJson = uiSchema ? JSON.parse(uiSchema) : {};
 
     return (
         <Box>
-            <Box display={"flex"} justifyContent={"flex-end"}>
-                <ViewModeSetter allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange}/>
-            </Box>
+            <Controls allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange} onBack={goBack}/>
             {renderContent(viewMode)}
             {viewMode === "builder" && <BuilderLayout pb={3}>
                 <Button variant={"contained"} color={"warning"} fullWidth onClick={handleSubmit}>Сохранить</Button>
