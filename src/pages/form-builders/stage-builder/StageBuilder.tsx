@@ -73,7 +73,7 @@ const StageBuilder = () => {
         }
     }, [parsedId])
 
-    const compileData = () => {
+    const compileData = useCallback(() => {
         const {chain, webhook_params, ...responses} = formData;
         let parsed_webhook_params;
         try {
@@ -89,7 +89,7 @@ const StageBuilder = () => {
             rich_text: textEditorData,
             webhook_params: parsed_webhook_params
         };
-    }
+    },[formData, schema, textEditorData, uiSchema])
 
     const saveData = (data: any) => {
         return saveTaskStage(parsedId, data);
@@ -104,7 +104,7 @@ const StageBuilder = () => {
     useEffect(() => {
         const data = compileData();
         debouncedSave(data);
-    }, [formData, schema, uiSchema, textEditorData, debouncedSave])
+    }, [formData, schema, uiSchema, textEditorData, debouncedSave, compileData])
 
     const handleSubmit = () => {
         const data = compileData();
