@@ -24,7 +24,6 @@ const Form = (props: Props) => {
     };
 
     const handleChange = (e: { formData: object }) => {
-        console.log(e.formData)
         if (onChange) {
             onChange(e.formData)
         } else {
@@ -33,7 +32,6 @@ const Form = (props: Props) => {
     }
 
     const handleSubmit = (e: {formData: object}) => {
-        console.log(e.formData)
         if (onSubmit) {
             onSubmit(e.formData)
         } else {

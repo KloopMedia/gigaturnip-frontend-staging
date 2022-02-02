@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import useAxios from "../../../services/api/useAxios";
 import {useNavigate, useParams} from "react-router-dom";
 import useHelpers from "../../../utils/hooks/UseHelpers";
@@ -16,7 +16,7 @@ import BuildIcon from "@mui/icons-material/Build";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import ExtensionIcon from '@mui/icons-material/Extension';
+import debounce from 'lodash.debounce'
 
 
 const StageBuilder = () => {
@@ -26,6 +26,7 @@ const StageBuilder = () => {
     const {parseId} = useHelpers();
     const parsedId = parseId(stageId);
     const {openToast} = useToast();
+    const DEBOUNCE_SAVE_DELAY_MS = 2000;
 
     const [schema, setSchema] = useState('');
     const [uiSchema, setUiSchema] = useState('');
@@ -72,23 +73,43 @@ const StageBuilder = () => {
         }
     }, [parsedId])
 
-    const saveData = () => {
+    const compileData = () => {
         const {chain, webhook_params, ...responses} = formData;
-        const parsed_webhook_params = webhook_params ? JSON.parse(webhook_params) : null;
+        let parsed_webhook_params;
+        try {
+            parsed_webhook_params = JSON.parse(webhook_params);
+        } catch (e) {
+            parsed_webhook_params = null;
+        }
 
-        const data = {
+        return {
             ...responses,
             json_schema: schema,
             ui_schema: uiSchema,
             rich_text: textEditorData,
             webhook_params: parsed_webhook_params
-        }
-
-        return saveTaskStage(parsedId, data)
+        };
     }
 
+    const saveData = (data: any) => {
+        return saveTaskStage(parsedId, data);
+    }
+
+    const debouncedSave = useCallback(debounce((data) => {
+        saveData(data)
+            .then(() => console.log("saved"))
+            .catch(err => openToast(err.message, "error"));
+    }, DEBOUNCE_SAVE_DELAY_MS), [])
+
+    useEffect(() => {
+        const data = compileData();
+        debouncedSave(data);
+    }, [formData, schema, uiSchema, textEditorData, debouncedSave, compileData])
+
     const handleSubmit = () => {
-        saveData().then(() => openToast("Данные сохранены", "success"))
+        const data = compileData();
+        saveData(data)
+            .then(() => openToast("Данные сохранены", "success"))
             .catch(err => openToast(err.message, "error"));
     }
 
