@@ -23,13 +23,13 @@ const Builder = (props: Props) => {
     } = props;
 
     const optionsSchema: any = {...StageOptionsSchema};
-    const inStages = formData["in_stages"];
-    if (inStages) {
-        optionsSchema["properties"]["displayed_prev_stages"]["items"]["enum"] = inStages;
-        optionsSchema["properties"]["displayed_prev_stages"]["description"] = "";
-    } else {
-        optionsSchema["properties"]["displayed_prev_stages"]["description"] = "Нет доступных вариантов.";
-    }
+    // const inStages = formData["in_stages"];
+    // if (inStages) {
+    //     optionsSchema["properties"]["displayed_prev_stages"]["items"]["enum"] = inStages;
+    //     optionsSchema["properties"]["displayed_prev_stages"]["description"] = "";
+    // } else {
+    //     optionsSchema["properties"]["displayed_prev_stages"]["description"] = "Нет доступных вариантов.";
+    // }
 
 
     return (

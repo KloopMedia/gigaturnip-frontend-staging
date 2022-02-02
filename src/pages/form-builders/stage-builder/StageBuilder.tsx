@@ -38,6 +38,8 @@ const StageBuilder = () => {
     const [originalSchema, setOriginalSchema] = useState("");
     const [originalUi, setOriginalUi] = useState("");
 
+    const schemaJson = schema ? JSON.parse(schema) : {};
+    const uiJson = uiSchema ? JSON.parse(uiSchema) : {};
 
     const VIEW_MODES: any = {
         builder: {title: "Конструктор", icon: <BuildIcon fontSize={"large"}/>},
@@ -86,7 +88,8 @@ const StageBuilder = () => {
     }
 
     const handleSubmit = () => {
-        saveData().then((res: any) => openToast("Данные сохранены", "success"));
+        saveData().then(() => openToast("Данные сохранены", "success"))
+            .catch(err => openToast(err.message, "error"));
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
@@ -159,13 +162,8 @@ const StageBuilder = () => {
     }
 
     const goBack = () => {
-        // saveData().then(() => navigate(-1))
-        // window.prompt("Вы уверены что хотите покинуть страницу?")
-        navigate(-1)
+        navigate(-1);
     }
-
-    const schemaJson = schema ? JSON.parse(schema) : {};
-    const uiJson = uiSchema ? JSON.parse(uiSchema) : {};
 
     return (
         <Box>

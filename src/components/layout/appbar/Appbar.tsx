@@ -112,8 +112,8 @@ export default function Appbar(props: { children?: any }) {
     ]
 
     const renderDrawerItems = () => {
-        return DrawerItems.map(item => (
-            <ListItem component={Link} to={`campaign/${campaignId}/${item.page}`}>
+        return DrawerItems.map((item, index) => (
+            <ListItem key={index} component={Link} to={`campaign/${campaignId}/${item.page}`}>
                 <ListItemIcon>
                     {item.icon}
                 </ListItemIcon>
