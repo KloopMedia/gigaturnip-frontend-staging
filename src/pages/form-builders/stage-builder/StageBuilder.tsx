@@ -104,7 +104,7 @@ const StageBuilder = () => {
     useEffect(() => {
         const data = compileData();
         debouncedSave(data);
-    }, [formData, schema, uiSchema, textEditorData, debouncedSave, compileData])
+    }, [formData, schema, uiSchema, textEditorData, debouncedSave])
 
     const handleSubmit = () => {
         const data = compileData();
