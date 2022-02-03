@@ -108,27 +108,24 @@ const useHelpers = () => {
         const url = getUrl(node)
         if (url) {
             // Get connections of a given node
-            const connections = await axios.get(url + node.id + '/').then(res => {
-                if (type === 'in') {
-                    return res.data.in_stages
-                }
-                if (type === 'out') {
-                    return res.data.out_stages
-                }
-                return undefined;
-            }).catch(err => undefined);
+            let connections = undefined;
+            const {data} = await axios.get(`${url + node.id}/`);
+
+            if (type === 'in') {
+                connections = data.in_stages
+            }
+            if (type === 'out') {
+                connections = data.out_stages
+            }
 
             if (connections) {
-                // Change ids type to String
-                let parsed = connections.map((connection: number) => connection.toString())
-
                 let ids = []
                 // Add current node id to given node connections
                 if (method === 'create') {
-                    ids = [currentNodeId, ...parsed]
+                    ids = [currentNodeId, ...connections]
                 }
                 if (method === 'delete') {
-                    ids = parsed.filter((connection: string) => parseInt(connection) !== currentNodeId)
+                    ids = connections.filter((connection: number) => connection !== currentNodeId)
                 }
 
                 let data = undefined

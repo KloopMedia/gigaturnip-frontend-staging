@@ -74,8 +74,8 @@ const Graph = () => {
 
     const onConnect = async (params: object) => {
         const newParams: any = {...params, ...extraEdgeOptions}
-        const target = newParams.target
-        const source = newParams.source
+        const target = parseInt(newParams.target)
+        const source = parseInt(newParams.source)
 
         setElements((els: FlowElement[]) => addEdge(newParams, els))
         addConnections(target, source, elements)
