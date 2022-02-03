@@ -32,7 +32,7 @@ const useHelpers = () => {
         );
 
         const getFieldNames = (pathSchema: any, formData: any) => {
-            const getAllPaths = (_obj:any, acc:any[] = [], paths = [""]) => {
+            const getAllPaths = (_obj: any, acc: any[] = [], paths = [""]) => {
                 Object.keys(_obj).forEach(key => {
                     if (typeof _obj[key] === "object") {
                         let newPaths = paths.map(path => `${path}.${key}`);
@@ -77,7 +77,7 @@ const useHelpers = () => {
      * @return {FlowElement | undefined}
      */
     const getNode = (id: number, elements: FlowElement[]) => {
-        return elements.filter((node: any) => node.id === id).pop()
+        return elements.filter((node: any) => parseInt(node.id) === id).pop()
     }
 
     /**
@@ -128,7 +128,7 @@ const useHelpers = () => {
                     ids = [currentNodeId, ...parsed]
                 }
                 if (method === 'delete') {
-                    ids = parsed.filter((connection: string) => connection !== currentNodeId)
+                    ids = parsed.filter((connection: string) => parseInt(connection) !== currentNodeId)
                 }
 
                 let data = undefined
@@ -140,7 +140,7 @@ const useHelpers = () => {
                 }
                 if (data) {
                     console.log(data)
-                    axios.patch(url + node.id + '/', data)
+                    await axios.patch(`${url + node.id}/`, data)
                 }
             }
         }
@@ -185,7 +185,6 @@ const useHelpers = () => {
                     let source = parseInt(element.source)
 
                     removeConnections(target, source, elements)
-
                 } else {
                     const url = getUrl(element)
                     if (url) {
