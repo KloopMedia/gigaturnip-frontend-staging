@@ -9,8 +9,7 @@ import {ViewProps} from "./List.types";
 type Props = {
     data: any[],
     id: string,
-    label: string,
-    hideLabel?: boolean,
+    label?: string,
     defaultView?: ViewProps;
     hideCreateButton?: boolean,
     hideViewButton?: boolean,
@@ -18,7 +17,7 @@ type Props = {
 };
 
 const List = (props: Props) => {
-    const {id, data, label, defaultView, hideLabel, hideCreateButton, hideViewButton, onSelect} = props;
+    const {id, data, label, defaultView, hideCreateButton, hideViewButton, onSelect} = props;
     const location = useLocation();
 
     const [view, setView] = useState<ViewProps>(defaultView ?? "grid");
@@ -39,7 +38,7 @@ const List = (props: Props) => {
 
     return (
         <Box>
-            <ListHeader label={label} hideLabel={hideLabel} view={view} onViewChange={handleViewChange} location={location}
+            <ListHeader label={label} view={view} onViewChange={handleViewChange} location={location}
                         hideCreateButton={hideCreateButton} hideViewButton={hideViewButton}/>
             <ListContent data={data} view={view} onSelect={onSelect}/>
         </Box>

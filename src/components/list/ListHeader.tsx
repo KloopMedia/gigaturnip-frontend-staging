@@ -6,21 +6,20 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import {ViewProps} from "./List.types";
 
 type Props = {
-    label: string,
+    label?: string,
     location: any,
     view: ViewProps,
-    hideLabel?: boolean,
     hideCreateButton?: boolean,
     hideViewButton?: boolean,
     onViewChange: (view: ViewProps) => void
 };
 
 const ListHeader = (props: Props) => {
-    const {label, view, location, hideLabel, hideCreateButton, hideViewButton, onViewChange} = props;
+    const {label, view, location, hideCreateButton, hideViewButton, onViewChange} = props;
     return (
         <Grid container alignItems={"center"} spacing={1}>
             <Grid item flex={1}>
-                <Typography hidden={hideLabel} variant={"h4"}>{label}</Typography>
+                <Typography hidden={!label} variant={"h4"}>{label}</Typography>
             </Grid>
             <Grid item hidden={hideCreateButton}>
                 <Button component={Link} to={"new"} state={{from: location}} variant={"contained"} sx={{
