@@ -17,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import debounce from 'lodash.debounce'
+import {usePrompt} from '../../../components/prompt/Prompt';
 
 
 const StageBuilder = () => {
@@ -26,6 +27,7 @@ const StageBuilder = () => {
     const {parseId} = useHelpers();
     const parsedId = parseId(stageId);
     const {openToast} = useToast();
+
     const DEBOUNCE_SAVE_DELAY_MS = 2000;
 
     const [schema, setSchema] = useState('');
@@ -38,6 +40,9 @@ const StageBuilder = () => {
     const [tmpUi, setTmpUi] = useState("");
     const [originalSchema, setOriginalSchema] = useState("");
     const [originalUi, setOriginalUi] = useState("");
+    const [showPrompt, setShowPrompt] = useState(false);
+
+    usePrompt("Вы уверены, что хотите покинуть эту страницу?", showPrompt);
 
     const schemaJson = schema ? JSON.parse(schema) : {};
     const uiJson = uiSchema ? JSON.parse(uiSchema) : {};
@@ -89,7 +94,7 @@ const StageBuilder = () => {
             rich_text: textEditorData,
             webhook_params: parsed_webhook_params
         };
-    },[formData, schema, textEditorData, uiSchema])
+    }, [formData, schema, textEditorData, uiSchema])
 
     const saveData = (data: any) => {
         return saveTaskStage(parsedId, data);
@@ -102,8 +107,9 @@ const StageBuilder = () => {
     }, DEBOUNCE_SAVE_DELAY_MS), [])
 
     useEffect(() => {
-        const data = compileData();
-        debouncedSave(data);
+        // const data = compileData();
+        setShowPrompt(true);
+        // debouncedSave(data);
     }, [formData, schema, uiSchema, textEditorData, debouncedSave, compileData])
 
     const handleSubmit = () => {
@@ -111,6 +117,7 @@ const StageBuilder = () => {
         saveData(data)
             .then(() => openToast("Данные сохранены", "success"))
             .catch(err => openToast(err.message, "error"));
+         setShowPrompt(false);
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
