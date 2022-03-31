@@ -12,6 +12,9 @@ import StageBuilder from "./pages/form-builders/stage-builder/StageBuilder";
 import LogicBuilder from "./pages/form-builders/logic-builder/LogicBuilder";
 import CreateChain from "./pages/chains/create-chain/CreateChain";
 import ToastProvider from "./context/toast/ToastProvider";
+import ResponseFlattener from "./pages/response-flattener/ResponseFlattener";
+import FlattenerList from "./pages/response-flattener/FlattenerList";
+import CreateFlattener from "./pages/response-flattener/CreateFlattener";
 
 
 const App = () => (
@@ -22,6 +25,11 @@ const App = () => (
                     <Route path="/" element={<RequireAuth><Layout/></RequireAuth>}>
                         <Route path={"campaign"}>
                             <Route path=":campaignId">
+                                <Route path="flattener">
+                                    <Route path="new" element={<CreateFlattener/>}/>
+                                    <Route path=":id" element={<ResponseFlattener/>}/>
+                                    <Route index element={<FlattenerList/>}/>
+                                </Route>
                                 <Route path="chain">
                                     <Route path=":chainId">
                                         <Route path={"createstage/:stageId"} element={<StageBuilder/>}/>

@@ -19,6 +19,7 @@ import InboxIcon from '@mui/icons-material/MoveToInbox';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {Button} from "@mui/material";
 import {useAuth} from "../../../context/authentication/hooks/useAuth";
+import FilePresentIcon from '@mui/icons-material/FilePresent';
 
 const drawerWidth = 240;
 
@@ -108,7 +109,8 @@ export default function Appbar(props: { children?: any }) {
     };
 
     const DrawerItems = [
-        {page: "chain", title: "Цепочки", icon: <InboxIcon/>}
+        {page: "chain", title: "Цепочки", icon: <InboxIcon/>},
+        {page: "flattener", title: "Flattener", icon: <FilePresentIcon/>}
     ]
 
     const renderDrawerItems = () => {

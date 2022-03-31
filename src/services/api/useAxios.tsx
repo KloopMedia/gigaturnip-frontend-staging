@@ -1,4 +1,12 @@
-import {baseUrl, campaignsUrl, chainsUrl, conditionalstagesUrl, taskstagesUrl} from "./Urls";
+import {
+    baseUrl,
+    campaignsUrl,
+    chainsUrl,
+    conditionalstagesUrl,
+    responseflattener,
+    taskstagesUrl,
+    tasksUrl
+} from "./Urls";
 import defaultAxios from "axios";
 import {useAuth} from "../../context/authentication/hooks/useAuth";
 
@@ -73,6 +81,37 @@ const useAxios = () => {
         return axios.patch(`${conditionalstagesUrl + id}/`, data);
     }
 
+    const getResponseFlattenerList = () => {
+        return axios.get(`${responseflattener}`)
+            .then(res => res.data)
+            .then(res => res.results);
+    }
+
+    const getResponseFlattener = (id: number) => {
+        return axios.get(`${responseflattener + id}/`)
+            .then(res => res.data)
+    }
+    const saveResponseFlattener = (id: number, data: any) => {
+        return axios.put(`${responseflattener + id}/`, data);
+    }
+
+    const createResponseFlattener = (data: any) => {
+        return axios.post(`${responseflattener}`, data)
+    }
+
+    const downloadFlattenedResponses = (stage: number, flattener: number) => {
+        return axios.get(`${tasksUrl}csv/?stage=${stage}&response_flattener=${flattener}`, {
+            responseType: "blob"
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'results.csv'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
     return {
         axios,
         getCampaigns,
@@ -84,7 +123,12 @@ const useAxios = () => {
         saveTaskStage,
         getTaskStageOptions,
         getConditionalStage,
-        saveConditionalStage
+        saveConditionalStage,
+        getResponseFlattenerList,
+        getResponseFlattener,
+        downloadFlattenedResponses,
+        saveResponseFlattener,
+        createResponseFlattener
     }
 }
 
