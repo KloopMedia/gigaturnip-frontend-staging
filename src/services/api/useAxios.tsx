@@ -81,8 +81,8 @@ const useAxios = () => {
         return axios.patch(`${conditionalstagesUrl + id}/`, data);
     }
 
-    const getResponseFlattenerList = () => {
-        return axios.get(`${responseflattener}`)
+    const getResponseFlattenerList = (campaign: number) => {
+        return axios.get(`${responseflattener}?task_stage__chain__campaign=${campaign}`)
             .then(res => res.data)
             .then(res => res.results);
     }

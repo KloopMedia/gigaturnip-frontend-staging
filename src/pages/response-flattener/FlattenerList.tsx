@@ -2,23 +2,27 @@ import React, {useEffect, useState} from 'react';
 import useAxios from "../../services/api/useAxios";
 import {Box, Button, Grid} from "@mui/material";
 import ResponseFlattenerCard from "../../components/card/ResponseFlattenerCard";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useToast} from "../../context/toast/hooks/useToast";
+import useHelpers from "../../utils/hooks/UseHelpers";
 
 
 const FlattenerList = () => {
     const {getResponseFlattenerList, downloadFlattenedResponses} = useAxios();
     const navigate = useNavigate();
     const {openToast} = useToast();
+    const {campaignId} = useParams();
+
+    const {parseId} = useHelpers();
+    const parsedCampaignId = parseId(campaignId);
 
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        getResponseFlattenerList().then(res => {
-            console.log(res)
+        getResponseFlattenerList(parsedCampaignId).then(res => {
             setData(res);
         });
-    }, [])
+    }, [parsedCampaignId])
 
     const handleDownload = (stage: number, flattener: number) => {
         downloadFlattenedResponses(stage, flattener)
