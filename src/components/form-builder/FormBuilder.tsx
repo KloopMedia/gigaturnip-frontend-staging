@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioType, AutoCompleteType, CustomFileType, CustomLinkType} from "./custom-fields";
+import {AudioType, AutoCompleteType, CustomFileType, CustomLinkType, CounterType} from "./custom-fields";
 // @ts-ignore
 import {FormBuilder as DefaultFormBuilder} from '@ginkgo-bioworks/react-json-schema-form-builder';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -17,7 +17,8 @@ const FormBuilder = (props: Props) => {
         ...CustomFileType,
         ...AutoCompleteType,
         ...CustomLinkType,
-        ...AudioType
+        ...AudioType,
+        ...CounterType
     }
 
     const handleChange = (schema: string, ui: string) => {
