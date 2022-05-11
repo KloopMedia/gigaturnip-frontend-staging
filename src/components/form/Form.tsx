@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget} from "./custom-widgets";
+import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget} from "./custom-widgets";
 import JsonForm from "@rjsf/bootstrap-4";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -23,6 +23,10 @@ const Form = (props: Props) => {
         audio: AudioWidget
     };
 
+    const fields = {
+        counter: CounterWidget
+    }
+
     const handleChange = (e: { formData: object }) => {
         if (onChange) {
             onChange(e.formData)
@@ -45,6 +49,7 @@ const Form = (props: Props) => {
             uiSchema={uiSchema}
             formData={formData}
             widgets={widgets}
+            fields={fields}
             onChange={handleChange}
             onSubmit={handleSubmit}
         >
