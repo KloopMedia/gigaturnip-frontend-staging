@@ -7,7 +7,12 @@ const CounterType = {
                 field: "counter"
             },
         ],
-        defaultDataSchema: {},
+        defaultDataSchema: {
+            items: {
+                type: "string",
+                format: "date-time"
+            }
+        },
         defaultUiSchema: {
             "ui:field": "counter"
         },
