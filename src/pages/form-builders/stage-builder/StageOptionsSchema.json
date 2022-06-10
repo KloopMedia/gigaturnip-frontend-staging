@@ -45,6 +45,19 @@
       },
       "title": "Background Stages",
       "type": "array"
+    },
+    "external_metadata": {
+      "title": "External metadata",
+      "type": "object",
+      "properties": {
+        "slides": {
+          "type": "array",
+          "title": "Slides",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
     }
   },
   "dependencies": {},
