@@ -1,18 +1,18 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import useAxios from "../../../services/api/useAxios";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import useHelpers from "../../../utils/hooks/UseHelpers";
-import {Box, Checkbox, FormControlLabel} from "@mui/material";
+import { Box, Checkbox, FormControlLabel } from "@mui/material";
 import Form from "../../../components/form/Form";
 import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
-import {useToast} from "../../../context/toast/hooks/useToast";
+import { useToast } from "../../../context/toast/hooks/useToast";
 
 const LogicBuilder = () => {
-    const {getConditionalStage, saveConditionalStage, getTaskStage} = useAxios();
-    const {stageId} = useParams();
-    const {parseId, getFormFields} = useHelpers();
+    const { getConditionalStage, saveConditionalStage, getTaskStage } = useAxios();
+    const { stageId } = useParams();
+    const { parseId, getFormFields } = useHelpers();
     const parsedId = parseId(stageId);
-    const {openToast} = useToast();
+    const { openToast } = useToast();
 
     const [schema, setSchema] = useState({});
     const [formData, setFormData] = useState({});
@@ -45,7 +45,7 @@ const LogicBuilder = () => {
         const getConnectedStages = (ids: number[]) => {
             return ids.map(async connId => {
                 let stage = await getStage(connId)
-                return {[connId]: stage}
+                return { [connId]: stage }
             })
         }
 
@@ -85,7 +85,7 @@ const LogicBuilder = () => {
             if (data) {
                 return data.map((nested: any) => {
                     // Create tmp schema for function to work
-                    const fictionalSchema = {type: "object", ...nested};
+                    const fictionalSchema = { type: "object", ...nested };
                     return getFormFields(fictionalSchema)
                 }).flat()
             }
@@ -146,6 +146,16 @@ const LogicBuilder = () => {
                     value: {
                         title: 'Value',
                         type: 'string'
+                    },
+                    type: {
+                        title: 'Type',
+                        enum: [
+                            "boolean",
+                            "number",
+                            "integer",
+                            "string",
+                        ],
+                        type: 'string'
                     }
                 },
                 dependencies: {},
@@ -159,7 +169,7 @@ const LogicBuilder = () => {
     }, [fields])
 
     const handleSubmit = () => {
-        let data = {conditions: formData, pingpong: isPingPong}
+        let data = { conditions: formData, pingpong: isPingPong }
 
         saveConditionalStage(parsedId, data)
             .then((res: any) => openToast("Данные сохранены", "success"));
@@ -177,14 +187,14 @@ const LogicBuilder = () => {
         <BuilderLayout pb={3}>
             <FormControlLabel
                 control={<Checkbox checked={isPingPong} onChange={handleChangePingPong} name="PingPong"
-                                   color="primary"/>}
+                    color="primary" />}
                 label="Ping Pong"
             />
             <Form
                 schema={schema}
                 formData={formData}
                 onChange={(formData) => setFormData(formData)}
-                onSubmit={handleSubmit}/>
+                onSubmit={handleSubmit} />
         </BuilderLayout>
     );
 };
