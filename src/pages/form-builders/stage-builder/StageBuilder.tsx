@@ -1,32 +1,34 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import useAxios from "../../../services/api/useAxios";
-import {useNavigate, useParams} from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useHelpers from "../../../utils/hooks/UseHelpers";
-import {ViewModeProps} from "./StageBuilder.types";
+import { ViewModeProps } from "./StageBuilder.types";
 import Controls from "./controls/Controls";
 import Builder from "./builder/Builder";
-import {Box, Button} from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Preview from "./preview/Preview";
 import SchemaEditor from "./schema-editor/SchemaEditor";
 import Plugins from "./plugins/Plugins";
 import BuilderLayout from "../../../components/layout/common-layouts/BuilderLayout";
 import Text from "./text/Text";
-import {useToast} from "../../../context/toast/hooks/useToast";
+import { useToast } from "../../../context/toast/hooks/useToast";
 import BuildIcon from "@mui/icons-material/Build";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import debounce from 'lodash.debounce'
-import {usePrompt} from '../../../components/prompt/Prompt';
+import { usePrompt } from '../../../components/prompt/Prompt';
+import CardDataBuilder from './card-data/CardDataBuilder';
+import ClosedCaptionIcon from '@mui/icons-material/ClosedCaption';
 
 
 const StageBuilder = () => {
-    const {stageId} = useParams();
+    const { stageId } = useParams();
     const navigate = useNavigate();
-    const {getTaskStage, saveTaskStage} = useAxios();
-    const {parseId} = useHelpers();
+    const { getTaskStage, saveTaskStage } = useAxios();
+    const { parseId } = useHelpers();
     const parsedId = parseId(stageId);
-    const {openToast} = useToast();
+    const { openToast } = useToast();
 
     const DEBOUNCE_SAVE_DELAY_MS = 2000;
 
@@ -41,6 +43,8 @@ const StageBuilder = () => {
     const [originalSchema, setOriginalSchema] = useState("");
     const [originalUi, setOriginalUi] = useState("");
     const [showPrompt, setShowPrompt] = useState(false);
+    const [cardSchema, setCardSchema] = useState('');
+    const [cardUi, setCardUi] = useState('');
 
     usePrompt("Вы уверены, что хотите покинуть эту страницу?", showPrompt);
 
@@ -48,17 +52,28 @@ const StageBuilder = () => {
     const uiJson = uiSchema ? JSON.parse(uiSchema) : {};
 
     const VIEW_MODES: any = {
-        builder: {title: "Конструктор", icon: <BuildIcon fontSize={"large"}/>},
+        builder: { title: "Конструктор", icon: <BuildIcon fontSize={"large"} /> },
+        card: { title: "Card Data", icon: <ClosedCaptionIcon fontSize={"large"} /> },
         // plugins: {title: "Плагины", icon: <ExtensionIcon fontSize={"large"}/>},
-        text: {title: "Текст", icon: <EditIcon fontSize={"large"}/>},
-        preview: {title: "Превью", icon: <VisibilityIcon fontSize={"large"}/>},
-        editor: {title: "Схемы", icon: <CompareArrowsIcon fontSize={"large"}/>},
+        text: { title: "Текст", icon: <EditIcon fontSize={"large"} /> },
+        preview: { title: "Превью", icon: <VisibilityIcon fontSize={"large"} /> },
+        editor: { title: "Схемы", icon: <CompareArrowsIcon fontSize={"large"} /> },
     }
 
     useEffect(() => {
         const getStage = async (parsedId: number) => {
             const stage = await getTaskStage(parsedId);
-            const {id, json_schema, ui_schema, rich_text, webhook_address, webhook_params, ...options} = stage;
+            const {
+                id,
+                json_schema,
+                ui_schema,
+                rich_text,
+                webhook_address,
+                webhook_params,
+                card_json_schema,
+                card_ui_schema,
+                ...options
+            } = stage;
 
             options["webhook_address"] = webhook_address ? webhook_address : undefined;
             options["webhook_params"] = webhook_params ? JSON.stringify(webhook_params) : undefined;
@@ -71,6 +86,8 @@ const StageBuilder = () => {
             setOriginalUi(ui_schema);
             setFormData(options);
             setTextEditorData(rich_text);
+            setCardSchema(card_json_schema);
+            setCardUi(card_ui_schema)
         }
 
         if (parsedId) {
@@ -79,7 +96,7 @@ const StageBuilder = () => {
     }, [parsedId])
 
     const compileData = useCallback(() => {
-        const {chain, webhook_params, ...responses} = formData;
+        const { chain, webhook_params, ...responses } = formData;
         let parsed_webhook_params;
         try {
             parsed_webhook_params = JSON.parse(webhook_params);
@@ -92,9 +109,11 @@ const StageBuilder = () => {
             json_schema: schema,
             ui_schema: uiSchema,
             rich_text: textEditorData,
+            card_json_schema: cardSchema,
+            card_ui_schema: cardUi,
             webhook_params: parsed_webhook_params
         };
-    }, [formData, schema, textEditorData, uiSchema])
+    }, [formData, schema, textEditorData, uiSchema, cardSchema, cardUi])
 
     const saveData = (data: any) => {
         return saveTaskStage(parsedId, data);
@@ -117,7 +136,7 @@ const StageBuilder = () => {
         saveData(data)
             .then(() => openToast("Данные сохранены", "success"))
             .catch(err => openToast(err.message, "error"));
-         setShowPrompt(false);
+        setShowPrompt(false);
     }
 
     const handleSchemaChange = (schema: string, ui: string) => {
@@ -127,6 +146,11 @@ const StageBuilder = () => {
         setOriginalUi(ui);
         setTmpSchema(schema);
         setTmpUi(ui);
+    }
+
+    const handleCardDataChange = (schema: string, ui: string) => {
+        setCardSchema(schema);
+        setCardUi(ui);
     }
 
     const handleFormDataChange = (formData: object) => {
@@ -165,6 +189,11 @@ const StageBuilder = () => {
         setTmpUi(originalUi);
     }
 
+    const useMainSchemaInCardData = () => {
+        setCardSchema(schema);
+        setCardUi(uiSchema);
+    }
+
     const renderContent = (mode: ViewModeProps) => {
         switch (mode) {
             case "builder":
@@ -176,16 +205,23 @@ const StageBuilder = () => {
                     onFormDataChange={handleFormDataChange}
                 />;
             case "plugins":
-                return <Plugins/>;
+                return <Plugins />;
             case "text":
-                return <Text data={textEditorData} onChange={handleTextChange}/>;
+                return <Text data={textEditorData} onChange={handleTextChange} />;
             case "preview":
-                return <Preview schema={schemaJson} uiSchema={uiJson} text={textEditorData}/>;
+                return <Preview schema={schemaJson} uiSchema={uiJson} text={textEditorData} />;
             case "editor":
                 return <SchemaEditor isEditable={isEditable} schema={tmpSchema} ui={tmpUi}
-                                     onSchemaChange={handleTmpSchemaChange} onUiChange={handleTmpUiChange}
-                                     onIsEditableChange={handleIsEditableChange} onSave={handleTmpSave}
-                                     onUndo={handleTmpUndo}/>
+                    onSchemaChange={handleTmpSchemaChange} onUiChange={handleTmpUiChange}
+                    onIsEditableChange={handleIsEditableChange} onSave={handleTmpSave}
+                    onUndo={handleTmpUndo} />
+            case "card":
+                return <CardDataBuilder
+                    schema={cardSchema}
+                    uiSchema={cardUi}
+                    onSchemaChange={handleCardDataChange}
+                    onUseMainSchema={useMainSchemaInCardData}
+                />
         }
     }
 
@@ -195,7 +231,7 @@ const StageBuilder = () => {
 
     return (
         <Box>
-            <Controls allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange} onBack={goBack}/>
+            <Controls allModes={VIEW_MODES} mode={viewMode} onChange={handleViewModeChange} onBack={goBack} />
             {renderContent(viewMode)}
             <BuilderLayout pb={3}>
                 <Button variant={"contained"} color={"warning"} fullWidth onClick={handleSubmit}>Сохранить</Button>
