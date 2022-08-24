@@ -7,10 +7,10 @@ const CardType = {
                 widget: "card"
             },
         ],
-        defaultDataSchema: {},
-        defaultUiSchema: {
-            "ui:widget": "card"
+        defaultDataSchema: {
+            subtype: "card"
         },
+        defaultUiSchema: {},
         type: "object",
     }
 };
