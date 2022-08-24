@@ -8,7 +8,8 @@ type Parameters = {
     definitionData: any,
     definitionUi: any,
     category: string,
-    'ui:options': { private: boolean, default: string }
+    'ui:options': { private: boolean, default: string, readonly: boolean }
+    "ui:readonly": boolean,
 };
 
 const CustomAudioField = ({
@@ -23,6 +24,15 @@ const CustomAudioField = ({
                 type="checkbox"
                 onChange={(ev: React.ChangeEvent<any>) =>
                     onChange({...parameters, "ui:options": {...parameters['ui:options'], private: ev.target.checked}})
+                }
+                className='card-text'
+            />
+            <h5 style={{padding: "0 5px"}}>Read only</h5>
+            <input
+                checked={parameters['ui:options']?.readonly}
+                type="checkbox"
+                onChange={(ev: React.ChangeEvent<any>) =>
+                    onChange({...parameters, "ui:options": {...parameters['ui:options'], readonly: ev.target.checked}})
                 }
                 className='card-text'
             />
@@ -49,7 +59,7 @@ const AudioType = {
                 widget: "audio"
             },
         ],
-        possibleOptions: ['private', 'default'],
+        possibleOptions: ['private', 'default', 'readonly'],
         defaultDataSchema: {},
         defaultUiSchema: {
             "ui:widget": "audio",
