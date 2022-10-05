@@ -100,7 +100,7 @@ const useAxios = () => {
     }
 
     const downloadFlattenedResponses = (stage: number, flattener: number) => {
-        return axios.get(`${tasksUrl}csv/?stage=${stage}&response_flattener=${flattener}`, {
+        return axios.get(`${responseflattener + flattener}/csv/`, {
             responseType: "blob"
         }).then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
