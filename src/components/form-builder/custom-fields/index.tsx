@@ -7,6 +7,7 @@ import CustomLongAnswerType from './CustomLongAnswerType'
 import CardType from "./CardType";
 import ReaderType from "./ReaderType";
 import RichText from "./RichTextType";
+import ShortAnswerInput from "./CustomShortAnswerType";
 
 export {
     AudioType,
@@ -18,6 +19,7 @@ export {
     CardType,
     ReaderType,
     RichText,
+    ShortAnswerInput,
 }
 
 export default {
@@ -30,4 +32,5 @@ export default {
     ...CardType,
     ...ReaderType,
     ...RichText,
+    ...ShortAnswerInput,
 }
