@@ -8,6 +8,7 @@ import CardType from "./CardType";
 import ReaderType from "./ReaderType";
 import RichText from "./RichTextType";
 import ShortAnswerInput from "./CustomShortAnswerType";
+import SimpleAutoCompleteInput from "./SimpleAutoComplete";
 
 export {
     AudioType,
@@ -20,6 +21,7 @@ export {
     ReaderType,
     RichText,
     ShortAnswerInput,
+    SimpleAutoCompleteInput
 }
 
 export default {
@@ -33,4 +35,5 @@ export default {
     ...ReaderType,
     ...RichText,
     ...ShortAnswerInput,
+    ...SimpleAutoCompleteInput,
 }
