@@ -4,6 +4,7 @@ import FileWidget from "./CustomFileWidget";
 import LinkWidget from "./CustomLinkWidget";
 import RadioWidget from "./FixedRadioWidget";
 import CounterWidget from "./Counter"
+import SimpleAutoComplete from "./SimpleAutoComplete";
 
 export {
     AudioWidget,
@@ -11,5 +12,6 @@ export {
     FileWidget,
     LinkWidget,
     RadioWidget,
-    CounterWidget
+    CounterWidget,
+    SimpleAutoComplete
 }

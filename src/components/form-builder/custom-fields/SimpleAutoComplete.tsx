@@ -13,7 +13,7 @@ type Parameters = {
     maxLength: number,
     pattern: string,
     default: string,
-    examples?: string[],
+    enum: string[],
     'ui:autofocus': boolean,
 };
 
@@ -95,19 +95,20 @@ function SimpleAutoCompleteParameterInputs({
     );
 }
 
-function SimpleAutoComplete({
+const SimpleAutoComplete = ({
     parameters,
     onChange,
 }: {
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
-}) {
-    const enumArray = Array.isArray(parameters.examples) ? parameters.examples : [];
+}) => {
+    const enumArray = Array.isArray(parameters.enum) ? parameters.enum : [];
+    const value = parameters.default;
     return (
         <React.Fragment>
             <h5>Default value</h5>
             <Input
-                value={parameters.default}
+                value={value === undefined || value === null ? '' : value}
                 placeholder='Default'
                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                     onChange({ ...parameters, default: ev.target.value })
@@ -120,7 +121,7 @@ function SimpleAutoComplete({
                 onChange={(newEnum: Array<string>) =>
                     onChange({
                         ...parameters,
-                        examples: newEnum.length === 0 ? undefined : newEnum,
+                        enum: newEnum.length === 0 ? [] : newEnum,
                     })
                 }
             />
@@ -134,11 +135,14 @@ const simpleAutoCompleteInput = {
         matchIf: [
             {
                 types: ['string'],
-                widget: "simple_autocomplete"
+                widget: "simple_autocomplete",
+                enum: true
             },
         ],
         possibleOptions: [],
-        defaultDataSchema: {},
+        defaultDataSchema: {
+            enum: []
+        },
         defaultUiSchema: {
             "ui:widget": "simple_autocomplete"
         },

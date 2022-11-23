@@ -18,13 +18,13 @@ type Parameters = {
 };
 
 // specify the inputs required for a string type object
-function CardShortAnswerParameterInputs({
+const CardShortAnswerParameterInputs = ({
     parameters,
     onChange,
 }: {
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
-}) {
+}) => {
     return (
         <div>
             <h4>Minimum Length</h4>
@@ -95,19 +95,20 @@ function CardShortAnswerParameterInputs({
     );
 }
 
-function ShortAnswer({
+const ShortAnswer = ({
     parameters,
     onChange,
 }: {
     parameters: Parameters,
     onChange: (newParams: Parameters) => void,
-}) {
+}) => {
     const enumArray = Array.isArray(parameters.examples) ? parameters.examples : [];
+    const value = parameters.default;
     return (
         <React.Fragment>
             <h5>Default value</h5>
             <Input
-                value={parameters.default}
+                value={value === undefined || value === null ? '' : value}
                 placeholder='Default'
                 onChange={(ev: React.ChangeEvent<HTMLInputElement>) =>
                     onChange({ ...parameters, default: ev.target.value })

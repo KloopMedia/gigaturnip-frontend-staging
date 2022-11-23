@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget} from "./custom-widgets";
+import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget, SimpleAutoComplete} from "./custom-widgets";
 import JsonForm from "@rjsf/bootstrap-4";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -20,7 +20,8 @@ const Form = (props: Props) => {
         autocomplete: AutoCompleteWidget,
         RadioWidget: RadioWidget,
         customlink: LinkWidget,
-        audio: AudioWidget
+        audio: AudioWidget,
+        simple_autocomplete: SimpleAutoComplete,
     };
 
     const fields = {
