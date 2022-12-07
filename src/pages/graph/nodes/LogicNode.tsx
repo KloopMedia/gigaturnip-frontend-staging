@@ -18,7 +18,7 @@ const buildConditionText = (condition: ConditionType) => {
 const ConditionList = (props: { conditions: ConditionType[] }) => {
     const { conditions } = props;
     return <Box>
-        {conditions.map((item, index) =>
+        {conditions && conditions.map((item, index) =>
             <Typography key={`condition_${index}`} style={{ border: '1px solid', borderRadius: '10px', background: 'lightgrey' }} px={1} variant={'body2'}>
                 {buildConditionText(item)}
             </Typography>
