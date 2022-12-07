@@ -47,7 +47,7 @@ const useAxios = () => {
     }
 
     const getStageNodes = (campaignId: number, chainId: number) => {
-        return axios.get(`${taskstagesUrl}?chain__campaign=${campaignId}&chain=${chainId}&limit=1000`)
+        return axios.get(`${taskstagesUrl}?ranks_avatars=true&chain__campaign=${campaignId}&chain=${chainId}&limit=1000`)
             .then(res => res.data)
             .then(res => res.results);
     };

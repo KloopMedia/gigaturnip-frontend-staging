@@ -43,7 +43,7 @@ const Graph = () => {
                         {
                             id: node.id.toString(),
                             position: {x: parseFloat(node.x_pos), y: parseFloat(node.y_pos)},
-                            data: {label: node.name},
+                            data: {label: node.name, ranks: node.ranks, conditions: node.conditions},
                             type: node.type
                         }
                     )
