@@ -9,6 +9,7 @@ import ReaderType from "./ReaderType";
 import RichText from "./RichTextType";
 import ShortAnswerInput from "./CustomShortAnswerType";
 import SimpleAutoCompleteInput from "./SimpleAutoComplete";
+import WebhookTriggerType from "./WebhookTrigger";
 
 export {
     AudioType,
@@ -21,7 +22,8 @@ export {
     ReaderType,
     RichText,
     ShortAnswerInput,
-    SimpleAutoCompleteInput
+    SimpleAutoCompleteInput,
+    WebhookTriggerType,
 }
 
 export default {
@@ -36,4 +38,5 @@ export default {
     ...RichText,
     ...ShortAnswerInput,
     ...SimpleAutoCompleteInput,
+    ...WebhookTriggerType,
 }
