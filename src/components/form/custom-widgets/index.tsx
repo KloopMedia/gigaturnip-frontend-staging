@@ -5,6 +5,7 @@ import LinkWidget from "./CustomLinkWidget";
 import RadioWidget from "./FixedRadioWidget";
 import CounterWidget from "./Counter"
 import SimpleAutoComplete from "./SimpleAutoComplete";
+import WebhookWidget from "./Webhook_stub";
 
 export {
     AudioWidget,
@@ -13,5 +14,6 @@ export {
     LinkWidget,
     RadioWidget,
     CounterWidget,
-    SimpleAutoComplete
+    SimpleAutoComplete,
+    WebhookWidget,
 }

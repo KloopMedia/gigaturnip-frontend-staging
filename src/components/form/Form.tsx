@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget, SimpleAutoComplete} from "./custom-widgets";
+import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget, SimpleAutoComplete, WebhookWidget} from "./custom-widgets";
 import JsonForm from "@rjsf/bootstrap-4";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -22,6 +22,7 @@ const Form = (props: Props) => {
         customlink: LinkWidget,
         audio: AudioWidget,
         simple_autocomplete: SimpleAutoComplete,
+        webhook: WebhookWidget,
     };
 
     const fields = {
