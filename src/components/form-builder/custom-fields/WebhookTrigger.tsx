@@ -8,25 +8,25 @@ type Parameters = {
     definitionData: any,
     definitionUi: any,
     category: string,
-    'ui:options': { webhook: string }
+    'ui:options': { label: string }
 };
 
 type CustomFieldProps = { parameters: Parameters, onChange: (newParams: Parameters) => void }
 
-// const WebhookTriggerField = ({parameters, onChange}: CustomFieldProps) => (
-//     <React.Fragment>
-//         <h5>Webhook</h5>
-//         <Input
-//             value={parameters['ui:options']?.webhook}
-//             placeholder='Webhook'
-//             type={'text'}
-//             onChange={(ev: React.ChangeEvent<any>) =>
-//                 onChange({...parameters, "ui:options": {...parameters['ui:options'], webhook: ev.target.value}})
-//             }
-//             className='card-text'
-//         />
-//     </React.Fragment>
-// );
+const WebhookTriggerField = ({parameters, onChange}: CustomFieldProps) => (
+    <React.Fragment>
+        <h5>Button label</h5>
+        <Input
+            value={parameters['ui:options']?.label}
+            placeholder='Button label'
+            type={'text'}
+            onChange={(ev: React.ChangeEvent<any>) =>
+                onChange({...parameters, "ui:options": {...parameters['ui:options'], label: ev.target.value}})
+            }
+            className='card-text'
+        />
+    </React.Fragment>
+);
 
 
 const WebhookTriggerType = {
@@ -38,14 +38,14 @@ const WebhookTriggerType = {
                 widget: "webhook"
             },
         ],
-        possibleOptions: [],
+        possibleOptions: ['label'],
         defaultDataSchema: {},
         defaultUiSchema: {
             "ui:widget": "webhook",
-            // "ui:options": {webhook: ''}
+            "ui:options": {label: ''}
         },
         type: "string",
-        // cardBody: WebhookTriggerField,
+        cardBody: WebhookTriggerField,
         // modalBody: (parameters: any, onChange: any) => <div>
         //     Extra editing options in modal appear hear
         // </div>,
