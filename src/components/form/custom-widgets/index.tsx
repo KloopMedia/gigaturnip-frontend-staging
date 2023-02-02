@@ -6,6 +6,7 @@ import RadioWidget from "./FixedRadioWidget";
 import CounterWidget from "./Counter"
 import SimpleAutoComplete from "./SimpleAutoComplete";
 import WebhookWidget from "./Webhook_stub";
+import RichTextWidget from "./RichTextStub";
 
 export {
     AudioWidget,
@@ -16,4 +17,5 @@ export {
     CounterWidget,
     SimpleAutoComplete,
     WebhookWidget,
+    RichTextWidget,
 }

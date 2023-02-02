@@ -2,15 +2,16 @@ import React from 'react';
 import {Editor} from "@tinymce/tinymce-react";
 
 type Props = {
+    id: string,
     data: string
 };
 
 const TextViewer = (props: Props) => {
-    const {data} = props;
+    const {id, data} = props;
 
     return (
         <Editor
-            id={"ViewerTinyMCE"}
+            id={id}
             value={data}
             toolbar={false}
             inline={false}

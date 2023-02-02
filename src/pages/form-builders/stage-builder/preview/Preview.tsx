@@ -14,7 +14,7 @@ const Preview = (props: Props) => {
     const {schema, uiSchema, text} = props;
     return (
         <BuilderLayout>
-            {text && <TextViewer data={text}/>}
+            {text && <TextViewer id={"TextViewer"} data={text}/>}
             <Box py={1}>
                 <Form schema={schema} uiSchema={uiSchema}/>
             </Box>
