@@ -1,6 +1,6 @@
 {
-  "name": "gigaturnip-frontend",
-  "homepage": "https://kloopmedia.github.io/gigaturnip-frontend/",
+  "name": "gigaturnip-frontend-staging",
+  "homepage": "https://kloopmedia.github.io/gigaturnip-frontend-staging/",
   "version": "0.1.0",
   "private": false,
   "dependencies": {
