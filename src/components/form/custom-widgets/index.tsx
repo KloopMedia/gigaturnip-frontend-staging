@@ -8,6 +8,7 @@ import SimpleAutoComplete from "./SimpleAutoComplete";
 import WebhookWidget from "./Webhook_stub";
 import RichTextWidget from "./RichTextStub";
 import ParagraphWidget from "./ParagraphWidget";
+import ImageWidget from "./ImageStub";
 
 export {
     AudioWidget,
@@ -20,4 +21,5 @@ export {
     WebhookWidget,
     RichTextWidget,
     ParagraphWidget,
+    ImageWidget,
 }
