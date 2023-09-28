@@ -11,6 +11,7 @@ import ShortAnswerInput from "./CustomShortAnswerType";
 import SimpleAutoCompleteInput from "./SimpleAutoComplete";
 import WebhookTriggerType from "./WebhookTrigger";
 import ParagraphType from "./ParagraphType";
+import ImageType from "./ImageType";
 
 export {
     AudioType,
@@ -26,6 +27,7 @@ export {
     SimpleAutoCompleteInput,
     WebhookTriggerType,
     ParagraphType,
+    ImageType,
 }
 
 export default {
@@ -42,4 +44,5 @@ export default {
     ...SimpleAutoCompleteInput,
     ...WebhookTriggerType,
     ...ParagraphType,
+    ...ImageType,
 }
