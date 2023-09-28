@@ -1,5 +1,5 @@
 import React from 'react';
-import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget, SimpleAutoComplete, WebhookWidget, RichTextWidget, ParagraphWidget} from "./custom-widgets";
+import {AudioWidget, AutoCompleteWidget, LinkWidget, RadioWidget, CounterWidget, SimpleAutoComplete, WebhookWidget, RichTextWidget, ParagraphWidget, ImageWidget} from "./custom-widgets";
 import JsonForm from "@rjsf/bootstrap-4";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -25,6 +25,7 @@ const Form = (props: Props) => {
         webhook: WebhookWidget,
         editor: RichTextWidget,
         paragraph: ParagraphWidget,
+        image: ImageWidget,
     };
 
     const fields = {
