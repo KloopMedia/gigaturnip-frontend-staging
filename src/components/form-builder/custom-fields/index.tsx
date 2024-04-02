@@ -12,6 +12,7 @@ import SimpleAutoCompleteInput from "./SimpleAutoComplete";
 import WebhookTriggerType from "./WebhookTrigger";
 import ParagraphType from "./ParagraphType";
 import ImageType from "./ImageType";
+import YouTubeType from "./YoutubeRadioType";
 
 export {
     AudioType,
@@ -28,6 +29,7 @@ export {
     WebhookTriggerType,
     ParagraphType,
     ImageType,
+    YouTubeType
 }
 
 export default {
@@ -45,4 +47,5 @@ export default {
     ...WebhookTriggerType,
     ...ParagraphType,
     ...ImageType,
+    ...YouTubeType,
 }
