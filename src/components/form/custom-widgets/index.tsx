@@ -9,6 +9,7 @@ import WebhookWidget from "./Webhook_stub";
 import RichTextWidget from "./RichTextStub";
 import ParagraphWidget from "./ParagraphWidget";
 import ImageWidget from "./ImageStub";
+import YoutubeWidget from "./YoutubeStub";
 
 export {
     AudioWidget,
@@ -22,4 +23,5 @@ export {
     RichTextWidget,
     ParagraphWidget,
     ImageWidget,
+    YoutubeWidget,
 }
