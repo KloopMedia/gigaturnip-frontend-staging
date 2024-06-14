@@ -82,7 +82,7 @@ const useAxios = () => {
     }
 
     const getResponseFlattenerList = (campaign: number) => {
-        return axios.get(`${responseflattener}?task_stage__chain__campaign=${campaign}`)
+        return axios.get(`${responseflattener}?limit=500&task_stage__chain__campaign=${campaign}`)
             .then(res => res.data)
             .then(res => res.results);
     }
